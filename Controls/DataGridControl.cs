@@ -30,6 +30,10 @@ namespace Mockit.Controls
                 _dataGridView.Refresh();
             };
         }
+        public BindingList<GridRow> GetData()
+        {
+            return gridRows;
+        }
 
         public void AddRow(CRMField field)
         {

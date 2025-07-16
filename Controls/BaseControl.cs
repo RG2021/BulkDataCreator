@@ -26,6 +26,7 @@ namespace Mockit.Controls
         protected static DataGridControl _DataGridControl { get; private set; }
         protected static FieldDetailsControl _FieldDetailsControl { get; private set; }
         protected static MockDetailsControl _MockDetailsControl { get; private set; }
+        protected static DataPreviewControl _DataPreviewControl { get; private set; }
 
         public BaseControl()
         {
@@ -53,6 +54,7 @@ namespace Mockit.Controls
             _FieldDetailsControl = new FieldDetailsControl(columnDetailsPanel);
             _MockDetailsControl = new MockDetailsControl(mockDetailsPanel);
             _DataGridControl = new DataGridControl(gridColumns);
+            _DataPreviewControl = new DataPreviewControl(actionGridPanel);
 
             _EntityDropdownControl.LoadEntities();
         }

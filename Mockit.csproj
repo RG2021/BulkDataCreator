@@ -163,8 +163,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasePlugin.cs" />
+    <Compile Include="Common\ExpressionEngine\TokensRegistry.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\BaseToken.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\ITokenInterface.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\EmailToken.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\FullNameToken.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\RandomNumberToken.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\SelectToken.cs" />
     <Compile Include="Common\Helpers\DropDownHelper.cs" />
-    <Compile Include="Common\Helpers\ExpressionEngine.cs" />
+    <Compile Include="Common\ExpressionEngine\ExpressionEngine.cs" />
     <Compile Include="Controls\BaseControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -172,6 +179,9 @@
       <DependentUpon>BaseControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\Enums\Enums.cs" />
+    <Compile Include="Controls\DataPreviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\EntityDropDownControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -189,6 +199,7 @@
     </Compile>
     <Compile Include="Models\CRMEntity.cs" />
     <Compile Include="Models\CRMField.cs" />
+    <Compile Include="Models\PreviewRecord.cs" />
     <Compile Include="Models\DropDownItem.cs" />
     <Compile Include="Models\GridRow.cs" />
     <Compile Include="Models\Mock.cs" />
