@@ -2,7 +2,7 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
-using Mockit.Helpers;
+using Mockit.Common.Helpers;
 using Mockit.Models;
 using Mockit.Services;
 using System;
@@ -21,12 +21,15 @@ namespace Mockit.Controls
     {
         private Settings mySettings;
         protected static MetadataService MetadataService { get; private set; }
+        protected static DataGenService DataGenService { get; private set; }
         protected static EntityDropDownControl _EntityDropdownControl { get; private set; }
         protected static FieldDropDownControl _FieldDropdownControl { get; private set; }
+        protected static RecordCountControl _RecordCountControl { get; private set; }
         protected static DataGridControl _DataGridControl { get; private set; }
         protected static FieldDetailsControl _FieldDetailsControl { get; private set; }
         protected static MockDetailsControl _MockDetailsControl { get; private set; }
         protected static DataPreviewControl _DataPreviewControl { get; private set; }
+        protected static DataGenerateControl _DataGenerateControl { get; private set; }
 
         public BaseControl()
         {
@@ -48,15 +51,18 @@ namespace Mockit.Controls
             }
 
             MetadataService = new MetadataService(Service);
+            DataGenService = new DataGenService(Service);
 
             _EntityDropdownControl = new EntityDropDownControl(cmbEntities);
             _FieldDropdownControl = new FieldDropDownControl(cmbColumns);
+            _RecordCountControl = new RecordCountControl(nudRecordCount);
             _FieldDetailsControl = new FieldDetailsControl(columnDetailsPanel);
             _MockDetailsControl = new MockDetailsControl(mockDetailsPanel);
             _DataGridControl = new DataGridControl(gridColumns);
             _DataPreviewControl = new DataPreviewControl(actionGridPanel);
+            _DataGenerateControl = new DataGenerateControl(generateBtn);
 
-            _EntityDropdownControl.LoadEntities();
+            //ExecuteMethod(_EntityDropdownControl.LoadEntities);
         }
 
         

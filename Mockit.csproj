@@ -172,6 +172,7 @@
     <Compile Include="Common\ExpressionEngine\Tokens\SelectToken.cs" />
     <Compile Include="Common\Helpers\DropDownHelper.cs" />
     <Compile Include="Common\ExpressionEngine\ExpressionEngine.cs" />
+    <Compile Include="Common\Helpers\Helpers.cs" />
     <Compile Include="Controls\BaseControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -179,6 +180,9 @@
       <DependentUpon>BaseControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\Enums\Enums.cs" />
+    <Compile Include="Controls\DataGenerateControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\DataPreviewControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -195,6 +199,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\MockDetailsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\RecordCountControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Models\CRMEntity.cs" />

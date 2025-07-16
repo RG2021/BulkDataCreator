@@ -15,6 +15,7 @@ namespace Mockit.Controls
         public EntityDropDownControl(ComboBox comboBox)
         {
             _comboBox = comboBox;
+            LoadEntities();
         }
 
         public void LoadEntities()
@@ -73,6 +74,12 @@ namespace Mockit.Controls
 
                 _DataGridControl.Clear();
             }
+        }
+
+        public string GetSelectedEntity()
+        {
+            DropDownItem selectedItem = (DropDownItem)_comboBox.SelectedItem;
+            return selectedItem.Value.ToString();
         }
 
     }

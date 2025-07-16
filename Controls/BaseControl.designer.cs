@@ -33,7 +33,7 @@ namespace Mockit.Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.metadataPanel = new System.Windows.Forms.TableLayoutPanel();
             this.labelRecords = new System.Windows.Forms.Label();
             this.cmbEntities = new System.Windows.Forms.ComboBox();
@@ -70,9 +70,9 @@ namespace Mockit.Controls
             this.label4 = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.actionGridPanel = new System.Windows.Forms.Panel();
-            this.crmDataGridView = new System.Windows.Forms.DataGridView();
-            this.previewBtn = new System.Windows.Forms.Button();
             this.generateBtn = new System.Windows.Forms.Button();
+            this.previewBtn = new System.Windows.Forms.Button();
+            this.crmDataGridView = new System.Windows.Forms.DataGridView();
             this.metadataPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudRecordCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridColumns)).BeginInit();
@@ -127,7 +127,7 @@ namespace Mockit.Controls
             this.cmbEntities.Name = "cmbEntities";
             this.cmbEntities.Size = new System.Drawing.Size(685, 28);
             this.cmbEntities.TabIndex = 3;
-            this.cmbEntities.SelectedIndexChanged += new System.EventHandler(this.cmbEntities_SelectedIndexChanged);
+            this.cmbEntities.SelectionChangeCommitted += new System.EventHandler(this.cmbEntities_SelectedIndexChanged);
             // 
             // cmbColumns
             // 
@@ -138,7 +138,7 @@ namespace Mockit.Controls
             this.cmbColumns.Name = "cmbColumns";
             this.cmbColumns.Size = new System.Drawing.Size(685, 28);
             this.cmbColumns.TabIndex = 4;
-            this.cmbColumns.SelectedIndexChanged += new System.EventHandler(this.cmbColumns_SelectedIndexChanged);
+            this.cmbColumns.SelectionChangeCommitted += new System.EventHandler(this.cmbColumns_SelectedIndexChanged);
             // 
             // nudRecordCount
             // 
@@ -197,12 +197,12 @@ namespace Mockit.Controls
             this.gridColumns.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             this.gridColumns.BackgroundColor = System.Drawing.SystemColors.Window;
             this.gridColumns.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridColumns.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridColumns.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.gridColumns.ColumnHeadersHeight = 34;
             this.gridColumns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gridColumns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -503,20 +503,14 @@ namespace Mockit.Controls
             this.actionGridPanel.Size = new System.Drawing.Size(907, 693);
             this.actionGridPanel.TabIndex = 5;
             // 
-            // crmDataGridView
+            // generateBtn
             // 
-            this.crmDataGridView.AllowUserToAddRows = false;
-            this.crmDataGridView.AllowUserToDeleteRows = false;
-            this.crmDataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.crmDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.crmDataGridView.Dock = System.Windows.Forms.DockStyle.Top;
-            this.crmDataGridView.Location = new System.Drawing.Point(0, 0);
-            this.crmDataGridView.Name = "crmDataGridView";
-            this.crmDataGridView.ReadOnly = true;
-            this.crmDataGridView.RowHeadersWidth = 62;
-            this.crmDataGridView.RowTemplate.Height = 28;
-            this.crmDataGridView.Size = new System.Drawing.Size(907, 581);
-            this.crmDataGridView.TabIndex = 0;
+            this.generateBtn.Location = new System.Drawing.Point(751, 613);
+            this.generateBtn.Name = "generateBtn";
+            this.generateBtn.Size = new System.Drawing.Size(153, 45);
+            this.generateBtn.TabIndex = 2;
+            this.generateBtn.Text = "Generate";
+            this.generateBtn.UseVisualStyleBackColor = true;
             // 
             // previewBtn
             // 
@@ -527,14 +521,26 @@ namespace Mockit.Controls
             this.previewBtn.Text = "Preview";
             this.previewBtn.UseVisualStyleBackColor = true;
             // 
-            // generateBtn
+            // crmDataGridView
             // 
-            this.generateBtn.Location = new System.Drawing.Point(751, 613);
-            this.generateBtn.Name = "generateBtn";
-            this.generateBtn.Size = new System.Drawing.Size(153, 45);
-            this.generateBtn.TabIndex = 2;
-            this.generateBtn.Text = "Generate";
-            this.generateBtn.UseVisualStyleBackColor = true;
+            this.crmDataGridView.AllowUserToAddRows = false;
+            this.crmDataGridView.AllowUserToDeleteRows = false;
+            this.crmDataGridView.AllowUserToResizeRows = false;
+            this.crmDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.crmDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.crmDataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.crmDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.crmDataGridView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.crmDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.crmDataGridView.MultiSelect = false;
+            this.crmDataGridView.Name = "crmDataGridView";
+            this.crmDataGridView.ReadOnly = true;
+            this.crmDataGridView.RowHeadersVisible = false;
+            this.crmDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.crmDataGridView.RowTemplate.Height = 28;
+            this.crmDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.crmDataGridView.Size = new System.Drawing.Size(907, 581);
+            this.crmDataGridView.TabIndex = 0;
             // 
             // BaseControl
             // 
