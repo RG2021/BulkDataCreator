@@ -70,19 +70,15 @@ namespace Mockit.Controls
                 string logicalName = selectedItem.Value;
                 CRMField selectedField = Fields.FirstOrDefault(fld => fld.LogicalName == logicalName);
 
-                if(_DataGridControl.ContainsField(selectedField))
+                if (_DataGridControl.ContainsField(selectedField))
                 {
                     _DataGridControl.RemoveRow(selectedField);
-                    return;
                 }
 
-                GridRow newRow = new GridRow
+                else
                 {
-                    Field = selectedField,
-                    Mock = new Mock { MockType = MockType.NONE }
-                };
-
-                _DataGridControl.AddRow(newRow);
+                    _DataGridControl.AddRow(selectedField);
+                }
             }
         }
     }

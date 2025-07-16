@@ -4,11 +4,13 @@ namespace Mockit.Common.Enums
     {
         public enum MockType
         {
-            TEXT = 758280000,
-            NUMBER = 758280001,
-            DATE = 758280002,
+            NONE = 0,
+            EXPRESSION = 1,
+            FIRSTNAME = 758280000,
+            LASTNAME = 758280001,
+            FULLNAME = 758280002,
             EMAIL = 758280003,
-            NONE = 0
+            Amount = 758280004
         }
     }
 }

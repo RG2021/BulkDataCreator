@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
+using static Mockit.Common.Enums.Enums;
 
 namespace Mockit.Controls
 {
@@ -24,11 +25,21 @@ namespace Mockit.Controls
         {
             _dataGridView.AutoGenerateColumns = false;
             _dataGridView.DataSource = gridRows;
+            _MockDetailsControl.MockChanged += (s, e) =>
+            {
+                _dataGridView.Refresh();
+            };
         }
 
-        public void AddRow(GridRow row)
+        public void AddRow(CRMField field)
         {
-            gridRows.Add(row);
+            GridRow newRow = new GridRow
+            {
+                Field = field,
+                Mock = new Mock()
+            };
+
+            gridRows.Add(newRow);
         }
 
         public void RemoveRow(CRMField field)
@@ -55,6 +66,7 @@ namespace Mockit.Controls
             if (_dataGridView.CurrentRow?.DataBoundItem is GridRow selectedRow)
             {
                 _FieldDetailsControl.ShowDetails(selectedRow.Field);
+                _MockDetailsControl.ShowDetails(selectedRow.Mock);
             }
         }
     }

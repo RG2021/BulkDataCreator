@@ -25,6 +25,7 @@ namespace Mockit.Controls
         protected static FieldDropDownControl _FieldDropdownControl { get; private set; }
         protected static DataGridControl _DataGridControl { get; private set; }
         protected static FieldDetailsControl _FieldDetailsControl { get; private set; }
+        protected static MockDetailsControl _MockDetailsControl { get; private set; }
 
         public BaseControl()
         {
@@ -49,8 +50,9 @@ namespace Mockit.Controls
 
             _EntityDropdownControl = new EntityDropDownControl(cmbEntities);
             _FieldDropdownControl = new FieldDropDownControl(cmbColumns);
+            _FieldDetailsControl = new FieldDetailsControl(columnDetailsPanel);
+            _MockDetailsControl = new MockDetailsControl(mockDetailsPanel);
             _DataGridControl = new DataGridControl(gridColumns);
-            _FieldDetailsControl = new FieldDetailsControl(tableLayoutPanel2);
 
             _EntityDropdownControl.LoadEntities();
         }
@@ -138,6 +140,21 @@ namespace Mockit.Controls
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
         {
 
         }

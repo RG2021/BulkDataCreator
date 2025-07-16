@@ -7,6 +7,7 @@ namespace Mockit.Models
         public string FieldName => Field?.DisplayName;
         public string FieldType => Field?.DataType;
         public string MockType => Mock?.MockType.ToString();
+        public string MockValue => Mock?.Value;
 
     }
 }
