@@ -27,7 +27,7 @@ namespace Mockit.Controls
             List<GridRow> gridRows = _DataGridControl.GetData().ToList();
             int recordCount = _RecordCountControl.GetRecordCount();
 
-            WorkAsync(new WorkAsyncInfo
+            ParentControlBase.WorkAsync(new WorkAsyncInfo
             {
                 Message = "Creating records...",
                 Work = (worker, args) =>

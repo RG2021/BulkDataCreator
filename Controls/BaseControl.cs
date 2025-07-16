@@ -1,25 +1,16 @@
 ﻿using McTools.Xrm.Connection;
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Metadata;
-using Microsoft.Xrm.Sdk.Query;
-using Mockit.Common.Helpers;
-using Mockit.Models;
 using Mockit.Services;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
-using static Mockit.Common.Enums.Enums;
-using ComboBox = System.Windows.Forms.ComboBox;
 
 namespace Mockit.Controls
 {
     public partial class BaseControl : PluginControlBase
     {
         private Settings mySettings;
+        protected static PluginControlBase ParentControlBase { get; private set; }
         protected static MetadataService MetadataService { get; private set; }
         protected static DataGenService DataGenService { get; private set; }
         protected static EntityDropDownControl _EntityDropdownControl { get; private set; }
@@ -50,6 +41,8 @@ namespace Mockit.Controls
                 LogInfo("Settings found and loaded");
             }
 
+            ParentControlBase = this;
+
             MetadataService = new MetadataService(Service);
             DataGenService = new DataGenService(Service);
 
@@ -65,50 +58,6 @@ namespace Mockit.Controls
             //ExecuteMethod(_EntityDropdownControl.LoadEntities);
         }
 
-        
-
-        private void tsbClose_Click(object sender, EventArgs e)
-        {
-            CloseTool();
-        }
-
-        private void tsbSample_Click(object sender, EventArgs e)
-        {
-            ExecuteMethod(GetAccounts);
-        }
-
-        private void GetAccounts()
-        {
-            WorkAsync(new WorkAsyncInfo
-            {
-                Message = "Getting accounts",
-                Work = (worker, args) =>
-                {
-                    args.Result = Service.RetrieveMultiple(new QueryExpression("account")
-                    {
-                        TopCount = 50
-                    });
-                },
-                PostWorkCallBack = (args) =>
-                {
-                    if (args.Error != null)
-                    {
-                        MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    var result = args.Result as EntityCollection;
-                    if (result != null)
-                    {
-                        MessageBox.Show($"Found {result.Entities.Count} accounts");
-                    }
-                }
-            });
-        }
-
-        private void MyPluginControl_OnCloseTool(object sender, EventArgs e)
-        {
-            // Before leaving, save the settings
-            SettingsManager.Instance.Save(GetType(), mySettings);
-        }
 
         public override void UpdateConnection(IOrganizationService newService, ConnectionDetail detail, string actionName, object parameter)
         {
@@ -119,17 +68,6 @@ namespace Mockit.Controls
                 mySettings.LastUsedOrganizationWebappUrl = detail.WebApplicationUrl;
                 LogInfo("Connection has changed to: {0}", detail.WebApplicationUrl);
             }
-        }
-
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void gridColumns_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
         private void cmbEntities_SelectedIndexChanged(object sender, EventArgs e)
@@ -145,26 +83,6 @@ namespace Mockit.Controls
         private void gridColumns_SelectionChanged(object sender, EventArgs e)
         {
             _DataGridControl.OnSelectGridRow(sender, e);
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

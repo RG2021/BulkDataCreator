@@ -20,7 +20,7 @@ namespace Mockit.Controls
 
         public void LoadEntities()
         {
-            WorkAsync(new WorkAsyncInfo
+            ParentControlBase.WorkAsync(new WorkAsyncInfo
             {
                 Message = "Loading entities...",
                 Work = (worker, args) =>

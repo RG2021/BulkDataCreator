@@ -20,7 +20,7 @@ namespace Mockit.Controls
 
         public void LoadFields(CRMEntity entity)
         {
-            WorkAsync(new WorkAsyncInfo
+            ParentControlBase.WorkAsync(new WorkAsyncInfo
             {
                 Message = "Loading fields...",
                 Work = (worker, args) =>

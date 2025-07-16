@@ -122,9 +122,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.VisualStudio.CoreUtility">
-      <Private>False</Private>
-    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Activities" />
@@ -170,7 +167,6 @@
     <Compile Include="Common\ExpressionEngine\Tokens\FullNameToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\RandomNumberToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\SelectToken.cs" />
-    <Compile Include="Common\Helpers\DropDownHelper.cs" />
     <Compile Include="Common\ExpressionEngine\ExpressionEngine.cs" />
     <Compile Include="Common\Helpers\Helpers.cs" />
     <Compile Include="Controls\BaseControl.cs">

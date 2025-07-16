@@ -33,7 +33,7 @@ namespace Mockit.Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.metadataPanel = new System.Windows.Forms.TableLayoutPanel();
             this.labelRecords = new System.Windows.Forms.Label();
             this.cmbEntities = new System.Windows.Forms.ComboBox();
@@ -105,7 +105,6 @@ namespace Mockit.Controls
             this.metadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 58F));
             this.metadataPanel.Size = new System.Drawing.Size(1027, 194);
             this.metadataPanel.TabIndex = 0;
-            this.metadataPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // labelRecords
             // 
@@ -197,12 +196,12 @@ namespace Mockit.Controls
             this.gridColumns.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             this.gridColumns.BackgroundColor = System.Drawing.SystemColors.Window;
             this.gridColumns.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridColumns.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridColumns.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridColumns.ColumnHeadersHeight = 34;
             this.gridColumns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gridColumns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -224,7 +223,6 @@ namespace Mockit.Controls
             this.gridColumns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridColumns.Size = new System.Drawing.Size(1027, 864);
             this.gridColumns.TabIndex = 1;
-            this.gridColumns.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridColumns_CellContentClick);
             this.gridColumns.SelectionChanged += new System.EventHandler(this.gridColumns_SelectionChanged);
             // 
             // colFieldName
@@ -339,7 +337,6 @@ namespace Mockit.Controls
             this.label8.Size = new System.Drawing.Size(55, 20);
             this.label8.TabIndex = 8;
             this.label8.Text = "Result";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // expressionText
             // 
@@ -367,7 +364,7 @@ namespace Mockit.Controls
             this.expressionLbl.Size = new System.Drawing.Size(87, 20);
             this.expressionLbl.TabIndex = 5;
             this.expressionLbl.Text = "Expression";
-            this.expressionLbl.Click += new System.EventHandler(this.label7_Click);
+            
             // 
             // mockTypeCombo
             // 
@@ -377,7 +374,7 @@ namespace Mockit.Controls
             this.mockTypeCombo.Name = "mockTypeCombo";
             this.mockTypeCombo.Size = new System.Drawing.Size(570, 28);
             this.mockTypeCombo.TabIndex = 2;
-            this.mockTypeCombo.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            
             // 
             // label6
             // 
