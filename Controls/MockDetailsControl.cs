@@ -1,6 +1,7 @@
 using Mockit.Common.ExpressionEngine;
 using Mockit.Models;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using static Mockit.Common.Enums.Enums;
 
@@ -31,7 +32,7 @@ namespace Mockit.Controls
             _mockType.DataSource = Enum.GetValues(typeof(MockType));
 
             _mockType.SelectedIndexChanged += OnChangeMockType;
-            _useCustom.CheckedChanged += OnCheckExpression;
+            _useCustom.Click += OnCheckExpression;
             _save.Click += OnSave;
             _validate.Click += OnValidate;
         }
@@ -48,11 +49,14 @@ namespace Mockit.Controls
 
         private void OnSave(object sender, EventArgs e)
         {
-            boundMock.MockType = (MockType) _mockType.SelectedItem;
-            boundMock.UseCustom = _useCustom.Checked;
-            boundMock.Expression = _expression.Text;
+            if (boundMock != null) 
+            {
+                boundMock.MockType = (MockType)_mockType.SelectedItem;
+                boundMock.UseCustom = _useCustom.Checked;
+                boundMock.Expression = _expression.Text;
 
-            MockChanged?.Invoke(this, EventArgs.Empty);
+                MockChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void OnValidate(object sender, EventArgs e)
@@ -69,9 +73,27 @@ namespace Mockit.Controls
 
         private void OnChangeMockType(object sender, EventArgs e)
         {
-            if(_mockType.SelectedItem is MockType type)
+            if(_mockType.SelectedItem is MockType selectedType)
             {
-                _useCustom.Checked = type == MockType.CUSTOM;
+                _useCustom.Checked = selectedType == MockType.CUSTOM;
+
+                HashSet<MockType> autoGenerateTypes = new HashSet<MockType>
+                {
+                    MockType.FULLNAME,
+                    MockType.EMAIL,
+                    MockType.FULLADDRESS
+                };
+
+                if (autoGenerateTypes.Contains(selectedType))
+                {
+                    _expression.Text = $"{{{{ {selectedType.ToString().ToUpperInvariant()} }}}}";
+                    _expression.ReadOnly = true;
+                }
+                else
+                {
+                    _expression.Text = string.Empty;
+                    _expression.ReadOnly = false;
+                }
             }
         }
     }

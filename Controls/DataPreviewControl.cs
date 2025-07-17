@@ -29,9 +29,15 @@ namespace Mockit.Controls
 
         private void OnPreview(object sender, EventArgs e)
         {
-            List<PreviewRecord> previewRecords = GetPreviewRecords(10);
+            List<PreviewRecord> previewRecords = GetPreviewRecords(20);
             DataTable previewTable = ConvertPreviewToDataTable(previewRecords);
+            _previewCRMDataGrid.AutoGenerateColumns = true;
             _previewCRMDataGrid.DataSource = previewTable;
+
+            foreach (DataGridViewColumn col in _previewCRMDataGrid.Columns)
+            {
+                col.HeaderText = previewTable.Columns[col.DataPropertyName].Caption;
+            }
         }
 
         public List<PreviewRecord> GetPreviewRecords(int recordCount)
@@ -63,9 +69,16 @@ namespace Mockit.Controls
             if (records == null || records.Count == 0)
                 return table;
 
-            foreach (string columnName in records[0].Fields.Keys)
+            foreach (string fieldLogicalName in records[0].Fields.Keys)
             {
-                table.Columns.Add(columnName);
+                string fieldDisplayName = _FieldDropdownControl.GetEntityFields().FirstOrDefault(f => f.LogicalName == fieldLogicalName)?.DisplayName ?? fieldLogicalName;
+
+                DataColumn column = new DataColumn(fieldLogicalName)
+                {
+                    Caption = $"{fieldDisplayName} ({fieldLogicalName})"
+                };
+
+                table.Columns.Add(column);
             }
 
             foreach (PreviewRecord record in records)

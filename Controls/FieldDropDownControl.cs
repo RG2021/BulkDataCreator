@@ -81,5 +81,10 @@ namespace Mockit.Controls
                 }
             }
         }
+
+        public List<CRMField> GetEntityFields()
+        {
+            return Fields;
+        }
     }
 }

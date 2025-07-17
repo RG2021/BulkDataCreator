@@ -1,29 +1,42 @@
 using Mockit.Common.ExpressionEngine.Tokens;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Mockit.Common.Enums.Enums;
 
 namespace Mockit.Common.ExpressionEngine
 {
     public static class TokensRegistry
     {
-        private static readonly Dictionary<string, ITokenInterface> _tokens;
+        private static readonly Dictionary<TokenType, ITokenInterface> _tokens;
 
         static TokensRegistry()
         {
-            _tokens = new List<ITokenInterface>
+            _tokens = RegisterTokens();
+        }
+
+        private static Dictionary<TokenType, ITokenInterface> RegisterTokens()
+        {
+            return new Dictionary<TokenType, ITokenInterface>
             {
-                new FullNameToken(),
-                new EmailToken(),
-                new RandomNumberToken(),
-                new SelectToken()
-            }
-            .ToDictionary(f => f.Name.ToUpperInvariant(), f => f);
+                [TokenType.FULLNAME] = new FullNameToken(),
+                [TokenType.EMAIL] = new EmailToken(),
+                [TokenType.NUMBER] = new NumberToken(),
+                [TokenType.SELECT] = new SelectToken(),
+                [TokenType.SEQUENCE] = new SequenceToken(),
+                [TokenType.FULLADDRESS] = new FullAddressToken(),
+                [TokenType.LOOKUP] = new LookupToken(),
+                [TokenType.DATE] = new DateToken(),
+            };
         }
 
         public static string Evaluate(string name, string args)
         {
-            name = name.Trim().ToUpperInvariant();
-            return _tokens.TryGetValue(name, out ITokenInterface function) ? function.Execute(args) : $"[Unknown token: {name}]";
+            if (!Enum.TryParse(name.Trim(), ignoreCase: true, out TokenType tokenType))
+                return $"[Unknown token: {name}]";
+
+            return _tokens.TryGetValue(tokenType, out var token) ? token.Execute(args) : $"[Unregistered token: {tokenType}]";
         }
     }
 }

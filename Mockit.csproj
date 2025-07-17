@@ -162,12 +162,16 @@
     <Compile Include="BasePlugin.cs" />
     <Compile Include="Common\ExpressionEngine\TokensRegistry.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\BaseToken.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\DateToken.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\FullAddressToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\ITokenInterface.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\EmailToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\FullNameToken.cs" />
-    <Compile Include="Common\ExpressionEngine\Tokens\RandomNumberToken.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\LookupToken.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\NumberToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\SelectToken.cs" />
     <Compile Include="Common\ExpressionEngine\ExpressionEngine.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\SequenceToken.cs" />
     <Compile Include="Common\Helpers\Helpers.cs" />
     <Compile Include="Controls\BaseControl.cs">
       <SubType>UserControl</SubType>
