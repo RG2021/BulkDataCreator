@@ -28,13 +28,15 @@ namespace Mockit.Common.ExpressionEngine
                 [TokenType.FULLADDRESS] = new FullAddressToken(),
                 [TokenType.LOOKUP] = new LookupToken(),
                 [TokenType.DATE] = new DateToken(),
+                [TokenType.BOOLEAN] = new BooleanToken(),
+                [TokenType.GUID] = new GuidToken()
             };
         }
 
         public static string Evaluate(string name, string args)
         {
             if (!Enum.TryParse(name.Trim(), ignoreCase: true, out TokenType tokenType))
-                return $"[Unknown token: {name}]";
+                return $"{name}";
 
             return _tokens.TryGetValue(tokenType, out var token) ? token.Execute(args) : $"[Unregistered token: {tokenType}]";
         }

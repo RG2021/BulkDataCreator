@@ -1,9 +1,15 @@
+using Mockit.Common.ExpressionEngine;
+using Mockit.Common.Helpers;
 using Mockit.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.IdentityModel.Policy;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
 using static Mockit.Common.Enums.Enums;
@@ -29,7 +35,9 @@ namespace Mockit.Controls
 
         private void OnPreview(object sender, EventArgs e)
         {
-            List<PreviewRecord> previewRecords = GetPreviewRecords(20);
+            List<GridRow> gridRows = _DataGridControl.GetData().ToList();
+            List<EvaluationRecord> previewRecords = Helpers.GetEvaluationRecords(gridRows, 15);
+
             DataTable previewTable = ConvertPreviewToDataTable(previewRecords);
             _previewCRMDataGrid.AutoGenerateColumns = true;
             _previewCRMDataGrid.DataSource = previewTable;
@@ -40,29 +48,7 @@ namespace Mockit.Controls
             }
         }
 
-        public List<PreviewRecord> GetPreviewRecords(int recordCount)
-        {
-            List<GridRow> gridRows = _DataGridControl.GetData().ToList();
-            List<PreviewRecord> previewList = new List<PreviewRecord>();
-
-            for (int i = 0; i < recordCount; i++)
-            {
-                PreviewRecord preview = new PreviewRecord();
-
-                foreach (GridRow gridRow in gridRows)
-                {
-                    string logicalName = gridRow.Field.LogicalName;
-                    string value = gridRow.Mock.Value;
-                    preview.Fields[logicalName] = value;
-                }
-
-                previewList.Add(preview);
-            }
-
-            return previewList;
-        }
-
-        public DataTable ConvertPreviewToDataTable(List<PreviewRecord> records)
+        public DataTable ConvertPreviewToDataTable(List<EvaluationRecord> records)
         {
             DataTable table = new DataTable();
 
@@ -81,7 +67,7 @@ namespace Mockit.Controls
                 table.Columns.Add(column);
             }
 
-            foreach (PreviewRecord record in records)
+            foreach (EvaluationRecord record in records)
             {
                 DataRow row = table.NewRow();
 

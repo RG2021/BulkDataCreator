@@ -21,9 +21,9 @@ namespace Mockit.Controls
 
         public void ShowDetails(CRMField field)
         {
-            Label lblDisplayName = _fieldDetailsPanel.Controls["lblDisplayName"] as Label;
-            Label lblLogicalName = _fieldDetailsPanel.Controls["lblLogicalName"] as Label;
-            Label lblDataType = _fieldDetailsPanel.Controls["lblDataType"] as Label;
+            TextBox lblDisplayName = _fieldDetailsPanel.Controls["lblDisplayName"] as TextBox;
+            TextBox lblLogicalName = _fieldDetailsPanel.Controls["lblLogicalName"] as TextBox;
+            TextBox lblDataType = _fieldDetailsPanel.Controls["lblDataType"] as TextBox;
 
             lblDisplayName.Text = field.DisplayName;
             lblLogicalName.Text = field.LogicalName;

@@ -34,23 +34,26 @@ namespace Mockit.Controls
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.metadataPanel = new System.Windows.Forms.TableLayoutPanel();
             this.labelRecords = new System.Windows.Forms.Label();
             this.cmbEntities = new System.Windows.Forms.ComboBox();
-            this.cmbColumns = new System.Windows.Forms.ComboBox();
             this.nudRecordCount = new System.Windows.Forms.NumericUpDown();
             this.labelSelectColumns = new System.Windows.Forms.Label();
             this.labelSelectEntity = new System.Windows.Forms.Label();
             this.gridColumns = new System.Windows.Forms.DataGridView();
+            this.colFieldName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FieldLogicalName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFieldType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMockType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gridPanel = new System.Windows.Forms.Panel();
             this.leftMainPanel = new System.Windows.Forms.Panel();
+            this.selectFieldButton = new System.Windows.Forms.Button();
+            this.fieldsListView = new System.Windows.Forms.ListView();
             this.rightMainPanel = new System.Windows.Forms.Panel();
             this.mockDetailsPanel = new System.Windows.Forms.Panel();
             this.mockSaveBtn = new System.Windows.Forms.Button();
             this.mockValidateBtn = new System.Windows.Forms.Button();
             this.resultText = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.expressionText = new System.Windows.Forms.TextBox();
             this.useCustomCheck = new System.Windows.Forms.CheckBox();
             this.expressionLbl = new System.Windows.Forms.Label();
             this.mockTypeCombo = new System.Windows.Forms.ComboBox();
@@ -60,21 +63,17 @@ namespace Mockit.Controls
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.lblDisplayName = new System.Windows.Forms.Label();
-            this.lblLogicalName = new System.Windows.Forms.Label();
-            this.lblDataType = new System.Windows.Forms.Label();
+            this.lblDisplayName = new System.Windows.Forms.TextBox();
+            this.lblLogicalName = new System.Windows.Forms.TextBox();
+            this.lblDataType = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.actionGridPanel = new System.Windows.Forms.Panel();
             this.generateBtn = new System.Windows.Forms.Button();
             this.previewBtn = new System.Windows.Forms.Button();
             this.crmDataGridView = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.colFieldName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FieldLogicalName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFieldType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMockType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.metadataPanel.SuspendLayout();
+            this.expressionText = new System.Windows.Forms.Panel();
+            this.expressionText1 = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudRecordCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridColumns)).BeginInit();
             this.gridPanel.SuspendLayout();
@@ -84,35 +83,14 @@ namespace Mockit.Controls
             this.columnDetailsPanel.SuspendLayout();
             this.actionGridPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.crmDataGridView)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.expressionText.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // metadataPanel
-            // 
-            this.metadataPanel.ColumnCount = 2;
-            this.metadataPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.76983F));
-            this.metadataPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.23017F));
-            this.metadataPanel.Controls.Add(this.labelRecords, 0, 2);
-            this.metadataPanel.Controls.Add(this.cmbEntities, 1, 0);
-            this.metadataPanel.Controls.Add(this.cmbColumns, 1, 1);
-            this.metadataPanel.Controls.Add(this.nudRecordCount, 1, 2);
-            this.metadataPanel.Controls.Add(this.labelSelectColumns, 0, 1);
-            this.metadataPanel.Controls.Add(this.labelSelectEntity, 0, 0);
-            this.metadataPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.metadataPanel.Location = new System.Drawing.Point(0, 0);
-            this.metadataPanel.Name = "metadataPanel";
-            this.metadataPanel.RowCount = 3;
-            this.metadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 49.41177F));
-            this.metadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.58823F));
-            this.metadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 58F));
-            this.metadataPanel.Size = new System.Drawing.Size(1027, 194);
-            this.metadataPanel.TabIndex = 0;
             // 
             // labelRecords
             // 
             this.labelRecords.AutoSize = true;
             this.labelRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRecords.Location = new System.Drawing.Point(3, 135);
+            this.labelRecords.Location = new System.Drawing.Point(14, 142);
             this.labelRecords.Name = "labelRecords";
             this.labelRecords.Size = new System.Drawing.Size(239, 20);
             this.labelRecords.TabIndex = 2;
@@ -121,30 +99,17 @@ namespace Mockit.Controls
             // cmbEntities
             // 
             this.cmbEntities.AllowDrop = true;
-            this.cmbEntities.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbEntities.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbEntities.FormattingEnabled = true;
-            this.cmbEntities.Location = new System.Drawing.Point(339, 3);
+            this.cmbEntities.Location = new System.Drawing.Point(275, 13);
             this.cmbEntities.Name = "cmbEntities";
-            this.cmbEntities.Size = new System.Drawing.Size(685, 28);
+            this.cmbEntities.Size = new System.Drawing.Size(726, 28);
             this.cmbEntities.TabIndex = 3;
             this.cmbEntities.SelectionChangeCommitted += new System.EventHandler(this.cmbEntities_SelectedIndexChanged);
             // 
-            // cmbColumns
-            // 
-            this.cmbColumns.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbColumns.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbColumns.FormattingEnabled = true;
-            this.cmbColumns.Location = new System.Drawing.Point(339, 70);
-            this.cmbColumns.Name = "cmbColumns";
-            this.cmbColumns.Size = new System.Drawing.Size(685, 28);
-            this.cmbColumns.TabIndex = 4;
-            this.cmbColumns.SelectionChangeCommitted += new System.EventHandler(this.cmbColumns_SelectedIndexChanged);
-            // 
             // nudRecordCount
             // 
-            this.nudRecordCount.Dock = System.Windows.Forms.DockStyle.Top;
-            this.nudRecordCount.Location = new System.Drawing.Point(339, 138);
+            this.nudRecordCount.Location = new System.Drawing.Point(275, 140);
             this.nudRecordCount.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -156,7 +121,7 @@ namespace Mockit.Controls
             0,
             0});
             this.nudRecordCount.Name = "nudRecordCount";
-            this.nudRecordCount.Size = new System.Drawing.Size(685, 26);
+            this.nudRecordCount.Size = new System.Drawing.Size(726, 26);
             this.nudRecordCount.TabIndex = 5;
             this.nudRecordCount.Value = new decimal(new int[] {
             1,
@@ -168,7 +133,7 @@ namespace Mockit.Controls
             // 
             this.labelSelectColumns.AutoSize = true;
             this.labelSelectColumns.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSelectColumns.Location = new System.Drawing.Point(3, 67);
+            this.labelSelectColumns.Location = new System.Drawing.Point(14, 73);
             this.labelSelectColumns.Name = "labelSelectColumns";
             this.labelSelectColumns.Size = new System.Drawing.Size(136, 20);
             this.labelSelectColumns.TabIndex = 1;
@@ -182,9 +147,9 @@ namespace Mockit.Controls
             this.labelSelectEntity.AutoSize = true;
             this.labelSelectEntity.CausesValidation = false;
             this.labelSelectEntity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSelectEntity.Location = new System.Drawing.Point(3, 0);
+            this.labelSelectEntity.Location = new System.Drawing.Point(14, 13);
             this.labelSelectEntity.Name = "labelSelectEntity";
-            this.labelSelectEntity.Size = new System.Drawing.Size(330, 67);
+            this.labelSelectEntity.Size = new System.Drawing.Size(114, 20);
             this.labelSelectEntity.TabIndex = 0;
             this.labelSelectEntity.Text = "Select entity:";
             // 
@@ -223,27 +188,94 @@ namespace Mockit.Controls
             this.gridColumns.RowTemplate.ReadOnly = true;
             this.gridColumns.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridColumns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridColumns.Size = new System.Drawing.Size(1027, 864);
+            this.gridColumns.Size = new System.Drawing.Size(1040, 849);
             this.gridColumns.TabIndex = 1;
             this.gridColumns.SelectionChanged += new System.EventHandler(this.gridColumns_SelectionChanged);
+            // 
+            // colFieldName
+            // 
+            this.colFieldName.DataPropertyName = "FieldName";
+            this.colFieldName.HeaderText = "Field Name";
+            this.colFieldName.MinimumWidth = 8;
+            this.colFieldName.Name = "colFieldName";
+            this.colFieldName.ReadOnly = true;
+            // 
+            // FieldLogicalName
+            // 
+            this.FieldLogicalName.DataPropertyName = "FieldLogicalName";
+            this.FieldLogicalName.HeaderText = "Logical Name";
+            this.FieldLogicalName.MinimumWidth = 8;
+            this.FieldLogicalName.Name = "FieldLogicalName";
+            this.FieldLogicalName.ReadOnly = true;
+            // 
+            // colFieldType
+            // 
+            this.colFieldType.DataPropertyName = "FieldType";
+            this.colFieldType.HeaderText = "CRM Data Type";
+            this.colFieldType.MinimumWidth = 8;
+            this.colFieldType.Name = "colFieldType";
+            this.colFieldType.ReadOnly = true;
+            // 
+            // colMockType
+            // 
+            this.colMockType.DataPropertyName = "MockType";
+            this.colMockType.HeaderText = "Mock Type";
+            this.colMockType.MinimumWidth = 8;
+            this.colMockType.Name = "colMockType";
+            this.colMockType.ReadOnly = true;
             // 
             // gridPanel
             // 
             this.gridPanel.Controls.Add(this.gridColumns);
             this.gridPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gridPanel.Location = new System.Drawing.Point(0, 219);
+            this.gridPanel.Location = new System.Drawing.Point(0, 234);
             this.gridPanel.Name = "gridPanel";
-            this.gridPanel.Size = new System.Drawing.Size(1027, 864);
+            this.gridPanel.Size = new System.Drawing.Size(1040, 849);
             this.gridPanel.TabIndex = 2;
             // 
             // leftMainPanel
             // 
-            this.leftMainPanel.Controls.Add(this.metadataPanel);
+            this.leftMainPanel.Controls.Add(this.selectFieldButton);
+            this.leftMainPanel.Controls.Add(this.labelRecords);
+            this.leftMainPanel.Controls.Add(this.cmbEntities);
+            this.leftMainPanel.Controls.Add(this.fieldsListView);
+            this.leftMainPanel.Controls.Add(this.nudRecordCount);
+            this.leftMainPanel.Controls.Add(this.labelSelectColumns);
+            this.leftMainPanel.Controls.Add(this.labelSelectEntity);
             this.leftMainPanel.Controls.Add(this.gridPanel);
+            this.leftMainPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.leftMainPanel.Location = new System.Drawing.Point(18, 57);
             this.leftMainPanel.Name = "leftMainPanel";
-            this.leftMainPanel.Size = new System.Drawing.Size(1027, 1083);
+            this.leftMainPanel.Size = new System.Drawing.Size(1040, 1083);
             this.leftMainPanel.TabIndex = 3;
+            // 
+            // selectFieldButton
+            // 
+            this.selectFieldButton.Location = new System.Drawing.Point(275, 73);
+            this.selectFieldButton.Name = "selectFieldButton";
+            this.selectFieldButton.Size = new System.Drawing.Size(726, 36);
+            this.selectFieldButton.TabIndex = 8;
+            this.selectFieldButton.Text = "Select Fields";
+            this.selectFieldButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.selectFieldButton.UseVisualStyleBackColor = true;
+            // 
+            // fieldsListView
+            // 
+            this.fieldsListView.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.fieldsListView.Alignment = System.Windows.Forms.ListViewAlignment.Default;
+            this.fieldsListView.AutoArrange = false;
+            this.fieldsListView.CheckBoxes = true;
+            this.fieldsListView.FullRowSelect = true;
+            this.fieldsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.fieldsListView.HideSelection = false;
+            this.fieldsListView.Location = new System.Drawing.Point(275, 115);
+            this.fieldsListView.Name = "fieldsListView";
+            this.fieldsListView.Size = new System.Drawing.Size(726, 300);
+            this.fieldsListView.TabIndex = 7;
+            this.fieldsListView.UseCompatibleStateImageBehavior = false;
+            this.fieldsListView.View = System.Windows.Forms.View.Details;
+            this.fieldsListView.Visible = false;
+            this.fieldsListView.SelectedIndexChanged += new System.EventHandler(this.fieldsListView_SelectedIndexChanged);
             // 
             // rightMainPanel
             // 
@@ -258,17 +290,18 @@ namespace Mockit.Controls
             // 
             // mockDetailsPanel
             // 
+            this.mockDetailsPanel.Controls.Add(this.expressionText1);
             this.mockDetailsPanel.Controls.Add(this.mockSaveBtn);
             this.mockDetailsPanel.Controls.Add(this.mockValidateBtn);
             this.mockDetailsPanel.Controls.Add(this.resultText);
             this.mockDetailsPanel.Controls.Add(this.label8);
-            this.mockDetailsPanel.Controls.Add(this.expressionText);
             this.mockDetailsPanel.Controls.Add(this.useCustomCheck);
             this.mockDetailsPanel.Controls.Add(this.expressionLbl);
             this.mockDetailsPanel.Controls.Add(this.mockTypeCombo);
             this.mockDetailsPanel.Controls.Add(this.label6);
             this.mockDetailsPanel.Controls.Add(this.label5);
             this.mockDetailsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.mockDetailsPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mockDetailsPanel.Location = new System.Drawing.Point(0, 218);
             this.mockDetailsPanel.Name = "mockDetailsPanel";
             this.mockDetailsPanel.Size = new System.Drawing.Size(906, 326);
@@ -312,15 +345,6 @@ namespace Mockit.Controls
             this.label8.Size = new System.Drawing.Size(55, 20);
             this.label8.TabIndex = 8;
             this.label8.Text = "Result";
-            // 
-            // expressionText
-            // 
-            this.expressionText.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.expressionText.Location = new System.Drawing.Point(128, 133);
-            this.expressionText.Multiline = true;
-            this.expressionText.Name = "expressionText";
-            this.expressionText.Size = new System.Drawing.Size(742, 83);
-            this.expressionText.TabIndex = 7;
             // 
             // useCustomCheck
             // 
@@ -396,6 +420,7 @@ namespace Mockit.Controls
             this.columnDetailsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             this.columnDetailsPanel.Size = new System.Drawing.Size(906, 151);
             this.columnDetailsPanel.TabIndex = 0;
+            this.columnDetailsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.columnDetailsPanel_Paint);
             // 
             // label1
             // 
@@ -429,30 +454,36 @@ namespace Mockit.Controls
             // 
             // lblDisplayName
             // 
-            this.lblDisplayName.AutoSize = true;
-            this.lblDisplayName.Location = new System.Drawing.Point(187, 1);
+            this.lblDisplayName.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblDisplayName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lblDisplayName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblDisplayName.Location = new System.Drawing.Point(187, 4);
             this.lblDisplayName.Name = "lblDisplayName";
-            this.lblDisplayName.Size = new System.Drawing.Size(14, 20);
+            this.lblDisplayName.ReadOnly = true;
+            this.lblDisplayName.Size = new System.Drawing.Size(715, 24);
             this.lblDisplayName.TabIndex = 3;
-            this.lblDisplayName.Text = "-";
             // 
             // lblLogicalName
             // 
-            this.lblLogicalName.AutoSize = true;
-            this.lblLogicalName.Location = new System.Drawing.Point(187, 51);
+            this.lblLogicalName.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblLogicalName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lblLogicalName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblLogicalName.Location = new System.Drawing.Point(187, 54);
             this.lblLogicalName.Name = "lblLogicalName";
-            this.lblLogicalName.Size = new System.Drawing.Size(14, 20);
+            this.lblLogicalName.ReadOnly = true;
+            this.lblLogicalName.Size = new System.Drawing.Size(715, 24);
             this.lblLogicalName.TabIndex = 4;
-            this.lblLogicalName.Text = "-";
             // 
             // lblDataType
             // 
-            this.lblDataType.AutoSize = true;
-            this.lblDataType.Location = new System.Drawing.Point(187, 101);
+            this.lblDataType.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblDataType.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lblDataType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblDataType.Location = new System.Drawing.Point(187, 104);
             this.lblDataType.Name = "lblDataType";
-            this.lblDataType.Size = new System.Drawing.Size(14, 20);
+            this.lblDataType.ReadOnly = true;
+            this.lblDataType.Size = new System.Drawing.Size(715, 24);
             this.lblDataType.TabIndex = 5;
-            this.lblDataType.Text = "-";
             // 
             // label4
             // 
@@ -478,6 +509,7 @@ namespace Mockit.Controls
             this.actionGridPanel.Controls.Add(this.generateBtn);
             this.actionGridPanel.Controls.Add(this.previewBtn);
             this.actionGridPanel.Controls.Add(this.crmDataGridView);
+            this.actionGridPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.actionGridPanel.Location = new System.Drawing.Point(1064, 618);
             this.actionGridPanel.Name = "actionGridPanel";
             this.actionGridPanel.Size = new System.Drawing.Size(907, 634);
@@ -522,66 +554,45 @@ namespace Mockit.Controls
             this.crmDataGridView.Size = new System.Drawing.Size(907, 522);
             this.crmDataGridView.TabIndex = 0;
             // 
-            // panel1
+            // expressionText
             // 
-            this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.leftMainPanel);
-            this.panel1.Controls.Add(this.rightMainPanel);
-            this.panel1.Controls.Add(this.actionGridPanel);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(2413, 1283);
-            this.panel1.TabIndex = 6;
+            this.expressionText.AutoScroll = true;
+            this.expressionText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.expressionText.Controls.Add(this.leftMainPanel);
+            this.expressionText.Controls.Add(this.rightMainPanel);
+            this.expressionText.Controls.Add(this.actionGridPanel);
+            this.expressionText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.expressionText.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.expressionText.Location = new System.Drawing.Point(0, 0);
+            this.expressionText.Name = "expressionText";
+            this.expressionText.Size = new System.Drawing.Size(2413, 1283);
+            this.expressionText.TabIndex = 6;
             // 
-            // colFieldName
+            // expressionText1
             // 
-            this.colFieldName.DataPropertyName = "FieldName";
-            this.colFieldName.HeaderText = "Field Name";
-            this.colFieldName.MinimumWidth = 8;
-            this.colFieldName.Name = "colFieldName";
-            this.colFieldName.ReadOnly = true;
-            // 
-            // FieldLogicalName
-            // 
-            this.FieldLogicalName.DataPropertyName = "FieldLogicalName";
-            this.FieldLogicalName.HeaderText = "Logical Name";
-            this.FieldLogicalName.MinimumWidth = 8;
-            this.FieldLogicalName.Name = "FieldLogicalName";
-            this.FieldLogicalName.ReadOnly = true;
-            // 
-            // colFieldType
-            // 
-            this.colFieldType.DataPropertyName = "FieldType";
-            this.colFieldType.HeaderText = "CRM Data Type";
-            this.colFieldType.MinimumWidth = 8;
-            this.colFieldType.Name = "colFieldType";
-            this.colFieldType.ReadOnly = true;
-            // 
-            // colMockType
-            // 
-            this.colMockType.DataPropertyName = "MockType";
-            this.colMockType.HeaderText = "Mock Type";
-            this.colMockType.MinimumWidth = 8;
-            this.colMockType.Name = "colMockType";
-            this.colMockType.ReadOnly = true;
+            this.expressionText1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.expressionText1.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.expressionText1.Location = new System.Drawing.Point(128, 130);
+            this.expressionText1.Name = "expressionText1";
+            this.expressionText1.Size = new System.Drawing.Size(742, 96);
+            this.expressionText1.TabIndex = 12;
+            this.expressionText1.Text = "";
             // 
             // BaseControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.expressionText);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "BaseControl";
             this.Size = new System.Drawing.Size(2413, 1283);
             this.Load += new System.EventHandler(this.MyPluginControl_Load);
-            this.metadataPanel.ResumeLayout(false);
-            this.metadataPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudRecordCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridColumns)).EndInit();
             this.gridPanel.ResumeLayout(false);
             this.leftMainPanel.ResumeLayout(false);
+            this.leftMainPanel.PerformLayout();
             this.rightMainPanel.ResumeLayout(false);
             this.mockDetailsPanel.ResumeLayout(false);
             this.mockDetailsPanel.PerformLayout();
@@ -589,14 +600,12 @@ namespace Mockit.Controls
             this.columnDetailsPanel.PerformLayout();
             this.actionGridPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.crmDataGridView)).EndInit();
-            this.panel1.ResumeLayout(false);
+            this.expressionText.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TableLayoutPanel metadataPanel;
         private System.Windows.Forms.Label labelSelectEntity;
         private System.Windows.Forms.Label labelSelectColumns;
         private System.Windows.Forms.Label labelRecords;
@@ -605,15 +614,11 @@ namespace Mockit.Controls
         private System.Windows.Forms.DataGridView gridColumns;
         private System.Windows.Forms.Panel gridPanel;
         private System.Windows.Forms.Panel leftMainPanel;
-        private System.Windows.Forms.ComboBox cmbColumns;
         private System.Windows.Forms.Panel rightMainPanel;
         private System.Windows.Forms.TableLayoutPanel columnDetailsPanel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lblDisplayName;
-        private System.Windows.Forms.Label lblLogicalName;
-        private System.Windows.Forms.Label lblDataType;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel mockDetailsPanel;
         private System.Windows.Forms.Label label5;
@@ -621,7 +626,6 @@ namespace Mockit.Controls
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox useCustomCheck;
         private System.Windows.Forms.Label expressionLbl;
-        private System.Windows.Forms.TextBox expressionText;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Button mockSaveBtn;
         private System.Windows.Forms.Button mockValidateBtn;
@@ -631,10 +635,16 @@ namespace Mockit.Controls
         private System.Windows.Forms.DataGridView crmDataGridView;
         private System.Windows.Forms.Button generateBtn;
         private System.Windows.Forms.Button previewBtn;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel expressionText;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFieldName;
         private System.Windows.Forms.DataGridViewTextBoxColumn FieldLogicalName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFieldType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMockType;
+        private System.Windows.Forms.ListView fieldsListView;
+        private System.Windows.Forms.Button selectFieldButton;
+        private System.Windows.Forms.TextBox lblDisplayName;
+        private System.Windows.Forms.TextBox lblLogicalName;
+        private System.Windows.Forms.TextBox lblDataType;
+        private System.Windows.Forms.RichTextBox expressionText1;
     }
 }

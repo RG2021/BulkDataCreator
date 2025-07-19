@@ -4,6 +4,7 @@ using Mockit.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
@@ -23,16 +24,40 @@ namespace Mockit.Controls
 
         private void GenerateData(object sender, EventArgs e)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             string entityLogicalName = _EntityDropdownControl.GetSelectedEntity();
             List<GridRow> gridRows = _DataGridControl.GetData().ToList();
-            int recordCount = _RecordCountControl.GetRecordCount();
+            int totalRecordCount = _RecordCountControl.GetRecordCount();
+            int batchSize = 200;
+            int totalSuccess = 0;
+            int totalFailure = 0;
+            List<string> allErrors = new List<string>();
 
             ParentControlBase.WorkAsync(new WorkAsyncInfo
             {
                 Message = "Creating records...",
                 Work = (worker, args) =>
                 {
-                    args.Result = DataGenService.CreateData(entityLogicalName, gridRows, recordCount);
+                    int processed = 0;
+                    List<ExecuteMultipleResponse> batchResponses = new List<ExecuteMultipleResponse>();
+                    while (processed < totalRecordCount)
+                    {
+                        int currentBatchSize = Math.Min(batchSize, totalRecordCount - processed);
+                        var response = DataGenService.CreateData(entityLogicalName, gridRows, currentBatchSize);
+                        batchResponses.Add(response);
+                        processed += currentBatchSize;
+
+                        int percentage = (int)((double)processed / totalRecordCount * 100);
+                        worker.ReportProgress(percentage, $"Created {processed} of {totalRecordCount} records.");
+
+                    }
+                    args.Result = batchResponses;
+                },
+                ProgressChanged = (args) => 
+                {
+                    ParentControlBase.SetWorkingMessage(args.UserState.ToString());
                 },
                 PostWorkCallBack = (args) =>
                 {
@@ -41,37 +66,37 @@ namespace Mockit.Controls
                         MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
-                    ExecuteMultipleResponse response = args.Result as ExecuteMultipleResponse;
-
-                    if (response == null)
+                    var batchResponses = args.Result as List<ExecuteMultipleResponse>;
+                    if (batchResponses == null)
                     {
                         MessageBox.Show("Unknown error occurred.");
                         return;
                     }
 
-                    int success = 0;
-                    int failure = 0;
-                    List<string> errors = new List<string>();
-
-                    foreach (var item in response.Responses)
+                    foreach (var response in batchResponses)
                     {
-                        if (item.Fault != null)
+                        foreach (var item in response.Responses)
                         {
-                            failure++;
-                            string errorMsg = $"Index {item.RequestIndex}: {item.Fault.Message}";
-                            errors.Add(errorMsg);
-                        }
-                        else
-                        {
-                            success++;
+                            if (item.Fault != null)
+                            {
+                                totalFailure++;
+                                string errorMsg = $"Index {item.RequestIndex}: {item.Fault.Message}";
+                                allErrors.Add(errorMsg);
+                            }
+                            else
+                            {
+                                totalSuccess++;
+                            }
                         }
                     }
 
-                    string summary = $"Success: {success}\n Failed: {failure}";
+                    stopwatch.Stop();
 
-                    if (errors.Count > 0)
+                    string summary = $"Success: {totalSuccess}\nFailed: {totalFailure}\nTime taken: {stopwatch.Elapsed.TotalSeconds} sec";
+
+                    if (allErrors.Count > 0)
                     {
-                        summary += "\n\nDetails:\n" + string.Join("\n", errors);
+                        summary += "\n\nDetails:\n" + string.Join("\n", allErrors);
                     }
 
                     MessageBox.Show(summary, "Record Creation Result", MessageBoxButtons.OK, MessageBoxIcon.Information);

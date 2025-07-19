@@ -1,10 +1,11 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Mockit.Common.ExpressionEngine;
-using Mockit.Models;
 using Mockit.Common.Helpers;
+using Mockit.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace Mockit.Services
@@ -25,34 +26,45 @@ namespace Mockit.Services
             if (selectedFields == null || selectedFields.Count == 0)
                 throw new ArgumentException("No fields provided.");
 
-            var multipleRequest = new ExecuteMultipleRequest
+            const int batchSize = 250;
+            List<EvaluationRecord> evaluatedRecords = Helpers.GetEvaluationRecords(selectedFields, recordCount);
+            ExecuteMultipleResponse lastResponse = null;
+
+            for (int i = 0; i < evaluatedRecords.Count; i += batchSize)
             {
-                Settings = new ExecuteMultipleSettings
+                var multipleRequest = new ExecuteMultipleRequest
                 {
-                    ContinueOnError = false,
-                    ReturnResponses = true
-                },
-                Requests = new OrganizationRequestCollection()
-            };
+                    Settings = new ExecuteMultipleSettings
+                    {
+                        ContinueOnError = false,
+                        ReturnResponses = true
+                    },
+                    Requests = new OrganizationRequestCollection()
+                };
 
-            for (int i = 0; i < recordCount; i++)
-            {
-                Entity entity = new Entity(entityLogicalName);
+                int currentBatchSize = Math.Min(batchSize, evaluatedRecords.Count - i);
 
-                foreach (GridRow row in selectedFields)
+                for (int j = 0; j < currentBatchSize; j++)
                 {
-                    string fieldLogicalName = row.Field.LogicalName;
-                    string fieldDataType = row.Field.DataType;
-                    string fieldValue = row.Mock.Value;
+                    EvaluationRecord record = evaluatedRecords[i + j];
+                    Entity entity = new Entity(entityLogicalName);
 
-                    object formattedValue = Helpers.FormatValueForCRM(fieldValue, fieldDataType);
-                    entity[fieldLogicalName] = formattedValue;
+                    foreach (GridRow field in selectedFields)
+                    {
+                        string fieldLogicalName = field.Field.LogicalName;
+                        string fieldDataType = field.Field.DataType;
+                        string fieldValue = record.GetFieldValue(fieldLogicalName);
+                        object formattedValue = Helpers.FormatValueForCRM(fieldValue, fieldDataType);
+                        entity[fieldLogicalName] = formattedValue;
+                    }
+
+                    multipleRequest.Requests.Add(new CreateRequest { Target = entity });
                 }
 
-                multipleRequest.Requests.Add(new CreateRequest { Target = entity });
+                lastResponse = (ExecuteMultipleResponse)_service.Execute(multipleRequest);
             }
 
-            return (ExecuteMultipleResponse)_service.Execute(multipleRequest);
+            return lastResponse;
         }
 
 

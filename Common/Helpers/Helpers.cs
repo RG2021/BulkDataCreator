@@ -1,10 +1,30 @@
 using Microsoft.Xrm.Sdk;
+using Mockit.Common.ExpressionEngine;
+using Mockit.Models;
 using System;
+using System.Collections.Generic;
+using System.Windows.Documents;
+using static Mockit.Common.Enums.Enums;
 
 namespace Mockit.Common.Helpers
 {
     public static class Helpers
     {
+        private static readonly Dictionary<MockType, string> _expressions = new Dictionary<MockType, string>
+        {
+            { MockType.NONE, "" },
+            { MockType.FULLNAME, "{{ FULLNAME }}" },
+            { MockType.EMAIL, "{{ EMAIL }}" },
+            { MockType.FULLADDRESS, "{{ FULLADDRESS }}" },
+            { MockType.BOOLEAN, "{{ BOOLEAN }}" },
+            { MockType.GUID, "{{ GUID }}" },
+            { MockType.LOOKUP, "{{ LOOKUP(fieldName, entityName, (GUID1, GUID2, ...) }}" },
+            { MockType.SEQUENCE, "{{ SEQUENCE(fieldName, minValue, maxValue) }}" },
+            { MockType.DATE, "{{ DATE(minDate, maxDate) }}" },
+            { MockType.NUMBER, "{{ NUMBER(min, max, decimal) }}" },
+            { MockType.SELECT, "{{ SELECT(option1, option2, ... ) }}" }
+        };
+
         public static object FormatValueForCRM(string rawValue, string crmDataType)
         {
             switch (crmDataType)
@@ -38,13 +58,34 @@ namespace Mockit.Common.Helpers
                 case "CustomerType":
                 case "OwnerType":
                     var parts = rawValue.Split(':');
-                    return parts.Length == 2 && Guid.TryParse(parts[1], out Guid id)? new EntityReference(parts[0], id) : null;
+                    return parts.Length == 2 && Guid.TryParse(parts[1], out Guid id) ? new EntityReference(parts[0], id) : null;
 
                 default:
                     return rawValue;
             }
         }
 
+        public static List<EvaluationRecord> GetEvaluationRecords(List<GridRow> gridRows, int recordCount)
+        {
+            List<EvaluationRecord> evaluationRecords = new List<EvaluationRecord>();
+            for (int i = 0; i < recordCount; i++)
+            {
+                EvaluationRecord evaluationRecord = new EvaluationRecord();
+                foreach (GridRow gridRow in gridRows)
+                {
+                    string logicalName = gridRow.Field.LogicalName;
+                    string value = ExpressionEngine.ExpressionEngine.Evaluate(gridRow.Mock.Expression, evaluationRecord);
+                    evaluationRecord.SetFieldValue(logicalName, value);
+                }
 
+                evaluationRecords.Add(evaluationRecord);
+            }
+            return evaluationRecords;
+        }
+
+        public static string GetExpression(MockType type)
+        {
+            return _expressions.ContainsKey(type) ? _expressions[type] : string.Empty;
+        }
     }
 }

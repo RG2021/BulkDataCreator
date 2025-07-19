@@ -160,6 +160,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasePlugin.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\BooleanToken.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\GuidToken.cs" />
+    <Compile Include="Models\EvaluationRecord.cs" />
     <Compile Include="Common\ExpressionEngine\TokensRegistry.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\BaseToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\DateToken.cs" />
@@ -196,6 +199,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\DataGridControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FieldsSelectorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\MockDetailsControl.cs">

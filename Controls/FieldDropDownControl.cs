@@ -10,13 +10,42 @@ namespace Mockit.Controls
 {
     public class FieldDropDownControl : BaseControl
     {
-        public static List<CRMField> Fields { get; set; }
-        private readonly ComboBox _comboBox;
+        private static List<CRMField> Fields { get; set; }
+        private readonly ListView _fieldsListView;
+        private readonly Button _selectFieldButton;
 
-        public FieldDropDownControl(ComboBox comboBox)
+        public FieldDropDownControl(Button selectFieldButton, ListView fieldsListView)
         {
-            _comboBox = comboBox;
+            //_comboBox = comboBox;
+
+            _selectFieldButton = selectFieldButton;
+            _fieldsListView = fieldsListView;
+            _fieldsListView.Columns.Add("Fields", _fieldsListView.Width - 25);
+            _fieldsListView.HeaderStyle = ColumnHeaderStyle.None;
+
+            //_fieldsListView.Columns.Add("Text", 150);
+            //_fieldsListView.Columns.Add("Logical Name", 150);
+
+            _selectFieldButton.Click += OnSelectFieldButtonClick;
+            _fieldsListView.ItemChecked += OnSelectField;
+            _fieldsListView.LostFocus += OnFostLocus;
         }
+
+        //private void ListViewFields_DoubleClick(object sender, EventArgs e)
+        //{
+        //    if (listViewFields.SelectedItems.Count > 0)
+        //    {
+        //        var selected = listViewFields.SelectedItems[0];
+        //        var field = new CRMField
+        //        {
+        //            DisplayName = selected.Text,
+        //            LogicalName = selected.SubItems[1].Text
+        //        };
+
+        //        FieldSelected?.Invoke(field);
+        //        listViewFields.Visible = false;
+        //    }
+        //}
 
         public void LoadFields(CRMEntity entity)
         {
@@ -44,42 +73,72 @@ namespace Mockit.Controls
 
         private void BindFieldDropdown()
         {
-            _comboBox.Items.Clear();
+            _fieldsListView.Items.Clear();
 
             foreach (CRMField field in Fields)
             {
-                _comboBox.Items.Add(new DropDownItem
+
+                _fieldsListView.Items.Add(new ListViewItem
                 {
                     Text = $"{field.DisplayName} ({field.LogicalName})",
-                    Value = field.LogicalName
+                    Tag = field.LogicalName
                 });
             }
 
-            if (_comboBox.Items.Count > 0)
-            {
-                _comboBox.SelectedIndex = 0;
-            }
+            //if (_comboBox.Items.Count > 0)
+            //{
+            //    _comboBox.SelectedIndex = 0;
+            //}
         }
 
-        public void OnSelectDropDown(object sender, EventArgs e)
+        private void OnSelectFieldButtonClick(object sender, EventArgs e)
         {
-            ComboBox comboBox = sender as ComboBox;
+            _fieldsListView.Visible = !_fieldsListView.Visible;
+        }
 
-            if (comboBox.SelectedItem is DropDownItem selectedItem)
+        private void OnFostLocus(object sender, EventArgs e)
+        {
+            _fieldsListView.Visible = false;
+        }
+
+        public void OnSelectField(object sender, EventArgs e)
+        {
+            foreach (ListViewItem listViewItem in _fieldsListView.Items)
             {
-                string logicalName = selectedItem.Value;
-                CRMField selectedField = Fields.FirstOrDefault(fld => fld.LogicalName == logicalName);
+                string logicalName = listViewItem.Tag?.ToString();
+                CRMField field = Fields.FirstOrDefault(fld => fld.LogicalName == logicalName);
 
-                if (_DataGridControl.ContainsField(selectedField))
+                if (listViewItem.Checked && !_DataGridControl.ContainsField(field))
                 {
-                    _DataGridControl.RemoveRow(selectedField);
+                    _DataGridControl.AddRow(field);
                 }
 
-                else
+                else if (!listViewItem.Checked && _DataGridControl.ContainsField(field))
                 {
-                    _DataGridControl.AddRow(selectedField);
+                    _DataGridControl.RemoveRow(field);
                 }
             }
+
+            int selectedCount = _fieldsListView.CheckedItems.Count;
+            _selectFieldButton.Text = $"{selectedCount} fields selected";
+
+            //ComboBox comboBox = sender as ComboBox;
+
+            //if (comboBox.SelectedItem is DropDownItem selectedItem)
+            //{
+            //    string logicalName = selectedItem.Value;
+            //    CRMField selectedField = Fields.FirstOrDefault(fld => fld.LogicalName == logicalName);
+
+            //    if (_DataGridControl.ContainsField(selectedField))
+            //    {
+            //        _DataGridControl.RemoveRow(selectedField);
+            //    }
+
+            //    else
+            //    {
+            //        _DataGridControl.AddRow(selectedField);
+            //    }
+            //}
         }
 
         public List<CRMField> GetEntityFields()

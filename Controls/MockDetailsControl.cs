@@ -1,5 +1,6 @@
 using Mockit.Common.ExpressionEngine;
 using Mockit.Models;
+using Mockit.Common.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -11,20 +12,21 @@ namespace Mockit.Controls
     {
         private readonly ComboBox _mockType;
         private readonly CheckBox _useCustom;
-        private readonly TextBox _expression;
+        private readonly RichTextBox _expression;
         private readonly Label _expressionLabel;
         private readonly TextBox _result;
         private readonly Button _save;
         private readonly Button _validate;
 
         private Mock boundMock;
+
         public event EventHandler MockChanged;
 
         public MockDetailsControl(Panel mockDetailsPanel)
         {
             _mockType = mockDetailsPanel.Controls["mockTypeCombo"] as ComboBox;
             _useCustom = mockDetailsPanel.Controls["useCustomCheck"] as CheckBox;
-            _expression = mockDetailsPanel.Controls["expressionText"] as TextBox;
+            _expression = mockDetailsPanel.Controls["expressionText1"] as RichTextBox;
             _result = mockDetailsPanel.Controls["resultText"] as TextBox;
             _save = mockDetailsPanel.Controls["mockSaveBtn"] as Button;
             _validate = mockDetailsPanel.Controls["mockValidateBtn"] as Button;
@@ -44,7 +46,7 @@ namespace Mockit.Controls
             _mockType.SelectedItem = mock.MockType;
             _useCustom.Checked = mock.UseCustom;
             _expression.Text = mock.Expression ?? string.Empty;
-            _result.Text = mock.Value ?? string.Empty;
+            _result.Text = ExpressionEngine.Evaluate(mock.Expression);
         }
 
         private void OnSave(object sender, EventArgs e)
@@ -75,25 +77,9 @@ namespace Mockit.Controls
         {
             if(_mockType.SelectedItem is MockType selectedType)
             {
+                _expression.Text = Helpers.GetExpression(selectedType);
                 _useCustom.Checked = selectedType == MockType.CUSTOM;
-
-                HashSet<MockType> autoGenerateTypes = new HashSet<MockType>
-                {
-                    MockType.FULLNAME,
-                    MockType.EMAIL,
-                    MockType.FULLADDRESS
-                };
-
-                if (autoGenerateTypes.Contains(selectedType))
-                {
-                    _expression.Text = $"{{{{ {selectedType.ToString().ToUpperInvariant()} }}}}";
-                    _expression.ReadOnly = true;
-                }
-                else
-                {
-                    _expression.Text = string.Empty;
-                    _expression.ReadOnly = false;
-                }
+                _expression.ReadOnly = selectedType == MockType.NONE;
             }
         }
     }

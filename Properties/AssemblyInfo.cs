@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Mockit")]
-[assembly: AssemblyDescription("This tool can create bulk records within CRM.")]
+[assembly: AssemblyDescription("This tool can create bulk records in CRM.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Mockit Inc")]
+[assembly: AssemblyCompany("Rohan Goel")]
 [assembly: AssemblyProduct("Mockit")]
 [assembly: AssemblyCopyright("Copyright ©  2025")]
 [assembly: AssemblyTrademark("")]

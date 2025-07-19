@@ -47,7 +47,7 @@ namespace Mockit.Controls
             DataGenService = new DataGenService(Service);
 
             _EntityDropdownControl = new EntityDropDownControl(cmbEntities);
-            _FieldDropdownControl = new FieldDropDownControl(cmbColumns);
+            _FieldDropdownControl = new FieldDropDownControl(selectFieldButton,fieldsListView);
             _RecordCountControl = new RecordCountControl(nudRecordCount);
             _FieldDetailsControl = new FieldDetailsControl(columnDetailsPanel);
             _MockDetailsControl = new MockDetailsControl(mockDetailsPanel);
@@ -75,14 +75,34 @@ namespace Mockit.Controls
             _EntityDropdownControl.OnSelectDropDown(sender, e);
         }
 
-        private void cmbColumns_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _FieldDropdownControl.OnSelectDropDown(sender, e);
-        }
+        //private void cmbColumns_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    _FieldDropdownControl.OnSelectDropDown(sender, e);
+        //}
 
         private void gridColumns_SelectionChanged(object sender, EventArgs e)
         {
             _DataGridControl.OnSelectGridRow(sender, e);
+        }
+
+        private void metadataPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void fieldsListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void columnDetailsPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
