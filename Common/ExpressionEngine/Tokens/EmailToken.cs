@@ -3,6 +3,7 @@ using Bogus;
 public class EmailToken : BaseToken
 {
     public override string Name => "EMAIL";
+    public override string Expression => "{{ EMAIL }}";
 
     public override string Execute(string args = null)
     {

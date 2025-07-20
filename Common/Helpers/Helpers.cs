@@ -10,21 +10,6 @@ namespace Mockit.Common.Helpers
 {
     public static class Helpers
     {
-        private static readonly Dictionary<MockType, string> _expressions = new Dictionary<MockType, string>
-        {
-            { MockType.NONE, "" },
-            { MockType.FULLNAME, "{{ FULLNAME }}" },
-            { MockType.EMAIL, "{{ EMAIL }}" },
-            { MockType.FULLADDRESS, "{{ FULLADDRESS }}" },
-            { MockType.BOOLEAN, "{{ BOOLEAN }}" },
-            { MockType.GUID, "{{ GUID }}" },
-            { MockType.LOOKUP, "{{ LOOKUP(fieldName, entityName, (GUID1, GUID2, ...) }}" },
-            { MockType.SEQUENCE, "{{ SEQUENCE(fieldName, minValue, maxValue) }}" },
-            { MockType.DATE, "{{ DATE(minDate, maxDate) }}" },
-            { MockType.NUMBER, "{{ NUMBER(min, max, decimal) }}" },
-            { MockType.SELECT, "{{ SELECT(option1, option2, ... ) }}" }
-        };
-
         public static object FormatValueForCRM(string rawValue, string crmDataType)
         {
             switch (crmDataType)
@@ -85,7 +70,16 @@ namespace Mockit.Common.Helpers
 
         public static string GetExpression(MockType type)
         {
-            return _expressions.ContainsKey(type) ? _expressions[type] : string.Empty;
+            TokenType tokenType = (TokenType)type;
+
+            if (TokensRegistry.RegisterTokens().TryGetValue(tokenType, out var token))
+            {
+                return token.Expression;
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
     }
 }

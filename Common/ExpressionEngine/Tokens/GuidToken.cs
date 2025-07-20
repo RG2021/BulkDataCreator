@@ -6,6 +6,7 @@ using System.Globalization;
 public class GuidToken : BaseToken
 {
     public override string Name => "Guid";
+    public override string Expression => "{{ GUID }}";
 
     public override string Execute(string args)
     {

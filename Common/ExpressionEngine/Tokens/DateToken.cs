@@ -8,6 +8,7 @@ public class DateToken : BaseToken
     private static readonly string _dateFormat = "yyyy-MM-dd";
 
     public override string Name => "Date";
+    public override string Expression => "{{ DATE(minDate, maxDate) }}";
 
     public override string Execute(string args)
     {

@@ -6,6 +6,7 @@ public class LookupToken : BaseToken
 {
     private readonly object _lock = new object();
     public override string Name => "Lookup";
+    public override string Expression => "{{ LOOKUP(Key, Entity, (GUID1,GUID2,…)) }}";
 
     public override string Execute(string args)
     {

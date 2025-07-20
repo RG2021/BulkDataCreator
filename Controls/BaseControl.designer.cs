@@ -50,6 +50,7 @@ namespace Mockit.Controls
             this.fieldsListView = new System.Windows.Forms.ListView();
             this.rightMainPanel = new System.Windows.Forms.Panel();
             this.mockDetailsPanel = new System.Windows.Forms.Panel();
+            this.expressionText1 = new System.Windows.Forms.RichTextBox();
             this.mockSaveBtn = new System.Windows.Forms.Button();
             this.mockValidateBtn = new System.Windows.Forms.Button();
             this.resultText = new System.Windows.Forms.TextBox();
@@ -73,7 +74,6 @@ namespace Mockit.Controls
             this.previewBtn = new System.Windows.Forms.Button();
             this.crmDataGridView = new System.Windows.Forms.DataGridView();
             this.expressionText = new System.Windows.Forms.Panel();
-            this.expressionText1 = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudRecordCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridColumns)).BeginInit();
             this.gridPanel.SuspendLayout();
@@ -306,6 +306,16 @@ namespace Mockit.Controls
             this.mockDetailsPanel.Name = "mockDetailsPanel";
             this.mockDetailsPanel.Size = new System.Drawing.Size(906, 326);
             this.mockDetailsPanel.TabIndex = 1;
+            // 
+            // expressionText1
+            // 
+            this.expressionText1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.expressionText1.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.expressionText1.Location = new System.Drawing.Point(128, 130);
+            this.expressionText1.Name = "expressionText1";
+            this.expressionText1.Size = new System.Drawing.Size(742, 96);
+            this.expressionText1.TabIndex = 12;
+            this.expressionText1.Text = "";
             // 
             // mockSaveBtn
             // 
@@ -567,16 +577,6 @@ namespace Mockit.Controls
             this.expressionText.Name = "expressionText";
             this.expressionText.Size = new System.Drawing.Size(2413, 1283);
             this.expressionText.TabIndex = 6;
-            // 
-            // expressionText1
-            // 
-            this.expressionText1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.expressionText1.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.expressionText1.Location = new System.Drawing.Point(128, 130);
-            this.expressionText1.Name = "expressionText1";
-            this.expressionText1.Size = new System.Drawing.Size(742, 96);
-            this.expressionText1.TabIndex = 12;
-            this.expressionText1.Text = "";
             // 
             // BaseControl
             // 

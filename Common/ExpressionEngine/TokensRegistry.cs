@@ -15,8 +15,7 @@ namespace Mockit.Common.ExpressionEngine
         {
             _tokens = RegisterTokens();
         }
-
-        private static Dictionary<TokenType, ITokenInterface> RegisterTokens()
+        public static Dictionary<TokenType, ITokenInterface> RegisterTokens()
         {
             return new Dictionary<TokenType, ITokenInterface>
             {

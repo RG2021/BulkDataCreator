@@ -4,6 +4,7 @@ using Mockit.Common.ExpressionEngine.Tokens;
 public class FullAddressToken : BaseToken
 {
     public override string Name => "FullAddress";
+    public override string Expression => "{{ FULLADDRESS }}";
 
     public override string Execute(string args)
     {
