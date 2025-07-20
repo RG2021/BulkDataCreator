@@ -27,8 +27,9 @@ namespace Mockit.Controls
         public DataPreviewControl(Panel actionGridPanel)
         {
 
+            Panel buttonPanel = actionGridPanel.Controls["buttonPanel"] as Panel;
             _previewCRMDataGrid = actionGridPanel.Controls["crmDataGridView"] as DataGridView;
-            _previewButton = actionGridPanel.Controls["previewBtn"] as Button;
+            _previewButton = buttonPanel.Controls["previewBtn"] as Button;
 
             _previewButton.Click += OnPreview;
         }

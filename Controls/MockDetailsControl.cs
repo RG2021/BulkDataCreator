@@ -31,7 +31,7 @@ namespace Mockit.Controls
             _save = mockDetailsPanel.Controls["mockSaveBtn"] as Button;
             _validate = mockDetailsPanel.Controls["mockValidateBtn"] as Button;
 
-            _mockType.DataSource = Enum.GetNames(typeof(MockType));
+            _mockType.DataSource = Enum.GetValues(typeof(MockType));
 
             _mockType.SelectedIndexChanged += OnChangeMockType;
             _useCustom.Click += OnCheckExpression;
@@ -75,11 +75,12 @@ namespace Mockit.Controls
 
         private void OnChangeMockType(object sender, EventArgs e)
         {
-            if (Enum.TryParse(_mockType.SelectedItem?.ToString(), out MockType selectedType))
+            if (_mockType.SelectedItem is MockType selectedType)
             {
                 _expression.Text = Helpers.GetExpression(selectedType);
                 _useCustom.Checked = selectedType == MockType.CUSTOM;
                 _expression.ReadOnly = selectedType == MockType.NONE;
+                _expression.BackColor = selectedType == MockType.NONE ? System.Drawing.Color.WhiteSmoke : System.Drawing.Color.White;
             }
         }
     }

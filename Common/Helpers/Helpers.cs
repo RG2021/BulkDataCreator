@@ -20,7 +20,7 @@ namespace Mockit.Common.Helpers
 
                 case "IntegerType":
                 case "BigIntType":
-                    return int.TryParse(rawValue, out int intVal) ? intVal : 0;
+                    //return int.TryParse(rawValue, out int intVal) ? intVal : rawValue;
 
                 case "DecimalType":
                 case "DoubleType":
@@ -70,16 +70,14 @@ namespace Mockit.Common.Helpers
 
         public static string GetExpression(MockType type)
         {
-            TokenType tokenType = (TokenType)type;
-
-            if (TokensRegistry.RegisterTokens().TryGetValue(tokenType, out var token))
+            if (Enum.TryParse(type.ToString(), out TokenType tokenType))
             {
-                return token.Expression;
+                if (TokensRegistry.RegisterTokens().TryGetValue(tokenType, out var token))
+                {
+                    return token.Expression;
+                }
             }
-            else
-            {
-                return string.Empty;
-            }
+            return string.Empty;
         }
     }
 }

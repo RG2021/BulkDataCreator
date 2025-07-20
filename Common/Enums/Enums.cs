@@ -17,18 +17,18 @@ namespace Mockit.Common.Enums
         }
         public enum MockType
         {
-            NONE = 0,
-            CUSTOM = 1,
-            FULLNAME = TokenType.FULLNAME,
-            EMAIL = TokenType.EMAIL,
-            FULLADDRESS = TokenType.FULLADDRESS,
-            BOOLEAN = TokenType.BOOLEAN,
-            GUID = TokenType.GUID,
-            LOOKUP = TokenType.LOOKUP,
-            SEQUENCE = TokenType.SEQUENCE,
-            DATE = TokenType.DATE,
-            NUMBER = TokenType.NUMBER,
-            SELECT = TokenType.SELECT
+            NONE = 758280000,
+            BOOLEAN = 758280001,
+            CUSTOM = 758280002,
+            DATE = 758280003,
+            EMAIL = 758280004,
+            FULLADDRESS = 758280005,
+            FULLNAME = 758280006,
+            GUID = 758280007,
+            LOOKUP = 758280008,
+            NUMBER = 758280009,
+            SELECT = 758280010,
+            SEQUENCE = 758280011,
         }
     }
 }

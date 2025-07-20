@@ -18,7 +18,7 @@ public class SequenceToken : BaseToken
         var parts = args.Split(',').Select(p => p.Trim()).ToArray();
 
         if (parts.Length < 3)
-            return "[Invalid format. Use: Key, Min, Max]";
+            return "[Invalid format. Use: SEQUENCE(fieldName, minValue, maxValue)]";
 
         string fieldName = parts[0];
 

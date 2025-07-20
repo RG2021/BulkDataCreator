@@ -13,11 +13,11 @@ public class DateToken : BaseToken
     public override string Execute(string args)
     {
         if (string.IsNullOrWhiteSpace(args))
-            return "[Missing date range. Use: DATE(minDate,maxDate)]";
+            return "[Missing date range. Use: DATE(minDate, maxDate)]";
 
         string[] parts = args.Split(',', (char)StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length != 2)
-            return "[Invalid format. Use: DATE(minDate,maxDate)]";
+            return "[Invalid format. Use: DATE(minDate, maxDate)]";
 
         if (!DateTime.TryParse(parts[0].Trim(),  out DateTime minDate) || !DateTime.TryParse(parts[1].Trim(), out DateTime maxDate))
         {

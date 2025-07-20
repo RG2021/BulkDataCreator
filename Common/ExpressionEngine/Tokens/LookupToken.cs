@@ -6,20 +6,20 @@ public class LookupToken : BaseToken
 {
     private readonly object _lock = new object();
     public override string Name => "Lookup";
-    public override string Expression => "{{ LOOKUP(Key, Entity, (GUID1,GUID2,…)) }}";
+    public override string Expression => "{{ LOOKUP(fieldName, entityName, (GUID1, GUID2, …)) }}";
 
     public override string Execute(string args)
     {
         if (string.IsNullOrWhiteSpace(args))
-            return "[Missing arguments. Use: LOOKUP(Key, Entity, (GUID1,GUID2,…))]";
+            return "[Missing arguments. Use: LOOKUP(fieldName, entityName, (GUID1, GUID2, …))]";
 
         int keyIndex = args.IndexOf(',');
         if (keyIndex < 0)
-            return "[Invalid format. Use: LOOKUP(Key, Entity, (GUID1,GUID2,…))]";
+            return "[Invalid format. Use: LOOKUP(fieldName, entityName, (GUID1, GUID2, …))]";
 
         int entityIndex = args.IndexOf(',', keyIndex + 1);
         if (entityIndex < 0)
-            return "[Invalid format. Use: LOOKUP(Key, Entity, (GUID1,GUID2,…))]";
+            return "[Invalid format. Use: LOOKUP(fieldName, entityName, (GUID1, GUID2, …))]";
 
         string keyPart = args.Substring(0, keyIndex).Trim();
         string entityPart = args.Substring(keyIndex + 1, entityIndex - keyIndex - 1).Trim();

@@ -6,7 +6,7 @@ using System.Linq;
 public class NumberToken : BaseToken
 {
     public override string Name => "Number";
-    public override string Expression => "{{ NUMBER(Min, Max, [DecimalPlaces]) }}";
+    public override string Expression => "{{ NUMBER(min, max, [decimal]) }}";
 
     public override string Execute(string args)
     {
@@ -15,7 +15,7 @@ public class NumberToken : BaseToken
 
         string[] parts = args.Split(',').Select(p => p.Trim()).ToArray();
         if (parts.Length < 2)
-            return "[Invalid format. Use: Min, Max, [DecimalPlaces]]";
+            return "[Invalid format. Use: NUMBER(min, max, [decimal])]";
 
         if (!int.TryParse(parts[0], out int min) || !int.TryParse(parts[1], out int max))
             return "[Invalid Min/Max values]";
