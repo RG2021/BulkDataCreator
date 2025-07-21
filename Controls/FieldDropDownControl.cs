@@ -22,6 +22,13 @@ namespace Mockit.Controls
             _fieldsListView = fieldsListView;
             _fieldsListView.Columns.Add("Fields", _fieldsListView.Width - 25);
             _fieldsListView.HeaderStyle = ColumnHeaderStyle.None;
+            _fieldsListView.Resize += (s, e) =>
+            {
+                foreach (ColumnHeader column in _fieldsListView.Columns)
+                {
+                    column.Width = _fieldsListView.ClientSize.Width - 25;
+                }
+            };
 
             //_fieldsListView.Columns.Add("Text", 150);
             //_fieldsListView.Columns.Add("Logical Name", 150);

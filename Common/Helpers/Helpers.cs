@@ -20,7 +20,7 @@ namespace Mockit.Common.Helpers
 
                 case "IntegerType":
                 case "BigIntType":
-                    //return int.TryParse(rawValue, out int intVal) ? intVal : rawValue;
+                    return int.TryParse(rawValue, out int intVal) ? intVal : 0;
 
                 case "DecimalType":
                 case "DoubleType":

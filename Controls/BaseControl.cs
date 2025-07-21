@@ -109,5 +109,10 @@ namespace Mockit.Controls
         {
 
         }
+
+        private void crmDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
