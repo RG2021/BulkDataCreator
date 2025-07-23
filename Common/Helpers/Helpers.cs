@@ -1,8 +1,10 @@
 using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Metadata;
 using Mockit.Common.ExpressionEngine;
 using Mockit.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Documents;
 using static Mockit.Common.Enums.Enums;
 
@@ -78,6 +80,98 @@ namespace Mockit.Common.Helpers
                 }
             }
             return string.Empty;
+        }
+
+        public static List<MetadataItem> GetMetadataForField(AttributeMetadata attr)
+        {
+
+            List<MetadataItem> metadata = new List<MetadataItem>();
+
+            if (attr is StringAttributeMetadata stringMeta)
+            {
+                if (stringMeta.MaxLength.HasValue)
+                    metadata.Add(new MetadataItem { Name = "MaxLength", Value = stringMeta.MaxLength.Value.ToString() });
+            }
+            else if (attr is IntegerAttributeMetadata intMeta)
+            {
+                if (intMeta.MinValue.HasValue)
+                    metadata.Add(new MetadataItem { Name = "MinValue", Value = intMeta.MinValue.Value.ToString() });
+                if (intMeta.MaxValue.HasValue)
+                    metadata.Add(new MetadataItem { Name = "MaxValue", Value = intMeta.MaxValue.Value.ToString() });
+            }
+
+            else if (attr is DecimalAttributeMetadata decMeta)
+            {
+                if (decMeta.MinValue.HasValue)
+                    metadata.Add(new MetadataItem { Name = "MinValue", Value = decMeta.MinValue.Value.ToString() });
+                if (decMeta.MaxValue.HasValue)
+                    metadata.Add(new MetadataItem { Name = "MaxValue", Value = decMeta.MaxValue.Value.ToString() });
+                if (decMeta.Precision.HasValue)
+                    metadata.Add(new MetadataItem { Name = "Precision", Value = decMeta.Precision.Value.ToString() });
+            }
+
+            else if (attr is DoubleAttributeMetadata dblMeta)
+            {
+                if (dblMeta.MinValue.HasValue)
+                    metadata.Add(new MetadataItem { Name = "MinValue", Value = dblMeta.MinValue.Value.ToString() });
+                if (dblMeta.MaxValue.HasValue)
+                    metadata.Add(new MetadataItem { Name = "MaxValue", Value = dblMeta.MaxValue.Value.ToString() });
+            }
+
+            else if (attr is MoneyAttributeMetadata moneyMeta)
+            {
+                if (moneyMeta.MinValue.HasValue)
+                    metadata.Add(new MetadataItem { Name = "MinValue", Value = moneyMeta.MinValue.Value.ToString() });
+                if (moneyMeta.MaxValue.HasValue)
+                    metadata.Add(new MetadataItem { Name = "MaxValue", Value = moneyMeta.MaxValue.Value.ToString() });
+            }
+
+            else if (attr is PicklistAttributeMetadata picklistMeta)
+            {
+                var options = new List<string>();
+                foreach (var option in picklistMeta.OptionSet.Options)
+                {
+                    string name = option.Label?.UserLocalizedLabel?.Label ?? option.Value.ToString();
+                    options.Add($"{name}({option.Value})");
+                }
+                metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
+            }
+
+            else if (attr is BooleanAttributeMetadata boolMeta)
+            {
+                metadata.Add(new MetadataItem { Name = "DefaultValue", Value = boolMeta.DefaultValue.HasValue ? boolMeta.DefaultValue.Value.ToString() : "false" });
+            }
+
+            else if (attr is MultiSelectPicklistAttributeMetadata multiSelectMeta)
+            {
+                var options = new List<string>();
+                foreach (var option in multiSelectMeta.OptionSet.Options)
+                {
+                    string name = option.Label?.UserLocalizedLabel?.Label ?? option.Value.ToString();
+                    options.Add($"{name}({option.Value})");
+                }
+                metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
+            }
+
+            else if (attr is LookupAttributeMetadata lookupMeta)
+            {
+                if (lookupMeta.Targets != null && lookupMeta.Targets.Length > 0)
+                {
+                    string targets = string.Join(", ", lookupMeta.Targets);
+                    metadata.Add(new MetadataItem { Name = "Lookup Entity Names", Value = $"{targets}" });
+                }
+            }
+            else if (attr is StatusAttributeMetadata statusMeta)
+            {
+                var options = new List<string>();
+                foreach (var option in statusMeta.OptionSet.Options)
+                {
+                    string name = option.Label?.UserLocalizedLabel?.Label ?? option.Value.ToString();
+                    options.Add($"{name}({option.Value})");
+                }
+                metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
+            }
+            return metadata;
         }
     }
 }

@@ -267,6 +267,7 @@
     </Compile>
     <Compile Include="Models\CRMEntity.cs" />
     <Compile Include="Models\CRMField.cs" />
+    <Compile Include="Models\MetadataItem.cs" />
     <Compile Include="Models\PreviewRecord.cs" />
     <Compile Include="Models\DropDownItem.cs" />
     <Compile Include="Models\GridRow.cs" />

@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Windows.Documents;
+
 namespace Mockit.Models
 {
     public class CRMField
@@ -7,5 +10,6 @@ namespace Mockit.Models
         public string DataType { get; set; }
         public bool IsCustom { get; set; }
         public CRMEntity Entity { get; set; }
+        public List<MetadataItem> Metadata { get; set; }
     }
 }

@@ -12,22 +12,51 @@ namespace Mockit.Controls
     
     public class FieldDetailsControl : BaseControl
     {
-        private readonly TableLayoutPanel _fieldDetailsPanel;
+        private readonly DataGridView _fieldDetailsGrid;
 
-        public FieldDetailsControl(TableLayoutPanel fieldDetailsPanel)
+        public FieldDetailsControl(DataGridView fieldDetailsPanel)
         {
-            _fieldDetailsPanel = fieldDetailsPanel;
+            _fieldDetailsGrid = fieldDetailsPanel;
+
+            _fieldDetailsGrid.Rows.Add("Display Name", "-");
+            _fieldDetailsGrid.Rows.Add("Logical Name", "-");
+            _fieldDetailsGrid.Rows.Add("Data Type", "-");
+
+            AdjustRowHeightsToFillGrid(_fieldDetailsGrid);
         }
 
         public void ShowDetails(CRMField field)
         {
-            TextBox lblDisplayName = _fieldDetailsPanel.Controls["lblDisplayName"] as TextBox;
-            TextBox lblLogicalName = _fieldDetailsPanel.Controls["lblLogicalName"] as TextBox;
-            TextBox lblDataType = _fieldDetailsPanel.Controls["lblDataType"] as TextBox;
+            _fieldDetailsGrid.Rows.Clear();
 
-            lblDisplayName.Text = field.DisplayName;
-            lblLogicalName.Text = field.LogicalName;
-            lblDataType.Text = field.DataType;
+            _fieldDetailsGrid.Rows.Add("Display Name", field.DisplayName);
+            _fieldDetailsGrid.Rows.Add("Logical Name", field.LogicalName);
+            _fieldDetailsGrid.Rows.Add("Data Type", field.DataType);
+
+            if (field.Metadata != null)
+            {
+                foreach (var item in field.Metadata)
+                {
+                    _fieldDetailsGrid.Rows.Add(item.Name, item.Value);
+                }
+            }
+
+            AdjustRowHeightsToFillGrid(_fieldDetailsGrid);
+        }
+
+        private void AdjustRowHeightsToFillGrid(DataGridView grid)
+        {
+            int rowCount = grid.Rows.Count;
+            if (rowCount <= 0) return;
+
+            int totalHeight = grid.ClientSize.Height;
+
+            int rowHeight = totalHeight / rowCount;
+
+            foreach (DataGridViewRow row in grid.Rows)
+            {
+                row.Height = rowHeight;
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Xrm.Sdk.Metadata;
 using System;
 using System.Collections.Generic;
 using Mockit.Models;
+using Mockit.Common.Helpers;
 
 namespace Mockit.Services
 {
@@ -88,7 +89,8 @@ namespace Mockit.Services
                     DisplayName = displayName,
                     DataType = attr.AttributeTypeName?.Value ?? attr.AttributeType?.ToString() ?? "Unknown",
                     IsCustom = attr.IsCustomAttribute == true,
-                    Entity = entityRef
+                    Entity = entityRef,
+                    Metadata = Helpers.GetMetadataForField(attr)
                 };
 
                 fields.Add(field);

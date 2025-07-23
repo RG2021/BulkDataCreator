@@ -49,7 +49,7 @@ namespace Mockit.Controls
             _EntityDropdownControl = new EntityDropDownControl(cmbEntities);
             _FieldDropdownControl = new FieldDropDownControl(selectFieldButton, fieldsListView);
             _RecordCountControl = new RecordCountControl(nudRecordCount);
-            _FieldDetailsControl = new FieldDetailsControl(columnDetailsPanel);
+            _FieldDetailsControl = new FieldDetailsControl(fieldDetailsGrid);
             _MockDetailsControl = new MockDetailsControl(mockDetailsPanel);
             _DataGridControl = new DataGridControl(gridColumns);
             _DataPreviewControl = new DataPreviewControl(actionGridPanel);
@@ -111,6 +111,11 @@ namespace Mockit.Controls
         }
 
         private void crmDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void leftMainPanel_Paint(object sender, PaintEventArgs e)
         {
 
         }
