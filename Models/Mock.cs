@@ -1,5 +1,5 @@
 using Mockit.Common.ExpressionEngine;
-using static Mockit.Common.Enums.Enums;
+using static Mockit.Common.Enums.Constants;
 
 namespace Mockit.Models
 {

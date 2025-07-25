@@ -4,7 +4,7 @@ using Mockit.Common.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using static Mockit.Common.Enums.Enums;
+using static Mockit.Common.Enums.Constants;
 
 namespace Mockit.Controls
 {

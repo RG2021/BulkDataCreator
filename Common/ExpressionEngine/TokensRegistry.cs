@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Mockit.Common.Enums.Enums;
+using static Mockit.Common.Enums.Constants;
 
 namespace Mockit.Common.ExpressionEngine
 {
@@ -19,25 +19,39 @@ namespace Mockit.Common.ExpressionEngine
         {
             return new Dictionary<TokenType, ITokenInterface>
             {
-                [TokenType.FULLNAME] = new FullNameToken(),
-                [TokenType.EMAIL] = new EmailToken(),
-                [TokenType.NUMBER] = new NumberToken(),
                 [TokenType.SELECT] = new SelectToken(),
                 [TokenType.SEQUENCE] = new SequenceToken(),
-                [TokenType.FULLADDRESS] = new FullAddressToken(),
                 [TokenType.LOOKUP] = new LookupToken(),
                 [TokenType.DATE] = new DateToken(),
-                [TokenType.BOOLEAN] = new BooleanToken(),
-                [TokenType.GUID] = new GuidToken()
+                [TokenType.BOGUS] = new BogusToken()
             };
         }
 
         public static string Evaluate(string name, string args)
         {
-            if (!Enum.TryParse(name.Trim(), ignoreCase: true, out TokenType tokenType))
-                return $"{name}";
 
-            return _tokens.TryGetValue(tokenType, out var token) ? token.Execute(args) : $"[Unregistered token: {tokenType}]";
+            if (string.IsNullOrWhiteSpace(name) || name.Split('.').Length != 2)
+                return $"[Unknown token: {name}]";
+
+            string[] parts = name.Split('.');
+            string property = parts[0].Trim().ToUpperInvariant();
+            string method = parts[1].Trim().ToUpperInvariant();
+
+            bool isCustomToken = string.Equals(property, "MOCK", StringComparison.OrdinalIgnoreCase);
+
+            if (isCustomToken && Enum.TryParse(method, ignoreCase: true, out TokenType tokenType))
+            {
+                return _tokens.TryGetValue(tokenType, out ITokenInterface token) ? token.Execute(args) : $"[Unregistered token: {method}]";
+            }
+            else if(!isCustomToken && _tokens.TryGetValue(TokenType.BOGUS, out var bogusToken))
+            {
+                string result = string.IsNullOrEmpty(args) ? $"{name}" : $"{name}({args})";
+                return bogusToken.Execute(result);
+            }
+            else
+            {
+                return $"[Unknown token: {name}]";
+            }
         }
     }
 }

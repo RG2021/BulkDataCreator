@@ -5,7 +5,6 @@ using System.Linq;
 public class SelectToken : BaseToken
 {
     public override string Name => "SELECT";
-    public override string Expression => "{{ SELECT(option1, option2, ...) }}";
 
     public override string Execute(string args)
     {

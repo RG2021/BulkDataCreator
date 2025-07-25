@@ -38,12 +38,11 @@ namespace Mockit.Services
 
             foreach (EntityMetadata entity in metadata)
             {
-                bool isSystem = entity.IsManaged == true || entity.IsCustomizable?.Value == false || entity.IsIntersect.GetValueOrDefault(false);
+                //TODO: Add logic to include system entities if needed
+                bool isCreatable = entity.IsCustomizable?.Value != false && !entity.IsIntersect.GetValueOrDefault(false) && entity.OwnershipType == OwnershipTypes.UserOwned && entity.IsManaged == false;
 
-                if (excludeSystemEntities && isSystem)
-                {
+                if (!isCreatable && excludeSystemEntities)
                     continue;
-                }
 
                 CRMEntity crmEntity = new CRMEntity
                 {

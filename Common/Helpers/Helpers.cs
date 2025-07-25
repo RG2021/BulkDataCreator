@@ -1,12 +1,13 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;
+using Mockit.Common.Enums;
 using Mockit.Common.ExpressionEngine;
 using Mockit.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Documents;
-using static Mockit.Common.Enums.Enums;
+using static Mockit.Common.Enums.Constants;
 
 namespace Mockit.Common.Helpers
 {
@@ -72,26 +73,36 @@ namespace Mockit.Common.Helpers
 
         public static string GetExpression(MockType type)
         {
-            if (Enum.TryParse(type.ToString(), out TokenType tokenType))
+            if(Constants._HelperExpressions.TryGetValue(type, out string expression))
             {
-                if (TokensRegistry.RegisterTokens().TryGetValue(tokenType, out var token))
-                {
-                    return token.Expression;
-                }
+                return expression;
             }
             return string.Empty;
         }
 
         public static List<MetadataItem> GetMetadataForField(AttributeMetadata attr)
         {
-
             List<MetadataItem> metadata = new List<MetadataItem>();
 
+            // String
             if (attr is StringAttributeMetadata stringMeta)
             {
                 if (stringMeta.MaxLength.HasValue)
                     metadata.Add(new MetadataItem { Name = "MaxLength", Value = stringMeta.MaxLength.Value.ToString() });
+                if (stringMeta.FormatName != null)
+                    metadata.Add(new MetadataItem { Name = "Format", Value = stringMeta.FormatName.Value });
             }
+
+            // Memo
+            else if (attr is MemoAttributeMetadata memoMeta)
+            {
+                if (memoMeta.MaxLength.HasValue)
+                    metadata.Add(new MetadataItem { Name = "MaxLength", Value = memoMeta.MaxLength.Value.ToString() });
+                if (memoMeta.FormatName != null)
+                    metadata.Add(new MetadataItem { Name = "Format", Value = memoMeta.FormatName.Value });
+            }
+
+            // Integer
             else if (attr is IntegerAttributeMetadata intMeta)
             {
                 if (intMeta.MinValue.HasValue)
@@ -100,6 +111,16 @@ namespace Mockit.Common.Helpers
                     metadata.Add(new MetadataItem { Name = "MaxValue", Value = intMeta.MaxValue.Value.ToString() });
             }
 
+            // BigInt
+            else if (attr is BigIntAttributeMetadata bigIntMeta)
+            {
+                if (bigIntMeta.MinValue.HasValue)
+                    metadata.Add(new MetadataItem { Name = "MinValue", Value = bigIntMeta.MinValue.Value.ToString() });
+                if (bigIntMeta.MaxValue.HasValue)
+                    metadata.Add(new MetadataItem { Name = "MaxValue", Value = bigIntMeta.MaxValue.Value.ToString() });
+            }
+
+            // Decimal
             else if (attr is DecimalAttributeMetadata decMeta)
             {
                 if (decMeta.MinValue.HasValue)
@@ -110,6 +131,7 @@ namespace Mockit.Common.Helpers
                     metadata.Add(new MetadataItem { Name = "Precision", Value = decMeta.Precision.Value.ToString() });
             }
 
+            // Double
             else if (attr is DoubleAttributeMetadata dblMeta)
             {
                 if (dblMeta.MinValue.HasValue)
@@ -118,59 +140,95 @@ namespace Mockit.Common.Helpers
                     metadata.Add(new MetadataItem { Name = "MaxValue", Value = dblMeta.MaxValue.Value.ToString() });
             }
 
+            // Money
             else if (attr is MoneyAttributeMetadata moneyMeta)
             {
                 if (moneyMeta.MinValue.HasValue)
                     metadata.Add(new MetadataItem { Name = "MinValue", Value = moneyMeta.MinValue.Value.ToString() });
                 if (moneyMeta.MaxValue.HasValue)
                     metadata.Add(new MetadataItem { Name = "MaxValue", Value = moneyMeta.MaxValue.Value.ToString() });
+                if (moneyMeta.Precision.HasValue)
+                    metadata.Add(new MetadataItem { Name = "Precision", Value = moneyMeta.Precision.Value.ToString() });
             }
 
-            else if (attr is PicklistAttributeMetadata picklistMeta)
-            {
-                var options = new List<string>();
-                foreach (var option in picklistMeta.OptionSet.Options)
-                {
-                    string name = option.Label?.UserLocalizedLabel?.Label ?? option.Value.ToString();
-                    options.Add($"{name}({option.Value})");
-                }
-                metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
-            }
-
+            // Boolean
             else if (attr is BooleanAttributeMetadata boolMeta)
             {
                 metadata.Add(new MetadataItem { Name = "DefaultValue", Value = boolMeta.DefaultValue.HasValue ? boolMeta.DefaultValue.Value.ToString() : "false" });
+                if (boolMeta.OptionSet != null)
+                {
+                    var options = new List<string>();
+                    if (boolMeta.OptionSet.TrueOption != null)
+                    {
+                        var trueLabel = boolMeta.OptionSet.TrueOption.Label?.UserLocalizedLabel?.Label ?? boolMeta.OptionSet.TrueOption.Value.ToString();
+                        options.Add($"{trueLabel}({boolMeta.OptionSet.TrueOption.Value})");
+                    }
+                    if (boolMeta.OptionSet.FalseOption != null)
+                    {
+                        var falseLabel = boolMeta.OptionSet.FalseOption.Label?.UserLocalizedLabel?.Label ?? boolMeta.OptionSet.FalseOption.Value.ToString();
+                        options.Add($"{falseLabel}({boolMeta.OptionSet.FalseOption.Value})");
+                    }
+                    metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
+                }
             }
 
+            // Picklist
+            else if (attr is PicklistAttributeMetadata picklistMeta)
+            {
+                var options = picklistMeta.OptionSet.Options.Select(opt => $"{opt.Label?.UserLocalizedLabel?.Label ?? opt.Value.ToString()}({opt.Value})");
+                metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
+                if (picklistMeta.DefaultFormValue.HasValue)
+                    metadata.Add(new MetadataItem { Name = "DefaultValue", Value = picklistMeta.DefaultFormValue.Value.ToString() });
+            }
+
+            // MultiSelectPicklist
             else if (attr is MultiSelectPicklistAttributeMetadata multiSelectMeta)
             {
-                var options = new List<string>();
-                foreach (var option in multiSelectMeta.OptionSet.Options)
-                {
-                    string name = option.Label?.UserLocalizedLabel?.Label ?? option.Value.ToString();
-                    options.Add($"{name}({option.Value})");
-                }
+                var options = multiSelectMeta.OptionSet.Options
+                    .Select(opt => $"{opt.Label?.UserLocalizedLabel?.Label ?? opt.Value.ToString()}({opt.Value})");
                 metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
             }
 
+            // Status
+            else if (attr is StatusAttributeMetadata statusMeta)
+            {
+                var options = statusMeta.OptionSet.Options
+                    .Select(opt => $"{opt.Label?.UserLocalizedLabel?.Label ?? opt.Value.ToString()}({opt.Value})");
+                metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
+            }
+
+            // State
+            else if (attr is StateAttributeMetadata stateMeta)
+            {
+                var options = stateMeta.OptionSet.Options.Select(opt => $"{opt.Label?.UserLocalizedLabel?.Label ?? opt.Value.ToString()}({opt.Value})");
+                metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
+            }
+
+            // Lookup
             else if (attr is LookupAttributeMetadata lookupMeta)
             {
                 if (lookupMeta.Targets != null && lookupMeta.Targets.Length > 0)
                 {
                     string targets = string.Join(", ", lookupMeta.Targets);
-                    metadata.Add(new MetadataItem { Name = "Lookup Entity Names", Value = $"{targets}" });
+                    metadata.Add(new MetadataItem { Name = "Lookup Entities", Value = targets });
                 }
             }
-            else if (attr is StatusAttributeMetadata statusMeta)
+
+            // DateTime
+            else if (attr is DateTimeAttributeMetadata dateMeta)
             {
-                var options = new List<string>();
-                foreach (var option in statusMeta.OptionSet.Options)
-                {
-                    string name = option.Label?.UserLocalizedLabel?.Label ?? option.Value.ToString();
-                    options.Add($"{name}({option.Value})");
-                }
-                metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
+                if (dateMeta.Format != null)
+                    metadata.Add(new MetadataItem { Name = "Format", Value = dateMeta.Format.Value.ToString() });
+                if (dateMeta.ImeMode.HasValue)
+                    metadata.Add(new MetadataItem { Name = "ImeMode", Value = dateMeta.ImeMode.Value.ToString() });
             }
+
+            // Uniqueidentifier
+            else if (attr is UniqueIdentifierAttributeMetadata guidMeta)
+            {
+                metadata.Add(new MetadataItem { Name = "Type", Value = "GUID" });
+            }
+
             return metadata;
         }
     }

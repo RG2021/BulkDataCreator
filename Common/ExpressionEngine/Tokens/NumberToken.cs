@@ -6,7 +6,6 @@ using System.Linq;
 public class NumberToken : BaseToken
 {
     public override string Name => "Number";
-    public override string Expression => "{{ NUMBER(min, max, [decimal]) }}";
 
     public override string Execute(string args)
     {

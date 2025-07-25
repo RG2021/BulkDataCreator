@@ -215,16 +215,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasePlugin.cs" />
-    <Compile Include="Common\ExpressionEngine\Tokens\BooleanToken.cs" />
-    <Compile Include="Common\ExpressionEngine\Tokens\GuidToken.cs" />
+    <Compile Include="Common\ExpressionEngine\Tokens\BogusToken.cs" />
     <Compile Include="Models\EvaluationRecord.cs" />
     <Compile Include="Common\ExpressionEngine\TokensRegistry.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\BaseToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\DateToken.cs" />
-    <Compile Include="Common\ExpressionEngine\Tokens\FullAddressToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\ITokenInterface.cs" />
-    <Compile Include="Common\ExpressionEngine\Tokens\EmailToken.cs" />
-    <Compile Include="Common\ExpressionEngine\Tokens\FullNameToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\LookupToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\NumberToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\SelectToken.cs" />
@@ -237,7 +233,7 @@
     <Compile Include="Controls\BaseControl.designer.cs">
       <DependentUpon>BaseControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\Enums\Enums.cs" />
+    <Compile Include="Common\Constants\Constants.cs" />
     <Compile Include="Controls\DataGenerateControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

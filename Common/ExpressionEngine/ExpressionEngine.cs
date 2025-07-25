@@ -5,7 +5,7 @@ namespace Mockit.Common.ExpressionEngine
 {
     public static class ExpressionEngine
     {
-        private static readonly Regex ParamPattern = new Regex(@"\{\{\s*(\w+)(\((.*?)\))?\s*\}\}");
+        private static readonly Regex ParamPattern = new Regex(@"\{\{\s*([\w\.]+)(\((.*?)\))?\s*\}\}");
 
         public static string Evaluate(string input, EvaluationRecord context = null)
         {
