@@ -53,7 +53,8 @@ namespace Mockit.Controls
 
                     Fields = args.Result as List<CRMField>;
                     BindFieldDropdown();
-                }
+                },
+                
             });
         }
 
@@ -107,6 +108,11 @@ namespace Mockit.Controls
         public List<CRMField> GetEntityFields()
         {
             return Fields;
+        }
+
+        public CRMField GetField(string logicalName)
+        {
+            return Fields?.FirstOrDefault(f => f.LogicalName == logicalName);
         }
     }
 }

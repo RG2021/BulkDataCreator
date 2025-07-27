@@ -20,17 +20,17 @@ namespace Mockit.Controls
     {
 
         private readonly DataGridView _previewCRMDataGrid;
-        private readonly Button _previewButton;
+        private readonly ToolStripButton _previewButton;
 
         public static BindingList<GridRow> gridRows = new BindingList<GridRow>();
 
-        public DataPreviewControl(Panel actionGridPanel)
+        public DataPreviewControl(Panel actionGridPanel, ToolStripButton previewBtn)
         {
 
             Panel buttonPanel = actionGridPanel.Controls["buttonPanel"] as Panel;
             _previewCRMDataGrid = actionGridPanel.Controls["crmDataGridView"] as DataGridView;
-            _previewButton = buttonPanel.Controls["previewBtn"] as Button;
 
+            _previewButton = previewBtn;
             _previewButton.Click += OnPreview;
         }
 

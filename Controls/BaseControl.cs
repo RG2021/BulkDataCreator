@@ -52,7 +52,7 @@ namespace Mockit.Controls
             _FieldDetailsControl = new FieldDetailsControl(fieldDetailsGrid);
             _MockDetailsControl = new MockDetailsControl(mockDetailsPanel);
             _DataGridControl = new DataGridControl(gridColumns);
-            _DataPreviewControl = new DataPreviewControl(actionGridPanel);
+            _DataPreviewControl = new DataPreviewControl(actionGridPanel, previewBtn);
             _DataGenerateControl = new DataGenerateControl(generateBtn);
 
             //ExecuteMethod(_EntityDropdownControl.LoadEntities);
@@ -116,6 +116,21 @@ namespace Mockit.Controls
         }
 
         private void leftMainPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void toolStripLabel1_Click(object sender, EventArgs e)
         {
 
         }

@@ -23,6 +23,7 @@ namespace Mockit.Common.ExpressionEngine
                 [TokenType.SEQUENCE] = new SequenceToken(),
                 [TokenType.LOOKUP] = new LookupToken(),
                 [TokenType.DATE] = new DateToken(),
+                [TokenType.NUMBER] = new NumberToken(),
                 [TokenType.BOGUS] = new BogusToken()
             };
         }
@@ -30,7 +31,7 @@ namespace Mockit.Common.ExpressionEngine
         public static string Evaluate(string name, string args)
         {
 
-            if (string.IsNullOrWhiteSpace(name) || name.Split('.').Length != 2)
+            if (string.IsNullOrWhiteSpace(name) || name.Split('.').Length < 2)
                 return $"[Unknown token: {name}]";
 
             string[] parts = name.Split('.');

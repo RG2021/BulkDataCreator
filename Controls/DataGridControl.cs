@@ -1,8 +1,10 @@
+using Mockit.Common.Helpers;
 using Mockit.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
 using static Mockit.Common.Enums.Constants;
@@ -25,11 +27,14 @@ namespace Mockit.Controls
         {
             _dataGridView.AutoGenerateColumns = false;
             _dataGridView.DataSource = gridRows;
+            _dataGridView.CellContentClick += OnMockFieldAction;
             _MockDetailsControl.MockChanged += (s, e) =>
             {
                 _dataGridView.Refresh();
             };
         }
+
+        
         public BindingList<GridRow> GetData()
         {
             return gridRows;
@@ -73,5 +78,30 @@ namespace Mockit.Controls
                 _MockDetailsControl.ShowDetails(selectedRow.Mock);
             }
         }
+        private void OnMockFieldAction(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            var column = _dataGridView.Columns[e.ColumnIndex];
+
+            if (column is DataGridViewButtonColumn && column.Name == "Action")
+            {
+                DataGridViewRow row = _dataGridView.Rows[e.RowIndex];
+                string boundValue = row.Cells["FieldLogicalName"].Value?.ToString();
+                CRMField field = _FieldDropdownControl.GetField(boundValue);
+
+                Mock suggestedMock = Helpers.GetSuggestedMockForField(field);
+
+                GridRow gridRow = row.DataBoundItem as GridRow;
+                if (gridRow != null)
+                {
+                    gridRow.Mock = suggestedMock;
+                    _MockDetailsControl.ShowDetails(gridRow.Mock);
+                    _dataGridView.Refresh();
+                }
+            }
+        }
+
     }
 }

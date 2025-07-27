@@ -14,9 +14,9 @@ namespace Mockit.Controls
     public class DataGenerateControl : BaseControl
     {
 
-        private readonly Button _generateBtn;
+        private readonly ToolStripButton _generateBtn;
 
-        public DataGenerateControl(Button generateBtn)
+        public DataGenerateControl(ToolStripButton generateBtn)
         {
             _generateBtn = generateBtn;
             _generateBtn.Click += GenerateData;

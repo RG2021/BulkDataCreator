@@ -11,6 +11,7 @@ namespace Mockit.Common.Enums
             SEQUENCE,
             LOOKUP,
             DATE,
+            NUMBER,
             BOGUS
         }
         public enum MockType
@@ -27,6 +28,8 @@ namespace Mockit.Common.Enums
             NUMBER = 758280009,
             SELECT = 758280010,
             SEQUENCE = 758280011,
+            AMOUNT = 758280012,
+            STRING = 758280013,
         }
 
         public static readonly Dictionary<MockType, string> _HelperExpressions = new Dictionary<MockType, string> 
@@ -36,11 +39,14 @@ namespace Mockit.Common.Enums
             { MockType.FULLADDRESS, "{{ ADDRESS.FULLADDRESS }}" },
             { MockType.FULLNAME, "{{ NAME.FULLNAME }}" },
             { MockType.GUID, "{{ RANDOM.GUID }}" },
-            { MockType.NUMBER, "{{ RANDOM.NUMBER(min, max) }}" },
+            { MockType.NUMBER, "{{ MOCK.NUMBER(min, max, decimal) }}" },
+            { MockType.AMOUNT, "{{ FINANCE.AMOUNT(min, max, decimal) }}" },
+            { MockType.STRING , "Random word: {{ LOREM.WORD }}" },
             { MockType.SELECT, "{{ MOCK.SELECT(option1, option2, ...) }}" },
             { MockType.SEQUENCE, "{{ MOCK.SEQUENCE(fieldName, min, max) }}" },
             { MockType.LOOKUP, "{{ MOCK.LOOKUP(fieldName, entityName, (GUID1, GUID2, ...)) }}" },
-            { MockType.DATE, "{{ MOCK.DATE(minDate, maxDate) }}" },
+            { MockType.DATE, "{{ MOCK.DATE(min, max) }}" },
+            
         };
     }
 }

@@ -6,6 +6,8 @@ using Mockit.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web.Services.Protocols;
 using System.Windows.Documents;
 using static Mockit.Common.Enums.Constants;
 
@@ -161,12 +163,12 @@ namespace Mockit.Common.Helpers
                     if (boolMeta.OptionSet.TrueOption != null)
                     {
                         var trueLabel = boolMeta.OptionSet.TrueOption.Label?.UserLocalizedLabel?.Label ?? boolMeta.OptionSet.TrueOption.Value.ToString();
-                        options.Add($"{trueLabel}({boolMeta.OptionSet.TrueOption.Value})");
+                        options.Add($"{trueLabel} ({boolMeta.OptionSet.TrueOption.Value})");
                     }
                     if (boolMeta.OptionSet.FalseOption != null)
                     {
                         var falseLabel = boolMeta.OptionSet.FalseOption.Label?.UserLocalizedLabel?.Label ?? boolMeta.OptionSet.FalseOption.Value.ToString();
-                        options.Add($"{falseLabel}({boolMeta.OptionSet.FalseOption.Value})");
+                        options.Add($"{falseLabel} ({boolMeta.OptionSet.FalseOption.Value})");
                     }
                     metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
                 }
@@ -175,7 +177,7 @@ namespace Mockit.Common.Helpers
             // Picklist
             else if (attr is PicklistAttributeMetadata picklistMeta)
             {
-                var options = picklistMeta.OptionSet.Options.Select(opt => $"{opt.Label?.UserLocalizedLabel?.Label ?? opt.Value.ToString()}({opt.Value})");
+                var options = picklistMeta.OptionSet.Options.Select(opt => $"{opt.Label?.UserLocalizedLabel?.Label ?? opt.Value.ToString()} ({opt.Value})");
                 metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
                 if (picklistMeta.DefaultFormValue.HasValue)
                     metadata.Add(new MetadataItem { Name = "DefaultValue", Value = picklistMeta.DefaultFormValue.Value.ToString() });
@@ -185,7 +187,7 @@ namespace Mockit.Common.Helpers
             else if (attr is MultiSelectPicklistAttributeMetadata multiSelectMeta)
             {
                 var options = multiSelectMeta.OptionSet.Options
-                    .Select(opt => $"{opt.Label?.UserLocalizedLabel?.Label ?? opt.Value.ToString()}({opt.Value})");
+                    .Select(opt => $"{opt.Label?.UserLocalizedLabel?.Label ?? opt.Value.ToString()} ({opt.Value})");
                 metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
             }
 
@@ -193,14 +195,14 @@ namespace Mockit.Common.Helpers
             else if (attr is StatusAttributeMetadata statusMeta)
             {
                 var options = statusMeta.OptionSet.Options
-                    .Select(opt => $"{opt.Label?.UserLocalizedLabel?.Label ?? opt.Value.ToString()}({opt.Value})");
+                    .Select(opt => $"{opt.Label?.UserLocalizedLabel?.Label ?? opt.Value.ToString()} ({opt.Value})");
                 metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
             }
 
             // State
             else if (attr is StateAttributeMetadata stateMeta)
             {
-                var options = stateMeta.OptionSet.Options.Select(opt => $"{opt.Label?.UserLocalizedLabel?.Label ?? opt.Value.ToString()}({opt.Value})");
+                var options = stateMeta.OptionSet.Options.Select(opt => $"{opt.Label?.UserLocalizedLabel?.Label ?? opt.Value.ToString()} ({opt.Value})");
                 metadata.Add(new MetadataItem { Name = "Options", Value = string.Join(", ", options) });
             }
 
@@ -230,6 +232,114 @@ namespace Mockit.Common.Helpers
             }
 
             return metadata;
+        }
+
+        public static Mock GetSuggestedMockForField(CRMField field)
+        {
+            if (field == null || string.IsNullOrEmpty(field.LogicalName))
+                return null;
+
+            Mock mock = new Mock();
+
+            string crmFieldType = field.DataType;
+
+            string expression = string.Empty;
+            MockType mockType = MockType.NONE;
+            bool useCustom = false;
+
+            switch (crmFieldType)
+            {
+                case "StringType":
+                case "MemoType":
+                {
+                    expression = GetExpression(MockType.STRING);
+                    mockType = MockType.STRING;
+                    break;
+                }
+
+                case "IntegerType":
+                case "BigIntType":
+                case "DecimalType":
+                case "DoubleType":
+                case "FloatType":
+                case "MoneyType":
+                {
+                    double min = field.Metadata.Where(m => m.Name == "MinValue").Select(m => double.TryParse(m.Value, out double minVal) ? minVal : 0).FirstOrDefault();
+                    double max = field.Metadata.Where(m => m.Name == "MaxValue").Select(m => double.TryParse(m.Value, out double maxVal) ? maxVal : 100).FirstOrDefault();
+                    int precision = field.Metadata.Where(m => m.Name == "Precision").Select(m => int.TryParse(m.Value, out int precisionVal) ? precisionVal : 0).FirstOrDefault();
+
+                    expression = GetExpression(MockType.NUMBER).Replace("min", min.ToString()).Replace("max", max.ToString()).Replace("decimal", precision.ToString());
+                    mockType = MockType.NUMBER;
+                    break;
+                }
+
+                case "BooleanType":
+                case "TwoOptionsType":
+                {
+                    expression = GetExpression(MockType.BOOLEAN);
+                    mockType = MockType.BOOLEAN;
+                    break;
+                }
+
+                case "DateTimeType":
+                {
+                    DateTime minDate = field.Metadata.Where(m => m.Name == "MinValue").Select(m => DateTime.TryParse(m.Value, out DateTime minVal) ? minVal : DateTime.MinValue).FirstOrDefault();
+                    DateTime maxDate = field.Metadata.Where(m => m.Name == "MaxValue").Select(m => DateTime.TryParse(m.Value, out DateTime maxVal) ? maxVal : DateTime.MaxValue).FirstOrDefault();
+                    expression = GetExpression(MockType.DATE).Replace("min", minDate.ToString("yyyy-MM-dd")).Replace("max", maxDate.ToString("yyyy-MM-dd"));
+                    mockType = MockType.DATE;
+                    break;
+                }
+
+                case "PicklistType":
+                case "StatusType":
+                case "StateType":
+                {
+                    var options = field.Metadata.Where(m => m.Name == "Options").Select(m => m.Value ?? "").FirstOrDefault();
+                    var matches = Regex.Matches(options, @"\((\d+)\)");
+
+                    if (matches.Count > 0)
+                    {
+                        var optionsList = string.Join(", ", matches.Cast<Match>().Select(m => m.Groups[1].Value));
+                        expression = GetExpression(MockType.SELECT).Replace("option1, option2, ...", optionsList);
+                        mockType = MockType.SELECT;
+                    }
+                    break;
+                }
+
+                case "LookupType":
+                case "CustomerType":
+                case "OwnerType":
+                {
+                    var targets = field.Metadata.Where(m => m.Name == "Lookup Entities").Select(m => m.Value ?? "").FirstOrDefault();
+                    if (!string.IsNullOrEmpty(targets))
+                    {
+                        var targetList = targets.Split(',').Select(t => t.Trim()).ToList();
+                        expression = GetExpression(MockType.LOOKUP).Replace("fieldName", field.LogicalName).Replace("entityName", targetList.FirstOrDefault());
+                        mockType = MockType.LOOKUP;
+                    }
+                    break;
+                }
+
+                case "UniqueidentifierType":
+                {
+                    expression = GetExpression(MockType.GUID);
+                    mockType = MockType.GUID;
+                    break;
+                }
+
+                default:
+                {
+                    expression = GetExpression(MockType.CUSTOM);
+                    mockType = MockType.CUSTOM;
+                    useCustom = true;
+                    break;
+                }
+            }
+
+            mock.Expression = expression;
+            mock.MockType = mockType;
+            mock.UseCustom = useCustom;
+            return mock;
         }
     }
 }

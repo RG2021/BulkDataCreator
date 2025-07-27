@@ -16,17 +16,17 @@ public class NumberToken : BaseToken
         if (parts.Length < 2)
             return "[Invalid format. Use: NUMBER(min, max, [decimal])]";
 
-        if (!int.TryParse(parts[0], out int min) || !int.TryParse(parts[1], out int max))
+        if (!double.TryParse(parts[0], out double min) || !double.TryParse(parts[1], out double max))
             return "[Invalid Min/Max values]";
 
         int decimalPlaces = 0;
         if (parts.Length >= 3 && !int.TryParse(parts[2], out decimalPlaces))
             return "[Invalid DecimalPlaces]";
 
-        decimal randomValue = Faker.Random.Decimal(min, max);
+        double randomValue = Faker.Random.Double(min, max);
 
-        if (decimalPlaces <= 0)
-            return ((int)randomValue).ToString();
+        //if (decimalPlaces <= 0)
+        //    return ((double)randomValue).ToString();
 
         return Math.Round(randomValue, decimalPlaces, MidpointRounding.AwayFromZero).ToString();
     }
