@@ -10,6 +10,7 @@ namespace Mockit.Controls
     public partial class BaseControl : PluginControlBase
     {
         private Settings mySettings;
+        private bool isConnected = false;
         protected static PluginControlBase ParentControlBase { get; private set; }
         protected static MetadataService MetadataService { get; private set; }
         protected static DataGenService DataGenService { get; private set; }
@@ -29,8 +30,6 @@ namespace Mockit.Controls
 
         private void MyPluginControl_Load(object sender, EventArgs e)
         {
-            //ShowInfoNotification("This is a notification that can lead to XrmToolBox repository", new Uri("https://github.com/MscrmTools/XrmToolBox"));
-
             if (!SettingsManager.Instance.TryLoad(GetType(), out mySettings))
             {
                 mySettings = new Settings();
@@ -43,19 +42,9 @@ namespace Mockit.Controls
 
             ParentControlBase = this;
 
-            MetadataService = new MetadataService(Service);
-            DataGenService = new DataGenService(Service);
-
-            _EntityDropdownControl = new EntityDropDownControl(cmbEntities);
-            _FieldDropdownControl = new FieldDropDownControl(selectFieldButton, fieldsListView);
-            _RecordCountControl = new RecordCountControl(nudRecordCount);
-            _FieldDetailsControl = new FieldDetailsControl(fieldDetailsGrid);
-            _MockDetailsControl = new MockDetailsControl(mockDetailsPanel);
-            _DataGridControl = new DataGridControl(gridColumns);
-            _DataPreviewControl = new DataPreviewControl(actionGridPanel, previewBtn);
-            _DataGenerateControl = new DataGenerateControl(generateBtn);
-
-            //ExecuteMethod(_EntityDropdownControl.LoadEntities);
+            InitializeServices(Service);
+            InitializeControls();
+            RefereshTool();
         }
 
 
@@ -68,17 +57,69 @@ namespace Mockit.Controls
                 mySettings.LastUsedOrganizationWebappUrl = detail.WebApplicationUrl;
                 LogInfo("Connection has changed to: {0}", detail.WebApplicationUrl);
             }
+
+            InitializeServices(newService);
+            RefereshTool();
+        }
+
+        private void InitializeServices(IOrganizationService service)
+        {
+            if (service == null)
+            {
+                isConnected = false;
+                LogError("Service is null. Cannot initialize services.");
+                return;
+            }
+
+            MetadataService = new MetadataService(service);
+            DataGenService = new DataGenService(service);
+            isConnected = true;
+
+            LogInfo("Services initialized successfully.");
+        }
+
+        private void InitializeControls()
+        {
+            _EntityDropdownControl = new EntityDropDownControl(cmbEntities);
+            _FieldDropdownControl = new FieldDropDownControl(selectFieldButton, fieldsListView);
+            _RecordCountControl = new RecordCountControl(nudRecordCount);
+            _FieldDetailsControl = new FieldDetailsControl(fieldDetailsGrid);
+            _MockDetailsControl = new MockDetailsControl(mockDetailsPanel);
+            _DataGridControl = new DataGridControl(gridColumns);
+            _DataPreviewControl = new DataPreviewControl(actionGridPanel, previewBtn);
+            _DataGenerateControl = new DataGenerateControl(generateBtn);
+
+            LogInfo("Controls initialized successfully.");
+        }
+
+        private void RefereshTool()
+        {
+            if (isConnected)
+            {
+                LogInfo("Tool initialized successfully.");
+                SetToolEnabled(true);
+                _EntityDropdownControl?.LoadEntities();
+            }
+            else
+            {
+                LogWarning("Tool is not connected. Please connect to a CRM instance.");
+                SetToolEnabled(false);
+                _EntityDropdownControl?.Clear();
+                _FieldDropdownControl?.Clear();
+                _DataGridControl?.Clear();
+            }
+        }
+
+        private void SetToolEnabled(bool isEnabled)
+        {
+            previewBtn.Enabled = isEnabled;
+            generateBtn.Enabled = isEnabled;
         }
 
         private void cmbEntities_SelectedIndexChanged(object sender, EventArgs e)
         {
             _EntityDropdownControl.OnSelectDropDown(sender, e);
         }
-
-        //private void cmbColumns_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    _FieldDropdownControl.OnSelectDropDown(sender, e);
-        //}
 
         private void gridColumns_SelectionChanged(object sender, EventArgs e)
         {
@@ -131,6 +172,11 @@ namespace Mockit.Controls
         }
 
         private void toolStripLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelRecords_Click(object sender, EventArgs e)
         {
 
         }

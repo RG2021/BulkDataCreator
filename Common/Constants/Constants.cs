@@ -42,9 +42,9 @@ namespace Mockit.Common.Enums
             { MockType.NUMBER, "{{ MOCK.NUMBER(min, max, decimal) }}" },
             { MockType.AMOUNT, "{{ FINANCE.AMOUNT(min, max, decimal) }}" },
             { MockType.STRING , "Random word: {{ LOREM.WORD }}" },
-            { MockType.SELECT, "{{ MOCK.SELECT(option1, option2, ...) }}" },
+            { MockType.SELECT, "{{ MOCK.SELECT(option1, option2, etc) }}" },
             { MockType.SEQUENCE, "{{ MOCK.SEQUENCE(fieldName, min, max) }}" },
-            { MockType.LOOKUP, "{{ MOCK.LOOKUP(fieldName, entityName, (GUID1, GUID2, ...)) }}" },
+            { MockType.LOOKUP, "{{ MOCK.LOOKUP(fieldName, entityName, (GUID1, GUID2, etc)) }}" },
             { MockType.DATE, "{{ MOCK.DATE(min, max) }}" },
             
         };

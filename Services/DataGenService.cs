@@ -15,20 +15,31 @@ namespace Mockit.Services
         private readonly IOrganizationService _service;
         public DataGenService(IOrganizationService service)
         {
-            _service = service ?? throw new ArgumentNullException(nameof(service));
+            _service = service;
         }
 
         public ExecuteMultipleResponse CreateData(string entityLogicalName, List<GridRow> selectedFields, int recordCount)
         {
-            if (string.IsNullOrWhiteSpace(entityLogicalName))
-                throw new ArgumentException("Entity name is required.");
 
+            if (string.IsNullOrWhiteSpace(entityLogicalName))
+            {
+                throw new ArgumentException("Entity logical name cannot be null or empty.");
+            }
+               
             if (selectedFields == null || selectedFields.Count == 0)
-                throw new ArgumentException("No fields provided.");
+            {
+                throw new ArgumentException("Selected fields cannot be null or empty.");
+            }
+
+            if (recordCount <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(recordCount), "Record count must be greater than zero.");
+            }
 
             const int batchSize = 250;
             List<EvaluationRecord> evaluatedRecords = Helpers.GetEvaluationRecords(selectedFields, recordCount);
-            ExecuteMultipleResponse lastResponse = null;
+            ExecuteMultipleResponse lastResponse = new ExecuteMultipleResponse();
+
 
             for (int i = 0; i < evaluatedRecords.Count; i += batchSize)
             {

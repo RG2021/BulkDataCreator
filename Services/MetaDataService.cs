@@ -14,16 +14,17 @@ namespace Mockit.Services
 
         public MetadataService(IOrganizationService service)
         {
-            if (service == null)
-            {
-                throw new ArgumentNullException(nameof(service));
-            }
-
             _service = service;
         }
 
         public List<CRMEntity> GetEntities(bool excludeSystemEntities = true)
         {
+            List<CRMEntity> entities = new List<CRMEntity>();
+            if (_service == null)
+            {
+                return entities; // Return empty list if service is not available
+            }
+
             RetrieveAllEntitiesRequest request = new RetrieveAllEntitiesRequest
             {
                 EntityFilters = EntityFilters.Entity,
@@ -33,8 +34,6 @@ namespace Mockit.Services
             RetrieveAllEntitiesResponse response = (RetrieveAllEntitiesResponse)_service.Execute(request);
 
             EntityMetadata[] metadata = response.EntityMetadata;
-
-            List<CRMEntity> entities = new List<CRMEntity>();
 
             foreach (EntityMetadata entity in metadata)
             {
@@ -61,7 +60,13 @@ namespace Mockit.Services
 
         public List<CRMField> GetFieldsForEntity(CRMEntity entityRef)
         {
-            string entityLogicalName = entityRef.LogicalName;
+            string entityLogicalName = entityRef?.LogicalName;
+            List<CRMField> fields = new List<CRMField>();
+
+            if (_service == null || string.IsNullOrWhiteSpace(entityLogicalName))
+            {
+                return fields; // Return empty list if service is not available or entity name is invalid
+            }
 
             RetrieveEntityRequest request = new RetrieveEntityRequest
             {
@@ -73,7 +78,7 @@ namespace Mockit.Services
             RetrieveEntityResponse response = (RetrieveEntityResponse)_service.Execute(request);
             EntityMetadata metadata = response.EntityMetadata;
 
-            List<CRMField> fields = new List<CRMField>();
+            
 
             foreach (AttributeMetadata attr in metadata.Attributes)
             {

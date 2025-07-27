@@ -40,20 +40,28 @@ namespace Mockit.Controls
                 Message = "Creating records...",
                 Work = (worker, args) =>
                 {
-                    int processed = 0;
-                    List<ExecuteMultipleResponse> batchResponses = new List<ExecuteMultipleResponse>();
-                    while (processed < totalRecordCount)
+                    try
                     {
-                        int currentBatchSize = Math.Min(batchSize, totalRecordCount - processed);
-                        var response = DataGenService.CreateData(entityLogicalName, gridRows, currentBatchSize);
-                        batchResponses.Add(response);
-                        processed += currentBatchSize;
+                        int processed = 0;
+                        List<ExecuteMultipleResponse> batchResponses = new List<ExecuteMultipleResponse>();
+                        while (processed < totalRecordCount)
+                        {
+                            int currentBatchSize = Math.Min(batchSize, totalRecordCount - processed);
+                            var response = DataGenService.CreateData(entityLogicalName, gridRows, currentBatchSize);
+                            batchResponses.Add(response);
+                            processed += currentBatchSize;
 
-                        int percentage = (int)((double)processed / totalRecordCount * 100);
-                        worker.ReportProgress(percentage, $"Created {processed} of {totalRecordCount} records.");
+                            int percentage = (int)((double)processed / totalRecordCount * 100);
+                            worker.ReportProgress(percentage, $"Created {processed} of {totalRecordCount} records.");
 
+                        }
+                        args.Result = batchResponses;
                     }
-                    args.Result = batchResponses;
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error during record creation: " + ex.Message, ex);
+                    }
+
                 },
                 ProgressChanged = (args) => 
                 {
@@ -64,6 +72,7 @@ namespace Mockit.Controls
                     if (args.Error != null)
                     {
                         MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
 
                     var batchResponses = args.Result as List<ExecuteMultipleResponse>;

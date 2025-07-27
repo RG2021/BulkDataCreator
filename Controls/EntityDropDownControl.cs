@@ -15,7 +15,6 @@ namespace Mockit.Controls
         public EntityDropDownControl(ComboBox comboBox)
         {
             _comboBox = comboBox;
-            LoadEntities();
         }
 
         public void LoadEntities()
@@ -59,8 +58,10 @@ namespace Mockit.Controls
             {
                 _comboBox.SelectedIndex = 0;
             }
+
+            _FieldDropdownControl.Clear();
         }
-        
+
         public void OnSelectDropDown(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
@@ -81,6 +82,11 @@ namespace Mockit.Controls
             DropDownItem selectedItem = (DropDownItem)_comboBox.SelectedItem;
             return selectedItem.Value.ToString();
         }
-
+        public void Clear()
+        {
+            _comboBox.Items.Clear();
+            _comboBox.SelectedIndex = -1;
+            Entities = new List<CRMEntity>();
+        }
     }
 }

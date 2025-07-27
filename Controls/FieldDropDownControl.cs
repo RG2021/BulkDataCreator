@@ -54,7 +54,7 @@ namespace Mockit.Controls
                     Fields = args.Result as List<CRMField>;
                     BindFieldDropdown();
                 },
-                
+
             });
         }
 
@@ -113,6 +113,13 @@ namespace Mockit.Controls
         public CRMField GetField(string logicalName)
         {
             return Fields?.FirstOrDefault(f => f.LogicalName == logicalName);
+        }
+
+        public void Clear()
+        {
+            Fields?.Clear();
+            _fieldsListView.Items.Clear();
+            _selectFieldButton.Text = "Select Fields";
         }
     }
 }

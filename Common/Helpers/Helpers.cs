@@ -300,7 +300,7 @@ namespace Mockit.Common.Helpers
                     if (matches.Count > 0)
                     {
                         var optionsList = string.Join(", ", matches.Cast<Match>().Select(m => m.Groups[1].Value));
-                        expression = GetExpression(MockType.SELECT).Replace("option1, option2, ...", optionsList);
+                        expression = GetExpression(MockType.SELECT).Replace("option1, option2, etc", optionsList);
                         mockType = MockType.SELECT;
                     }
                     break;
@@ -329,9 +329,9 @@ namespace Mockit.Common.Helpers
 
                 default:
                 {
-                    expression = GetExpression(MockType.CUSTOM);
-                    mockType = MockType.CUSTOM;
-                    useCustom = true;
+                    expression = GetExpression(MockType.NONE);
+                    mockType = MockType.NONE;
+                    useCustom = false;
                     break;
                 }
             }
