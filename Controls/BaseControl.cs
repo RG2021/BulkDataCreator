@@ -2,6 +2,7 @@
 using Microsoft.Xrm.Sdk;
 using Mockit.Services;
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
 
@@ -126,59 +127,19 @@ namespace Mockit.Controls
             _DataGridControl.OnSelectGridRow(sender, e);
         }
 
-        private void metadataPanel_Paint(object sender, PaintEventArgs e)
+        private void toolStripLabel4_Click(object sender, EventArgs e)
         {
-
+            Process.Start("https://github.com/RG2021/Mockit/issues/new");
         }
 
-        private void label7_Click(object sender, EventArgs e)
+        private void toolStripLabel3_Click(object sender, EventArgs e)
         {
-
+            Process.Start("https://github.com/RG2021/Mockit/discussions/1");
         }
 
-        private void fieldsListView_SelectedIndexChanged(object sender, EventArgs e)
+        private void toolStripLabel2_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void columnDetailsPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void labelSelectEntity_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void crmDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void leftMainPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void toolStripLabel1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void labelRecords_Click(object sender, EventArgs e)
-        {
-
+            Process.Start("https://www.linkedin.com/in/rg2021/");
         }
     }
 }

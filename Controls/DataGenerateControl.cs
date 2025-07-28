@@ -59,7 +59,7 @@ namespace Mockit.Controls
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("Error during record creation: " + ex.Message, ex);
+                        throw new Exception("Error: " + ex.Message, ex);
                     }
 
                 },
@@ -71,7 +71,7 @@ namespace Mockit.Controls
                 {
                     if (args.Error != null)
                     {
-                        MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(args.Error.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 

@@ -28,12 +28,12 @@ namespace Mockit.Services
                
             if (selectedFields == null || selectedFields.Count == 0)
             {
-                throw new ArgumentException("Selected fields cannot be null or empty.");
+                throw new ArgumentException("Selected fields must be greater than zero.");
             }
 
             if (recordCount <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(recordCount), "Record count must be greater than zero.");
+                throw new ArgumentOutOfRangeException("Record count must be greater than zero.");
             }
 
             const int batchSize = 250;

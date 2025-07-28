@@ -38,7 +38,7 @@ namespace Mockit.Services
             foreach (EntityMetadata entity in metadata)
             {
                 //TODO: Add logic to include system entities if needed
-                bool isCreatable = entity.IsCustomizable?.Value != false && !entity.IsIntersect.GetValueOrDefault(false) && entity.OwnershipType == OwnershipTypes.UserOwned && entity.IsManaged == false;
+                bool isCreatable = entity.IsCustomizable?.Value == true && entity.IsIntersect == false && entity.OwnershipType == OwnershipTypes.UserOwned;
 
                 if (!isCreatable && excludeSystemEntities)
                     continue;
@@ -78,26 +78,24 @@ namespace Mockit.Services
             RetrieveEntityResponse response = (RetrieveEntityResponse)_service.Execute(request);
             EntityMetadata metadata = response.EntityMetadata;
 
-            
-
             foreach (AttributeMetadata attr in metadata.Attributes)
             {
-                if (attr.LogicalName == null || (attr.IsValidForCreate == false && attr.IsValidForUpdate == false))
-                    continue;
-
-                string displayName = attr.DisplayName?.UserLocalizedLabel?.Label ?? attr.LogicalName;
-
-                CRMField field = new CRMField
+                if (attr.LogicalName != null && attr.IsLogical == false && attr.IsValidForCreate == true && attr.IsValidForRead == true)
                 {
-                    LogicalName = attr.LogicalName,
-                    DisplayName = displayName,
-                    DataType = attr.AttributeTypeName?.Value ?? attr.AttributeType?.ToString() ?? "Unknown",
-                    IsCustom = attr.IsCustomAttribute == true,
-                    Entity = entityRef,
-                    Metadata = Helpers.GetMetadataForField(attr)
-                };
+                    string displayName = attr.DisplayName?.UserLocalizedLabel?.Label ?? attr.LogicalName;
 
-                fields.Add(field);
+                    CRMField field = new CRMField
+                    {
+                        LogicalName = attr.LogicalName,
+                        DisplayName = displayName,
+                        DataType = attr.AttributeTypeName?.Value ?? attr.AttributeType?.ToString() ?? "Unknown",
+                        IsCustom = attr.IsCustomAttribute == true,
+                        Entity = entityRef,
+                        Metadata = Helpers.GetMetadataForField(attr)
+                    };
+
+                    fields.Add(field);
+                }
             }
 
             fields.Sort((a, b) => string.Compare(a.DisplayName, b.DisplayName, StringComparison.OrdinalIgnoreCase));
