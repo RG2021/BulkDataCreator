@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class LookupToken : BaseToken
 {
     private readonly object _lock = new object();
+    private readonly Dictionary<string, int> _fieldSequenceCounters = new Dictionary<string, int>();
     public override string Name => "Lookup";
 
     public override string Execute(string args)

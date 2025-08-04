@@ -1,11 +1,13 @@
 using Mockit.Common.ExpressionEngine.Tokens;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.UI.WebControls.WebParts;
 
 public class SequenceToken : BaseToken
 {
     private readonly object _lock = new object();
-    //private static readonly Dictionary<string, int> _fieldSequences = new Dictionary<string, int>();
+    private readonly Dictionary<string, int> _fieldSequenceCounters = new Dictionary<string, int>();
 
     public override string Name => "Sequence";
 
@@ -14,25 +16,31 @@ public class SequenceToken : BaseToken
         if (string.IsNullOrWhiteSpace(args))
             return "0";
 
-        var parts = args.Split(',').Select(p => p.Trim()).ToArray();
+        int seqIndex = args.IndexOf(',');
+        if (seqIndex < 0)
+            return "[Invalid format. Use: MOCK.SEQUENCE(sequenceid, (value1, value2, etc))]";
 
-        if (parts.Length < 3)
-            return "[Invalid format. Use: SEQUENCE(fieldName, minValue, maxValue)]";
+        int valuesIndex = args.IndexOf('(', seqIndex + 1);
+        if (valuesIndex < 0 || !args.EndsWith(")"))
+            return "[Invalid format. Use: MOCK.SEQUENCE(sequenceid, (value1, value2, etc))]";
 
-        string fieldName = parts[0];
+        string seqID = args.Substring(0, seqIndex).Trim();
+        string valuesPart = args.Substring(valuesIndex).Trim();
 
-        if (!int.TryParse(parts[1], out int min) || !int.TryParse(parts[2], out int max))
-            return "[Invalid min/max]";
+        valuesPart = valuesPart.Trim('(', ')', ' ');
+        string[] values = valuesPart.Split(',', (char)StringSplitOptions.RemoveEmptyEntries).Select(v => v.Trim()).ToArray();
+
+        if(string.IsNullOrEmpty(seqID) || values.Length == 0)
+            return "[Invalid sequence ID or values]";
 
         lock (_lock)
         {
-            if (!_fieldSequenceCounters.TryGetValue(fieldName, out int current) || current > max)
+            if (!_fieldSequenceCounters.TryGetValue(seqID, out int index) || index >= values.Length)
             {
-                current = min;
+                index = 0;
             }
-
-            _fieldSequenceCounters[fieldName] = current + 1;
-            return current.ToString();
+            _fieldSequenceCounters[seqID] = index + 1;
+            return values[index];
         }
     }
 

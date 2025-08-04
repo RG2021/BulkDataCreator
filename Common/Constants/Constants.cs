@@ -1,7 +1,7 @@
 using Mockit.Common.ExpressionEngine.Tokens;
 using System.Collections.Generic;
 
-namespace Mockit.Common.Enums
+namespace Mockit.Common.Constants
 {
     public class Constants
     {
@@ -41,9 +41,9 @@ namespace Mockit.Common.Enums
             { MockType.GUID, "{{ RANDOM.GUID }}" },
             { MockType.NUMBER, "{{ MOCK.NUMBER(min, max, decimal) }}" },
             { MockType.AMOUNT, "{{ FINANCE.AMOUNT(min, max, decimal) }}" },
-            { MockType.STRING , "Random word: {{ LOREM.WORD }}" },
+            { MockType.STRING , "{{ RANDOM.REPLACE(???####) }}" },
             { MockType.SELECT, "{{ MOCK.SELECT(option1, option2, etc) }}" },
-            { MockType.SEQUENCE, "{{ MOCK.SEQUENCE(fieldName, min, max) }}" },
+            { MockType.SEQUENCE, "{{ MOCK.SEQUENCE(fieldname, (value1, value2, etc)) }}" },
             { MockType.LOOKUP, "{{ MOCK.LOOKUP(fieldName, entityName, (GUID1, GUID2, etc)) }}" },
             { MockType.DATE, "{{ MOCK.DATE(min, max) }}" },
             

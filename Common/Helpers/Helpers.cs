@@ -1,15 +1,16 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;
-using Mockit.Common.Enums;
+using Mockit.Common.Constants;
 using Mockit.Common.ExpressionEngine;
 using Mockit.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Web.Services.Protocols;
 using System.Windows.Documents;
-using static Mockit.Common.Enums.Constants;
+using static Mockit.Common.Constants.Constants;
 
 namespace Mockit.Common.Helpers
 {
@@ -57,16 +58,21 @@ namespace Mockit.Common.Helpers
 
         public static List<EvaluationRecord> GetEvaluationRecords(List<GridRow> gridRows, int recordCount)
         {
+            ExpressionEngine.ExpressionEngine expressionEngine = new ExpressionEngine.ExpressionEngine();
             List<EvaluationRecord> evaluationRecords = new List<EvaluationRecord>();
+
             for (int i = 0; i < recordCount; i++)
             {
                 EvaluationRecord evaluationRecord = new EvaluationRecord();
                 foreach (GridRow gridRow in gridRows)
                 {
                     string logicalName = gridRow.Field.LogicalName;
-                    string value = ExpressionEngine.ExpressionEngine.Evaluate(gridRow.Mock.Expression, evaluationRecord);
+                    string value = expressionEngine.Evaluate(gridRow.Mock.Expression, evaluationRecord);
                     evaluationRecord.SetFieldValue(logicalName, value);
                 }
+
+                if(evaluationRecord.GetFieldCount() == 0)
+                    continue;
 
                 evaluationRecords.Add(evaluationRecord);
             }
@@ -75,7 +81,7 @@ namespace Mockit.Common.Helpers
 
         public static string GetExpression(MockType type)
         {
-            if(Constants._HelperExpressions.TryGetValue(type, out string expression))
+            if(_HelperExpressions.TryGetValue(type, out string expression))
             {
                 return expression;
             }

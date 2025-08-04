@@ -2,7 +2,7 @@ using Mockit.Common.ExpressionEngine;
 using Mockit.Models;
 using System;
 using System.Windows.Forms;
-using static Mockit.Common.Enums.Constants;
+using static Mockit.Common.Constants.Constants;
 
 namespace Mockit.Controls
 {

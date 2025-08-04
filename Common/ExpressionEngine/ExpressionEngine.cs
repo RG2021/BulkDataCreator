@@ -3,11 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace Mockit.Common.ExpressionEngine
 {
-    public static class ExpressionEngine
+    public class ExpressionEngine
     {
-        private static readonly Regex ParamPattern = new Regex(@"\{\{\s*([\w\.]+)(\((.*?)\))?\s*\}\}");
+        private TokensRegistry _tokensRegistry;
+        private readonly Regex ParamPattern = new Regex(@"\{\{\s*([\w\.]+)(\((.*?)\))?\s*\}\}");
+        public ExpressionEngine() 
+        {
+            _tokensRegistry = new TokensRegistry();
+        }
 
-        public static string Evaluate(string input, EvaluationRecord context = null)
+        public string Evaluate(string input, EvaluationRecord context = null)
         {
             return ParamPattern.Replace(input, match =>
             {
@@ -19,7 +24,7 @@ namespace Mockit.Common.ExpressionEngine
                     return value;
                 }
 
-                return TokensRegistry.Evaluate(name, args);
+                return _tokensRegistry.Evaluate(name, args);
             });
         }
     }

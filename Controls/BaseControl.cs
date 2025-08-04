@@ -141,5 +141,10 @@ namespace Mockit.Controls
         {
             Process.Start("https://www.linkedin.com/in/rg2021/");
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

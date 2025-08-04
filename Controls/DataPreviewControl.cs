@@ -12,7 +12,7 @@ using System.Threading;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
-using static Mockit.Common.Enums.Constants;
+using static Mockit.Common.Constants.Constants;
 
 namespace Mockit.Controls
 {
@@ -21,6 +21,7 @@ namespace Mockit.Controls
 
         private readonly DataGridView _previewCRMDataGrid;
         private readonly ToolStripButton _previewButton;
+        private readonly Label _previewDataLabel;
 
         public static BindingList<GridRow> gridRows = new BindingList<GridRow>();
 
@@ -29,6 +30,7 @@ namespace Mockit.Controls
 
             Panel buttonPanel = actionGridPanel.Controls["buttonPanel"] as Panel;
             _previewCRMDataGrid = actionGridPanel.Controls["crmDataGridView"] as DataGridView;
+            _previewDataLabel = actionGridPanel.Controls["previewDataLabel"] as Label;
 
             _previewButton = previewBtn;
             _previewButton.Click += OnPreview;
@@ -46,6 +48,11 @@ namespace Mockit.Controls
             foreach (DataGridViewColumn col in _previewCRMDataGrid.Columns)
             {
                 col.HeaderText = previewTable.Columns[col.DataPropertyName].Caption;
+            }
+
+            if (previewRecords != null && previewRecords.Count != 0)
+            {
+                _previewDataLabel.Visible = false;
             }
         }
 

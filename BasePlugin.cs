@@ -1,12 +1,16 @@
-﻿using Mockit.Controls;
+﻿using Mockit.Common.Constants;
+using Mockit.Controls;
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using XrmToolBox.Extensibility;
 using XrmToolBox.Extensibility.Interfaces;
+using static ScintillaNET.Style;
 
 namespace Mockit
 {
@@ -15,7 +19,7 @@ namespace Mockit
         ExportMetadata("Name", "Bulk Data Creator"),
         ExportMetadata("Description", "This tool can create bulk records within CRM."),
         ExportMetadata("SmallImageBase64", null),
-        ExportMetadata("BigImageBase64", null),
+        ExportMetadata("BigImageBase64", Common.Constants.Icons.BigIcon ),
         ExportMetadata("BackgroundColor", "Lavender"),
         ExportMetadata("PrimaryFontColor", "Black"),
         ExportMetadata("SecondaryFontColor", "Gray")

@@ -3,15 +3,15 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Mockit.Common.Enums.Constants;
+using static Mockit.Common.Constants.Constants;
 
 namespace Mockit.Common.ExpressionEngine
 {
-    public static class TokensRegistry
+    public class TokensRegistry
     {
-        private static readonly Dictionary<TokenType, ITokenInterface> _tokens;
+        private static Dictionary<TokenType, ITokenInterface> _tokens;
 
-        static TokensRegistry()
+        public TokensRegistry()
         {
             _tokens = RegisterTokens();
         }
@@ -28,7 +28,7 @@ namespace Mockit.Common.ExpressionEngine
             };
         }
 
-        public static string Evaluate(string name, string args)
+        public string Evaluate(string name, string args)
         {
 
             if (string.IsNullOrWhiteSpace(name) || name.Split('.').Length < 2)

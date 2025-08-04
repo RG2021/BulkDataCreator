@@ -15,5 +15,10 @@ namespace Mockit.Models
         {
             return Fields.TryGetValue(fieldName, out var value) ? value : null;
         }
+
+        public int GetFieldCount()
+        {
+            return Fields.Count;
+        }
     }
 }

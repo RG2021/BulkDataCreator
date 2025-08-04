@@ -4,7 +4,7 @@ using Mockit.Common.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using static Mockit.Common.Enums.Constants;
+using static Mockit.Common.Constants.Constants;
 
 namespace Mockit.Controls
 {
@@ -17,6 +17,7 @@ namespace Mockit.Controls
         private readonly TextBox _result;
         private readonly Button _save;
         private readonly Button _validate;
+        private ExpressionEngine _expressionEngine;
 
         private Mock boundMock;
 
@@ -24,6 +25,7 @@ namespace Mockit.Controls
 
         public MockDetailsControl(Panel mockDetailsPanel)
         {
+            _expressionEngine = new ExpressionEngine();
             _mockType = mockDetailsPanel.Controls["mockTypeCombo"] as ComboBox;
             _useCustom = mockDetailsPanel.Controls["useCustomCheck"] as CheckBox;
             _expression = mockDetailsPanel.Controls["expressionText1"] as RichTextBox;
@@ -46,7 +48,7 @@ namespace Mockit.Controls
             _mockType.SelectedItem = mock.MockType;
             _useCustom.Checked = mock.UseCustom;
             _expression.Text = mock.Expression ?? string.Empty;
-            _result.Text = ExpressionEngine.Evaluate(mock.Expression);
+            _result.Text = _expressionEngine.Evaluate(mock.Expression);
         }
 
         private void OnSave(object sender, EventArgs e)
@@ -64,7 +66,7 @@ namespace Mockit.Controls
         private void OnValidate(object sender, EventArgs e)
         {
             string expressionText = _expression.Text;
-            string resultText = ExpressionEngine.Evaluate(expressionText);
+            string resultText = _expressionEngine.Evaluate(expressionText);
             _result.Text = resultText;
         }
 

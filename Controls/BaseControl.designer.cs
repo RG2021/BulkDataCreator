@@ -32,23 +32,19 @@ namespace Mockit.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BaseControl));
             this.labelRecords = new System.Windows.Forms.Label();
             this.cmbEntities = new System.Windows.Forms.ComboBox();
             this.nudRecordCount = new System.Windows.Forms.NumericUpDown();
             this.labelSelectColumns = new System.Windows.Forms.Label();
             this.labelSelectEntity = new System.Windows.Forms.Label();
             this.gridColumns = new System.Windows.Forms.DataGridView();
-            this.colFieldName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FieldLogicalName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFieldType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMockType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
             this.gridPanel = new System.Windows.Forms.Panel();
             this.leftMainPanel = new System.Windows.Forms.Panel();
             this.fieldsListView = new System.Windows.Forms.ListView();
@@ -73,21 +69,27 @@ namespace Mockit.Controls
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.actionGridPanel = new System.Windows.Forms.Panel();
+            this.previewDataLabel = new System.Windows.Forms.Label();
             this.crmDataGridView = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.previewBtn = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.generateBtn = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
+            this.colFieldName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FieldLogicalName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFieldType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMockType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.nudRecordCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridColumns)).BeginInit();
             this.gridPanel.SuspendLayout();
@@ -184,19 +186,16 @@ namespace Mockit.Controls
             this.gridColumns.AllowUserToAddRows = false;
             this.gridColumns.AllowUserToDeleteRows = false;
             this.gridColumns.AllowUserToResizeRows = false;
-            this.gridColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridColumns.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+            this.gridColumns.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.gridColumns.BackgroundColor = System.Drawing.SystemColors.Window;
             this.gridColumns.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.gridColumns.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-            dataGridViewCellStyle31.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle31.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle31.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle31.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle31.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridColumns.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridColumns.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridColumns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridColumns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colFieldName,
@@ -204,14 +203,15 @@ namespace Mockit.Controls
             this.colFieldType,
             this.colMockType,
             this.Action});
-            dataGridViewCellStyle33.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle33.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle33.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle33.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle33.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle33.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle33.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridColumns.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridColumns.DefaultCellStyle = dataGridViewCellStyle3;
+            this.gridColumns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridColumns.GridColor = System.Drawing.SystemColors.ButtonHighlight;
             this.gridColumns.Location = new System.Drawing.Point(0, 0);
             this.gridColumns.MultiSelect = false;
@@ -226,63 +226,11 @@ namespace Mockit.Controls
             this.gridColumns.TabIndex = 1;
             this.gridColumns.SelectionChanged += new System.EventHandler(this.gridColumns_SelectionChanged);
             // 
-            // colFieldName
-            // 
-            this.colFieldName.DataPropertyName = "FieldName";
-            this.colFieldName.HeaderText = "Field Name";
-            this.colFieldName.MinimumWidth = 125;
-            this.colFieldName.Name = "colFieldName";
-            this.colFieldName.ReadOnly = true;
-            this.colFieldName.Width = 150;
-            // 
-            // FieldLogicalName
-            // 
-            this.FieldLogicalName.DataPropertyName = "FieldLogicalName";
-            this.FieldLogicalName.HeaderText = "Logical Name";
-            this.FieldLogicalName.MinimumWidth = 125;
-            this.FieldLogicalName.Name = "FieldLogicalName";
-            this.FieldLogicalName.ReadOnly = true;
-            this.FieldLogicalName.Width = 150;
-            // 
-            // colFieldType
-            // 
-            this.colFieldType.DataPropertyName = "FieldType";
-            this.colFieldType.HeaderText = "CRM Data Type";
-            this.colFieldType.MinimumWidth = 125;
-            this.colFieldType.Name = "colFieldType";
-            this.colFieldType.ReadOnly = true;
-            this.colFieldType.Width = 150;
-            // 
-            // colMockType
-            // 
-            this.colMockType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colMockType.DataPropertyName = "MockType";
-            this.colMockType.HeaderText = "Mock Type";
-            this.colMockType.MinimumWidth = 125;
-            this.colMockType.Name = "colMockType";
-            this.colMockType.ReadOnly = true;
-            // 
-            // Action
-            // 
-            this.Action.DataPropertyName = "actionMockBtn";
-            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle32.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle32.Padding = new System.Windows.Forms.Padding(2);
-            dataGridViewCellStyle32.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Action.DefaultCellStyle = dataGridViewCellStyle32;
-            this.Action.HeaderText = "Action";
-            this.Action.MinimumWidth = 50;
-            this.Action.Name = "Action";
-            this.Action.ReadOnly = true;
-            this.Action.Text = "Mock";
-            this.Action.UseColumnTextForButtonValue = true;
-            this.Action.Width = 80;
-            // 
             // gridPanel
             // 
             this.gridPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridPanel.AutoScroll = true;
             this.gridPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.gridPanel.Controls.Add(this.gridColumns);
             this.gridPanel.Location = new System.Drawing.Point(25, 284);
@@ -294,6 +242,7 @@ namespace Mockit.Controls
             // 
             this.leftMainPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.leftMainPanel.AutoScroll = true;
             this.leftMainPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.leftMainPanel.Controls.Add(this.fieldsListView);
             this.leftMainPanel.Controls.Add(this.gridPanel);
@@ -336,6 +285,7 @@ namespace Mockit.Controls
             this.metadataPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.metadataPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.metadataPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.metadataPanel.Controls.Add(this.tableLayoutPanel2);
             this.metadataPanel.Location = new System.Drawing.Point(25, 20);
             this.metadataPanel.Name = "metadataPanel";
@@ -382,6 +332,7 @@ namespace Mockit.Controls
             this.rightMainPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rightMainPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.rightMainPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.rightMainPanel.Controls.Add(this.fieldDetailsPanel);
             this.rightMainPanel.Controls.Add(this.mockDetailsPanel);
             this.rightMainPanel.Controls.Add(this.actionGridPanel);
@@ -397,6 +348,7 @@ namespace Mockit.Controls
             this.fieldDetailsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fieldDetailsPanel.AutoScroll = true;
+            this.fieldDetailsPanel.BackColor = System.Drawing.Color.WhiteSmoke;
             this.fieldDetailsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fieldDetailsPanel.Controls.Add(this.fieldDetailsGrid);
             this.fieldDetailsPanel.Controls.Add(this.label4);
@@ -409,8 +361,8 @@ namespace Mockit.Controls
             // 
             this.fieldDetailsGrid.AllowUserToAddRows = false;
             this.fieldDetailsGrid.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle34.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.fieldDetailsGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.fieldDetailsGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.fieldDetailsGrid.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.fieldDetailsGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.fieldDetailsGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
@@ -429,9 +381,9 @@ namespace Mockit.Controls
             this.fieldDetailsGrid.ReadOnly = true;
             this.fieldDetailsGrid.RowHeadersVisible = false;
             this.fieldDetailsGrid.RowHeadersWidth = 62;
-            dataGridViewCellStyle35.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle35.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.fieldDetailsGrid.RowsDefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.fieldDetailsGrid.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.fieldDetailsGrid.RowTemplate.Height = 28;
             this.fieldDetailsGrid.RowTemplate.ReadOnly = true;
             this.fieldDetailsGrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -478,6 +430,7 @@ namespace Mockit.Controls
             this.mockDetailsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mockDetailsPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mockDetailsPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.mockDetailsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mockDetailsPanel.Controls.Add(this.expressionText1);
             this.mockDetailsPanel.Controls.Add(this.mockSaveBtn);
@@ -552,6 +505,7 @@ namespace Mockit.Controls
             this.resultText.Location = new System.Drawing.Point(128, 263);
             this.resultText.Multiline = true;
             this.resultText.Name = "resultText";
+            this.resultText.ReadOnly = true;
             this.resultText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.resultText.Size = new System.Drawing.Size(687, 54);
             this.resultText.TabIndex = 9;
@@ -627,13 +581,29 @@ namespace Mockit.Controls
             // 
             this.actionGridPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.actionGridPanel.AutoScroll = true;
             this.actionGridPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.actionGridPanel.Controls.Add(this.previewDataLabel);
             this.actionGridPanel.Controls.Add(this.crmDataGridView);
             this.actionGridPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.actionGridPanel.Location = new System.Drawing.Point(25, 667);
             this.actionGridPanel.Name = "actionGridPanel";
             this.actionGridPanel.Size = new System.Drawing.Size(1079, 527);
             this.actionGridPanel.TabIndex = 5;
+            // 
+            // previewDataLabel
+            // 
+            this.previewDataLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.previewDataLabel.AutoSize = true;
+            this.previewDataLabel.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.previewDataLabel.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.previewDataLabel.Location = new System.Drawing.Point(500, 239);
+            this.previewDataLabel.Name = "previewDataLabel";
+            this.previewDataLabel.Size = new System.Drawing.Size(144, 20);
+            this.previewDataLabel.TabIndex = 1;
+            this.previewDataLabel.Text = "No Data to Preview";
+            this.previewDataLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.previewDataLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // crmDataGridView
             // 
@@ -644,15 +614,15 @@ namespace Mockit.Controls
             this.crmDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.crmDataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.crmDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle36.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle36.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle36.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle36.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle36.Padding = new System.Windows.Forms.Padding(2);
-            dataGridViewCellStyle36.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle36.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle36.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.crmDataGridView.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(2);
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.crmDataGridView.DefaultCellStyle = dataGridViewCellStyle6;
             this.crmDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.crmDataGridView.Location = new System.Drawing.Point(0, 0);
             this.crmDataGridView.MultiSelect = false;
@@ -711,42 +681,19 @@ namespace Mockit.Controls
             this.toolStrip1.TabIndex = 10;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 50);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 50);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 50);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 50);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 50);
-            // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripLabel1.Image = global::Mockit.Properties.Resources.mockit_logo;
+            this.toolStripLabel1.Image = global::Mockit.Properties.Resources.mockit_logo_small;
             this.toolStripLabel1.Margin = new System.Windows.Forms.Padding(3);
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(221, 44);
             this.toolStripLabel1.Text = "BULK DATA CREATOR";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 50);
             // 
             // previewBtn
             // 
@@ -756,6 +703,11 @@ namespace Mockit.Controls
             this.previewBtn.Name = "previewBtn";
             this.previewBtn.Size = new System.Drawing.Size(142, 45);
             this.previewBtn.Text = "Preview Data";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 50);
             // 
             // generateBtn
             // 
@@ -779,6 +731,12 @@ namespace Mockit.Controls
             this.toolStripLabel2.Text = "Rohan Goel";
             this.toolStripLabel2.Click += new System.EventHandler(this.toolStripLabel2_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 50);
+            // 
             // toolStripLabel3
             // 
             this.toolStripLabel3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -790,6 +748,12 @@ namespace Mockit.Controls
             this.toolStripLabel3.Size = new System.Drawing.Size(111, 45);
             this.toolStripLabel3.Text = "Feedback";
             this.toolStripLabel3.Click += new System.EventHandler(this.toolStripLabel3_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 50);
             // 
             // toolStripLabel4
             // 
@@ -804,6 +768,12 @@ namespace Mockit.Controls
             this.toolStripLabel4.VisitedLinkColor = System.Drawing.Color.Blue;
             this.toolStripLabel4.Click += new System.EventHandler(this.toolStripLabel4_Click);
             // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 50);
+            // 
             // toolStripLabel5
             // 
             this.toolStripLabel5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -816,17 +786,73 @@ namespace Mockit.Controls
             this.toolStripLabel5.Size = new System.Drawing.Size(159, 45);
             this.toolStripLabel5.Text = "Documentation";
             // 
+            // colFieldName
+            // 
+            this.colFieldName.DataPropertyName = "FieldName";
+            this.colFieldName.HeaderText = "Field Name";
+            this.colFieldName.MinimumWidth = 125;
+            this.colFieldName.Name = "colFieldName";
+            this.colFieldName.ReadOnly = true;
+            this.colFieldName.Width = 150;
+            // 
+            // FieldLogicalName
+            // 
+            this.FieldLogicalName.DataPropertyName = "FieldLogicalName";
+            this.FieldLogicalName.HeaderText = "Logical Name";
+            this.FieldLogicalName.MinimumWidth = 125;
+            this.FieldLogicalName.Name = "FieldLogicalName";
+            this.FieldLogicalName.ReadOnly = true;
+            this.FieldLogicalName.Width = 150;
+            // 
+            // colFieldType
+            // 
+            this.colFieldType.DataPropertyName = "FieldType";
+            this.colFieldType.HeaderText = "CRM Data Type";
+            this.colFieldType.MinimumWidth = 125;
+            this.colFieldType.Name = "colFieldType";
+            this.colFieldType.ReadOnly = true;
+            this.colFieldType.Width = 150;
+            // 
+            // colMockType
+            // 
+            this.colMockType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colMockType.DataPropertyName = "MockType";
+            this.colMockType.HeaderText = "Mock Type";
+            this.colMockType.MinimumWidth = 125;
+            this.colMockType.Name = "colMockType";
+            this.colMockType.ReadOnly = true;
+            // 
+            // Action
+            // 
+            this.Action.DataPropertyName = "actionMockBtn";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(2);
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Action.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Action.HeaderText = "Action";
+            this.Action.MinimumWidth = 50;
+            this.Action.Name = "Action";
+            this.Action.ReadOnly = true;
+            this.Action.Text = "Mock";
+            this.Action.UseColumnTextForButtonValue = true;
+            this.Action.Width = 80;
+            // 
             // BaseControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "BaseControl";
+            this.PluginIcon = ((System.Drawing.Icon)(resources.GetObject("$this.PluginIcon")));
             this.Size = new System.Drawing.Size(2268, 1300);
+            this.TabIcon = global::Mockit.Properties.Resources.mockit_logo;
             this.ToolName = "Bulk Data Creator";
             this.Load += new System.EventHandler(this.MyPluginControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudRecordCount)).EndInit();
@@ -842,6 +868,7 @@ namespace Mockit.Controls
             this.mockDetailsPanel.ResumeLayout(false);
             this.mockDetailsPanel.PerformLayout();
             this.actionGridPanel.ResumeLayout(false);
+            this.actionGridPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.crmDataGridView)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
@@ -894,12 +921,13 @@ namespace Mockit.Controls
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Label;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
+        private System.Windows.Forms.Label previewDataLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFieldName;
         private System.Windows.Forms.DataGridViewTextBoxColumn FieldLogicalName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFieldType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMockType;
         private System.Windows.Forms.DataGridViewButtonColumn Action;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Label;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
     }
 }
