@@ -1,0 +1,222 @@
+[
+  {
+    "category": "Name",
+    "methods": [
+      {
+        "method": "FirstName",
+        "description": "Generates a first name.",
+        "example": "Name.FirstName()"
+      },
+      {
+        "method": "LastName",
+        "description": "Generates a last name.",
+        "example": "Name.LastName()"
+      },
+      {
+        "method": "FullName",
+        "description": "Generates a full name.",
+        "example": "Name.FullName()"
+      },
+      {
+        "method": "Prefix",
+        "description": "Generates a prefix like Mr., Dr., etc.",
+        "example": "Name.Prefix()"
+      },
+      {
+        "method": "Suffix",
+        "description": "Generates a suffix like Jr., Sr., etc.",
+        "example": "Name.Suffix()"
+      }
+    ]
+  },
+  {
+    "category": "Phone",
+    "methods": [
+      {
+        "method": "PhoneNumber",
+        "description": "Generates a phone number.",
+        "example": "Phone.PhoneNumber()"
+      },
+      {
+        "method": "PhoneNumberFormat",
+        "description": "Generates a formatted phone number.",
+        "example": "Phone.PhoneNumberFormat()"
+      }
+    ]
+  },
+  {
+    "category": "Address",
+    "methods": [
+      {
+        "method": "StreetAddress",
+        "description": "Generates a street address.",
+        "example": "Address.StreetAddress()"
+      },
+      {
+        "method": "City",
+        "description": "Generates a city name.",
+        "example": "Address.City()"
+      },
+      {
+        "method": "State",
+        "description": "Generates a US state name.",
+        "example": "Address.State()"
+      },
+      {
+        "method": "Country",
+        "description": "Generates a country name.",
+        "example": "Address.Country()"
+      },
+      {
+        "method": "ZipCode",
+        "description": "Generates a ZIP/postal code.",
+        "example": "Address.ZipCode()"
+      },
+      {
+        "method": "FullAddress",
+        "description": "Generates a full address.",
+        "example": "Address.FullAddress()"
+      }
+    ]
+  },
+  {
+    "category": "Internet",
+    "methods": [
+      {
+        "method": "Email",
+        "description": "Generates an email address.",
+        "example": "Internet.Email()"
+      },
+      {
+        "method": "UserName",
+        "description": "Generates a username.",
+        "example": "Internet.UserName()"
+      },
+      {
+        "method": "Password",
+        "description": "Generates a password.",
+        "example": "Internet.Password()"
+      },
+      {
+        "method": "DomainName",
+        "description": "Generates a domain name.",
+        "example": "Internet.DomainName()"
+      },
+      {
+        "method": "Url",
+        "description": "Generates a URL.",
+        "example": "Internet.Url()"
+      }
+    ]
+  },
+  {
+    "category": "Company",
+    "methods": [
+      {
+        "method": "CompanyName",
+        "description": "Generates a company name.",
+        "example": "Company.CompanyName()"
+      },
+      {
+        "method": "CompanySuffix",
+        "description": "Generates a company suffix like Inc., LLC, etc.",
+        "example": "Company.CompanySuffix()"
+      },
+      {
+        "method": "CatchPhrase",
+        "description": "Generates a company catchphrase.",
+        "example": "Company.CatchPhrase()"
+      },
+      {
+        "method": "Bs",
+        "description": "Generates business jargon.",
+        "example": "Company.Bs()"
+      }
+    ]
+  },
+  {
+    "category": "Date",
+    "methods": [
+      {
+        "method": "Past",
+        "description": "Generates a past date.",
+        "example": "Date.Past()"
+      },
+      {
+        "method": "Future",
+        "description": "Generates a future date.",
+        "example": "Date.Future()"
+      },
+      {
+        "method": "Recent",
+        "description": "Generates a recent date.",
+        "example": "Date.Recent()"
+      },
+      {
+        "method": "Soon",
+        "description": "Generates a date soon.",
+        "example": "Date.Soon()"
+      },
+      {
+        "method": "Between",
+        "description": "Generates a date between two dates.",
+        "example": "Date.Between(DateTime.Now.AddDays(-10), DateTime.Now)"
+      }
+    ]
+  },
+  {
+    "category": "Finance",
+    "methods": [
+      {
+        "method": "CreditCardNumber",
+        "description": "Generates a credit card number.",
+        "example": "Finance.CreditCardNumber()"
+      },
+      {
+        "method": "Iban",
+        "description": "Generates an IBAN.",
+        "example": "Finance.Iban()"
+      },
+      {
+        "method": "Bic",
+        "description": "Generates a BIC code.",
+        "example": "Finance.Bic()"
+      },
+      {
+        "method": "Account",
+        "description": "Generates an account number.",
+        "example": "Finance.Account()"
+      },
+      {
+        "method": "Amount",
+        "description": "Generates a random amount.",
+        "example": "Finance.Amount()"
+      }
+    ]
+  },
+  {
+    "category": "Lorem",
+    "methods": [
+      {
+        "method": "Word",
+        "description": "Generates a word.",
+        "example": "Lorem.Word()"
+      },
+      {
+        "method": "Words",
+        "description": "Generates multiple words.",
+        "example": "Lorem.Words(5)"
+      },
+      {
+        "method": "Sentence",
+        "description": "Generates a sentence.",
+        "example": "Lorem.Sentence()"
+      },
+      {
+        "method": "Paragraph",
+        "description": "Generates a paragraph.",
+        "example": "Lorem.Paragraph()"
+      }
+    ]
+  }
+]

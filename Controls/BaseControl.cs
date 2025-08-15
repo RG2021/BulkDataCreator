@@ -4,6 +4,7 @@ using Mockit.Services;
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 using XrmToolBox.Extensibility;
 
 namespace Mockit.Controls
@@ -23,6 +24,7 @@ namespace Mockit.Controls
         protected static MockDetailsControl _MockDetailsControl { get; private set; }
         protected static DataPreviewControl _DataPreviewControl { get; private set; }
         protected static DataGenerateControl _DataGenerateControl { get; private set; }
+        protected static PropertyGridControl _PropertyGridControl { get; private set; }
 
         public BaseControl()
         {
@@ -89,7 +91,7 @@ namespace Mockit.Controls
             _DataGridControl = new DataGridControl(gridColumns);
             _DataPreviewControl = new DataPreviewControl(actionGridPanel, previewBtn);
             _DataGenerateControl = new DataGenerateControl(generateBtn);
-
+            //_PropertyGridControl = new PropertyGridControl(tableLayoutPanel1, dockPanel1);
             LogInfo("Controls initialized successfully.");
         }
 

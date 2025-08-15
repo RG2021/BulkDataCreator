@@ -217,6 +217,10 @@
     <Compile Include="BasePlugin.cs" />
     <Compile Include="Common\Constants\Icons.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\BogusToken.cs" />
+    <Compile Include="Common\Helpers\Documentation.cs" />
+    <Compile Include="Controls\PropertyGridControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Models\EvaluationRecord.cs" />
     <Compile Include="Common\ExpressionEngine\TokensRegistry.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\BaseToken.cs" />
@@ -282,6 +286,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Resources\mockit-tokens.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\BaseControl.resx">
