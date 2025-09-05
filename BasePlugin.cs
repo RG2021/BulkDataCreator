@@ -18,7 +18,7 @@ namespace Mockit
         Export(typeof(IXrmToolBoxPlugin)),
         ExportMetadata("Name", "Bulk Data Creator"),
         ExportMetadata("Description", "This tool can create bulk records within CRM."),
-        ExportMetadata("SmallImageBase64", null),
+        ExportMetadata("SmallImageBase64", Common.Constants.Icons.BigIcon),
         ExportMetadata("BigImageBase64", Common.Constants.Icons.BigIcon ),
         ExportMetadata("BackgroundColor", "Lavender"),
         ExportMetadata("PrimaryFontColor", "Black"),

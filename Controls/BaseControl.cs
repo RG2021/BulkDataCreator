@@ -128,15 +128,18 @@ namespace Mockit.Controls
         {
             _DataGridControl.OnSelectGridRow(sender, e);
         }
-
+        private void toolStripLabel5_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/RG2021/BulkDataCreator/wiki/Documentation");
+        }
         private void toolStripLabel4_Click(object sender, EventArgs e)
         {
-            Process.Start("https://github.com/RG2021/Mockit/issues/new");
+            Process.Start("https://github.com/RG2021/BulkDataCreator/issues/new");
         }
 
         private void toolStripLabel3_Click(object sender, EventArgs e)
         {
-            Process.Start("https://github.com/RG2021/Mockit/discussions/1");
+            Process.Start("https://github.com/RG2021/BulkDataCreator/discussions/1");
         }
 
         private void toolStripLabel2_Click(object sender, EventArgs e)
@@ -148,5 +151,7 @@ namespace Mockit.Controls
         {
 
         }
+
+        
     }
 }
