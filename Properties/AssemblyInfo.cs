@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Mockit")]
-[assembly: AssemblyDescription("This tool can create bulk records in CRM.")]
+[assembly: AssemblyTitle("Bulk Data Creator")]
+[assembly: AssemblyDescription("This tool can create bulk records in Dynamics CRM.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Rohan Goel")]
-[assembly: AssemblyProduct("Mockit")]
+[assembly: AssemblyProduct("BulkDataCreator")]
 [assembly: AssemblyCopyright("Copyright ©  2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

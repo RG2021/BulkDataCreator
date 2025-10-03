@@ -10,6 +10,7 @@ using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Web.Services.Protocols;
 using System.Windows.Documents;
+using System.Windows.Navigation;
 using static Mockit.Common.Constants.Constants;
 
 namespace Mockit.Common.Helpers
@@ -26,24 +27,39 @@ namespace Mockit.Common.Helpers
 
                 case "IntegerType":
                 case "BigIntType":
-                    return int.TryParse(rawValue, out int intVal) ? intVal : 0;
+                    if(int.TryParse(rawValue, out int intVal)) return intVal;
+                    return rawValue;
+
+                case "DoubleType":
+                    if (double.TryParse(rawValue, out double dblVal)) return dblVal;
+                    return rawValue;
 
                 case "DecimalType":
-                case "DoubleType":
                 case "FloatType":
-                    return decimal.TryParse(rawValue, out decimal decVal) ? decVal : 0;
+                case "MoneyType":
+                    if (decimal.TryParse(rawValue, out decimal decVal)) return decVal;
+                    return rawValue;
 
                 case "BooleanType":
                 case "TwoOptionsType":
                     return rawValue.Equals("true", StringComparison.OrdinalIgnoreCase) || rawValue == "1";
 
                 case "DateTimeType":
-                    return DateTime.TryParse(rawValue, out DateTime dtVal) ? dtVal : DateTime.UtcNow;
+                    if (DateTime.TryParse(rawValue, out DateTime dtVal)) return dtVal;
+                    return rawValue;
 
                 case "PicklistType":
                 case "StatusType":
                 case "StateType":
-                    return new OptionSetValue(int.TryParse(rawValue, out int optVal) ? optVal : 0);
+                    if(int.TryParse(rawValue, out int optVal))
+                    {
+                        return new OptionSetValue(optVal);
+                    }
+                    return rawValue;
+
+                case "MultiSelectPicklistType":
+                    var values = rawValue.Split(',').Select(v => v.Trim()).Where(v => int.TryParse(v, out _)).Select(v => new OptionSetValue(int.Parse(v))).ToArray();
+                    return new OptionSetValueCollection(values);
 
                 case "MultiSelectPicklistType":
                     var values = rawValue.Split(',').Select(v => v.Trim()).Where(v => int.TryParse(v, out _)).Select(v => new OptionSetValue(int.Parse(v))).ToArray();
@@ -303,8 +319,8 @@ namespace Mockit.Common.Helpers
 
                 case "DateTimeType":
                 {
-                    DateTime minDate = field.Metadata.Where(m => m.Name == "MinValue").Select(m => DateTime.TryParse(m.Value, out DateTime minVal) ? minVal : DateTime.MinValue).FirstOrDefault();
-                    DateTime maxDate = field.Metadata.Where(m => m.Name == "MaxValue").Select(m => DateTime.TryParse(m.Value, out DateTime maxVal) ? maxVal : DateTime.MaxValue).FirstOrDefault();
+                    DateTime minDate = new DateTime(2000, 1, 1);
+                    DateTime maxDate = DateTime.UtcNow;
                     expression = GetExpression(MockType.DATE).Replace("min", minDate.ToString("yyyy-MM-dd")).Replace("max", maxDate.ToString("yyyy-MM-dd"));
                     mockType = MockType.DATE;
                     break;
