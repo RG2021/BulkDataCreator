@@ -57,6 +57,10 @@ namespace Mockit.Common.Helpers
                     }
                     return rawValue;
 
+                case "MultiSelectPicklistType":
+                    var values = rawValue.Split(',').Select(v => v.Trim()).Where(v => int.TryParse(v, out _)).Select(v => new OptionSetValue(int.Parse(v))).ToArray();
+                    return new OptionSetValueCollection(values);
+
                 case "LookupType":
                 case "CustomerType":
                 case "OwnerType":
@@ -329,6 +333,19 @@ namespace Mockit.Common.Helpers
                     {
                         var optionsList = string.Join(", ", matches.Cast<Match>().Select(m => m.Groups[1].Value));
                         expression = GetExpression(MockType.SELECT).Replace("option1, option2, etc", optionsList);
+                        mockType = MockType.SELECT;
+                    }
+                    break;
+                }
+
+                case "MultiSelectPicklistType":
+                {
+                    var options = field.Metadata.Where(m => m.Name == "Options").Select(m => m.Value ?? "").FirstOrDefault();
+                    var matches = Regex.Matches(options, @"\((\d+)\)");
+                    if (matches.Count > 0)
+                    {
+                        var optionsList = string.Join(", ", matches.Cast<Match>().Select(m => m.Groups[1].Value));
+                        expression = GetExpression(MockType.MULTISELECT).Replace("count", "1").Replace("option1, option2, etc", optionsList);
                         mockType = MockType.SELECT;
                     }
                     break;

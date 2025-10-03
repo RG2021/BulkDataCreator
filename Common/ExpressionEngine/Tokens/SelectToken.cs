@@ -11,10 +11,7 @@ public class SelectToken : BaseToken
         if (string.IsNullOrWhiteSpace(args))
             return string.Empty;
 
-        string[] parts = args
-            .Split(',', (char)StringSplitOptions.RemoveEmptyEntries)
-            .Select(p => p.Trim())
-            .ToArray();
+        string[] parts = args.Split(',', (char)StringSplitOptions.RemoveEmptyEntries).Select(p => p.Trim()).ToArray();
 
         if (parts.Length == 0)
             return string.Empty;

@@ -19,11 +19,11 @@ namespace Mockit.Controls
         private readonly Button _validate;
         private ExpressionEngine _expressionEngine;
 
-        private Mock boundMock;
+        private GridRow boundRow;
 
         public event EventHandler MockChanged;
 
-        public MockDetailsControl(Panel mockDetailsPanel)
+        public MockDetailsControl(GroupBox mockDetailsPanel)
         {
             _expressionEngine = new ExpressionEngine();
             _mockType = mockDetailsPanel.Controls["mockTypeCombo"] as ComboBox;
@@ -41,25 +41,28 @@ namespace Mockit.Controls
             _validate.Click += OnValidate;
         }
 
-        public void ShowDetails(Mock mock)
+        public void ShowDetails(GridRow row)
         {
-            boundMock = mock;
+            boundRow = row;
 
-            _mockType.SelectedItem = mock.MockType;
-            _useCustom.Checked = mock.UseCustom;
-            _expression.Text = mock.Expression ?? string.Empty;
-            _result.Text = _expressionEngine.Evaluate(mock.Expression);
+            _mockType.SelectedItem = row.Mock.MockType;
+            _useCustom.Checked = row.Mock.UseCustom;
+            _expression.Text = row.Mock.Expression ?? string.Empty;
+            _result.Text = _expressionEngine.Evaluate(row.Mock.Expression);
         }
 
         private void OnSave(object sender, EventArgs e)
         {
-            if (boundMock != null) 
+            Mock savedMock = new Mock
             {
-                boundMock.MockType = (MockType)_mockType.SelectedItem;
-                boundMock.UseCustom = _useCustom.Checked;
-                boundMock.Expression = _expression.Text;
+                MockType = (MockType)_mockType.SelectedItem,
+                UseCustom = _useCustom.Checked,
+                Expression = _expression.Text
+            };
 
-                MockChanged?.Invoke(this, EventArgs.Empty);
+            if (boundRow != null) 
+            {
+               boundRow.Mock = savedMock;
             }
         }
 

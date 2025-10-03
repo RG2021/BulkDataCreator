@@ -24,7 +24,7 @@ namespace Mockit.Controls
         protected static MockDetailsControl _MockDetailsControl { get; private set; }
         protected static DataPreviewControl _DataPreviewControl { get; private set; }
         protected static DataGenerateControl _DataGenerateControl { get; private set; }
-        protected static PropertyGridControl _PropertyGridControl { get; private set; }
+        // protected static PropertyGridControl _PropertyGridControl { get; private set; }
 
         public BaseControl()
         {
@@ -86,9 +86,9 @@ namespace Mockit.Controls
             _EntityDropdownControl = new EntityDropDownControl(cmbEntities);
             _FieldDropdownControl = new FieldDropDownControl(selectFieldButton, fieldsListView);
             _RecordCountControl = new RecordCountControl(nudRecordCount);
-            _FieldDetailsControl = new FieldDetailsControl(fieldDetailsGrid);
+            _FieldDetailsControl = new FieldDetailsControl(fieldPropertyGrid);
             _MockDetailsControl = new MockDetailsControl(mockDetailsPanel);
-            _DataGridControl = new DataGridControl(gridColumns);
+            _DataGridControl = new DataGridControl(dataGridElementHost);
             _DataPreviewControl = new DataPreviewControl(actionGridPanel, previewBtn);
             _DataGenerateControl = new DataGenerateControl(generateBtn);
             //_PropertyGridControl = new PropertyGridControl(tableLayoutPanel1, dockPanel1);
@@ -152,6 +152,14 @@ namespace Mockit.Controls
 
         }
 
-        
+        private void crmDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void expressionText1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

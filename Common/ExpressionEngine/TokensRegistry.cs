@@ -20,6 +20,7 @@ namespace Mockit.Common.ExpressionEngine
             return new Dictionary<TokenType, ITokenInterface>
             {
                 [TokenType.SELECT] = new SelectToken(),
+                [TokenType.MULTISELECT] = new MultiSelectToken(),
                 [TokenType.SEQUENCE] = new SequenceToken(),
                 [TokenType.LOOKUP] = new LookupToken(),
                 [TokenType.DATE] = new DateToken(),
