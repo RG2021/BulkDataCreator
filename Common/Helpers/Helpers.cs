@@ -61,10 +61,6 @@ namespace Mockit.Common.Helpers
                     var values = rawValue.Split(',').Select(v => v.Trim()).Where(v => int.TryParse(v, out _)).Select(v => new OptionSetValue(int.Parse(v))).ToArray();
                     return new OptionSetValueCollection(values);
 
-                case "MultiSelectPicklistType":
-                    var values = rawValue.Split(',').Select(v => v.Trim()).Where(v => int.TryParse(v, out _)).Select(v => new OptionSetValue(int.Parse(v))).ToArray();
-                    return new OptionSetValueCollection(values);
-
                 case "LookupType":
                 case "CustomerType":
                 case "OwnerType":
