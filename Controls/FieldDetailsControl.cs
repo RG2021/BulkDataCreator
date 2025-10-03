@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.XPath;
 using XrmToolBox.Extensibility;
+using static Mockit.Common.Helpers.Properties;
 
 namespace Mockit.Controls
 {
@@ -13,35 +14,44 @@ namespace Mockit.Controls
     public class FieldDetailsControl : BaseControl
     {
         private readonly DataGridView _fieldDetailsGrid;
+        private readonly PropertyGrid _propertyGrid;
 
-        public FieldDetailsControl(DataGridView fieldDetailsPanel)
+        public FieldDetailsControl(PropertyGrid fieldPropertyGrid)
         {
-            _fieldDetailsGrid = fieldDetailsPanel;
+            _propertyGrid = fieldPropertyGrid;
 
-            _fieldDetailsGrid.Rows.Add("Display Name", "-");
-            _fieldDetailsGrid.Rows.Add("Logical Name", "-");
-            _fieldDetailsGrid.Rows.Add("Data Type", "-");
+            //_fieldDetailsGrid = fieldDetailsPanel;
 
-            AdjustRowHeightsToFillGrid(_fieldDetailsGrid);
+            //_fieldDetailsGrid.Rows.Add("Display Name", "-");
+            //_fieldDetailsGrid.Rows.Add("Logical Name", "-");
+            //_fieldDetailsGrid.Rows.Add("Data Type", "-");
+
+            //AdjustRowHeightsToFillGrid(_fieldDetailsGrid);
         }
 
         public void ShowDetails(CRMField field)
         {
-            _fieldDetailsGrid.Rows.Clear();
+            ICustomTypeDescriptor dynamicProps = CRMFieldPropertyHelper.CreatePropertyDescriptor(field);
+            _propertyGrid.SelectedObject = dynamicProps;
+            _propertyGrid.ExpandAllGridItems();
+            _propertyGrid.HorizontalScroll.Visible = true;
+            
 
-            _fieldDetailsGrid.Rows.Add("Display Name", field.DisplayName);
-            _fieldDetailsGrid.Rows.Add("Logical Name", field.LogicalName);
-            _fieldDetailsGrid.Rows.Add("Data Type", field.DataType);
+            //_fieldDetailsGrid.Rows.Clear();
 
-            if (field.Metadata != null)
-            {
-                foreach (var item in field.Metadata)
-                {
-                    _fieldDetailsGrid.Rows.Add(item.Name, item.Value);
-                }
-            }
+            //_fieldDetailsGrid.Rows.Add("Display Name", field.DisplayName);
+            //_fieldDetailsGrid.Rows.Add("Logical Name", field.LogicalName);
+            //_fieldDetailsGrid.Rows.Add("Data Type", field.DataType);
 
-            AdjustRowHeightsToFillGrid(_fieldDetailsGrid);
+            //if (field.Metadata != null)
+            //{
+            //    foreach (var item in field.Metadata)
+            //    {
+            //        _fieldDetailsGrid.Rows.Add(item.Name, item.Value);
+            //    }
+            //}
+
+            //AdjustRowHeightsToFillGrid(_fieldDetailsGrid);
         }
 
         private void AdjustRowHeightsToFillGrid(DataGridView grid)

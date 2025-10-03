@@ -2,42 +2,75 @@ using Mockit.Common.Helpers;
 using Mockit.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
+using System.Windows.Input;
 using XrmToolBox.Extensibility;
 using static Mockit.Common.Constants.Constants;
 
 namespace Mockit.Controls
 {
+    public class DataGridViewModel
+    {
+        public ObservableCollection<GridRow> GridRows { get; set; } = new ObservableCollection<GridRow>();
+
+        public ICommand RowCommand { get; set; }
+    }
+
     public class DataGridControl : BaseControl
     {
         
-        private readonly DataGridView _dataGridView;
-        public static BindingList<GridRow> gridRows = new BindingList<GridRow>();
+        // private readonly DataGridView _dataGridView;
+        private readonly DataGridControlWPF _dataGridControlWPF;
+        private readonly System.Windows.Controls.DataGrid _fieldDataGrid;
+        public static ObservableCollection<GridRow> GridRows { get; set; } = new ObservableCollection<GridRow>();
+        public ICommand RowCommand { get;}
 
-        public DataGridControl(DataGridView dataGridView)
+        public DataGridControl(ElementHost elementHost)
         {
-            _dataGridView = dataGridView;
-            InitializeGrid();
+            // _dataGridView = dataGridView;
+
+            _dataGridControlWPF = new DataGridControlWPF();
+            _fieldDataGrid = _dataGridControlWPF.fieldDataGrid;
+            elementHost.Child = _dataGridControlWPF;
+
+            RowCommand = new RelayCommand<GridRow>(OnMockFieldAction);
+
+            _dataGridControlWPF.DataContext = this;
+            _fieldDataGrid.ItemsSource = GridRows;
+            _fieldDataGrid.SelectionChanged += OnSelectGridRow;
+
+            
+
+            // InitializeGrid();
         }
 
-        private void InitializeGrid()
-        {
-            _dataGridView.AutoGenerateColumns = false;
-            _dataGridView.DataSource = gridRows;
-            _dataGridView.CellContentClick += OnMockFieldAction;
-            _MockDetailsControl.MockChanged += (s, e) =>
-            {
-                _dataGridView.Refresh();
-            };
-        }
+        //private void InitializeGrid()
+        //{
+
+        //    _fieldDataGrid.ItemsSource = GridRows;
+           
+
+            
+
+
+        //    //_dataGridView.AutoGenerateColumns = false;
+        //    //_dataGridView.DataSource = gridRows;
+        //    //_dataGridView.CellContentClick += OnMockFieldAction;
+        //    //_MockDetailsControl.MockChanged += (s, e) =>
+        //    //{
+        //    //    _fieldDataGrid.Refresh
+        //    //};
+        //}
 
         
-        public BindingList<GridRow> GetData()
+        public ObservableCollection<GridRow> GetData()
         {
-            return gridRows;
+            return GridRows;
         }
 
         public void AddRow(CRMField field)
@@ -48,59 +81,66 @@ namespace Mockit.Controls
                 Mock = new Mock()
             };
 
-            gridRows.Add(newRow);
+            GridRows.Add(newRow);
         }
 
         public void RemoveRow(CRMField field)
         {
-            var row = gridRows.FirstOrDefault(r => r.Field?.LogicalName == field.LogicalName);
+            var row = GridRows.FirstOrDefault(r => r.Field?.LogicalName == field.LogicalName);
             if (row != null)
             {
-                gridRows.Remove(row);
+                GridRows.Remove(row);
             }
         }
 
         public bool ContainsField(CRMField field)
         {
-            return gridRows.Any(row => row.Field?.LogicalName == field.LogicalName);
+            return GridRows.Any(row => row.Field?.LogicalName == field.LogicalName);
         }
 
         public void Clear()
         {
-            gridRows.Clear();
+            GridRows.Clear();
         }
 
         public void OnSelectGridRow(object sender, EventArgs e)
         {
-            if (_dataGridView.CurrentRow?.DataBoundItem is GridRow selectedRow)
+            if (_fieldDataGrid.SelectedItem is GridRow selectedRow)
             {
                 _FieldDetailsControl.ShowDetails(selectedRow.Field);
-                _MockDetailsControl.ShowDetails(selectedRow.Mock);
+                _MockDetailsControl.ShowDetails(selectedRow);
             }
         }
-        private void OnMockFieldAction(object sender, DataGridViewCellEventArgs e)
+        private void OnMockFieldAction(GridRow row)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
-                return;
 
-            var column = _dataGridView.Columns[e.ColumnIndex];
+            CRMField field = row.Field;
+            Mock suggestedMock = Helpers.GetSuggestedMockForField(field);
+            row.Mock = suggestedMock;
 
-            if (column is DataGridViewButtonColumn && column.Name == "Action")
-            {
-                DataGridViewRow row = _dataGridView.Rows[e.RowIndex];
-                string boundValue = row.Cells["FieldLogicalName"].Value?.ToString();
-                CRMField field = _FieldDropdownControl.GetField(boundValue);
+            _MockDetailsControl.ShowDetails(row);
 
-                Mock suggestedMock = Helpers.GetSuggestedMockForField(field);
+            //if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            //    return;
 
-                GridRow gridRow = row.DataBoundItem as GridRow;
-                if (gridRow != null)
-                {
-                    gridRow.Mock = suggestedMock;
-                    _MockDetailsControl.ShowDetails(gridRow.Mock);
-                    _dataGridView.Refresh();
-                }
-            }
+            //var column = _dataGridView.Columns[e.ColumnIndex];
+
+            //if (column is DataGridViewButtonColumn && column.Name == "Action")
+            //{
+            //    DataGridViewRow row = _dataGridView.Rows[e.RowIndex];
+            //    string boundValue = row.Cells["FieldLogicalName"].Value?.ToString();
+            //    CRMField field = _FieldDropdownControl.GetField(boundValue);
+
+            //    Mock suggestedMock = Helpers.GetSuggestedMockForField(field);
+
+            //    GridRow gridRow = row.DataBoundItem as GridRow;
+            //    if (gridRow != null)
+            //    {
+            //        gridRow.Mock = suggestedMock;
+            //        _MockDetailsControl.ShowDetails(gridRow.Mock);
+            //        _dataGridView.Refresh();
+            //    }
+            //}
         }
 
     }
