@@ -8,6 +8,7 @@ namespace Mockit.Common.Constants
         public enum TokenType
         {
             SELECT,
+            MULTISELECT,
             SEQUENCE,
             LOOKUP,
             DATE,
@@ -28,6 +29,7 @@ namespace Mockit.Common.Constants
             LOOKUP = 758280008,
             NUMBER = 758280009,
             SELECT = 758280010,
+            MULTISELECT = 758280014,
             SEQUENCE = 758280011,
             STRING = 758280013,
         }
@@ -43,6 +45,7 @@ namespace Mockit.Common.Constants
             { MockType.AMOUNT, "{{ FINANCE.AMOUNT(min, max, decimal) }}" },
             { MockType.STRING , "{{ RANDOM.REPLACE(???####) }}" },
             { MockType.SELECT, "{{ MOCK.SELECT(option1, option2, etc) }}" },
+            { MockType.MULTISELECT, "{{ MOCK.MULTISELECT(count, (option1, option2, etc)) }}" },
             { MockType.SEQUENCE, "{{ MOCK.SEQUENCE(fieldname, (value1, value2, etc)) }}" },
             { MockType.LOOKUP, "{{ MOCK.LOOKUP(fieldName, entityName, (GUID1, GUID2, etc)) }}" },
             { MockType.DATE, "{{ MOCK.DATE(min, max) }}" },
