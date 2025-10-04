@@ -109,7 +109,9 @@ namespace Mockit.Controls
                     }
 
                     MessageBox.Show(summary, "Record Creation Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                },
+                AsyncArgument = null,
+                IsCancelable = true
             });
         }
     }

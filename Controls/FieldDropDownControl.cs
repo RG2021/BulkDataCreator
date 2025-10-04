@@ -62,9 +62,14 @@ namespace Mockit.Controls
         {
             _fieldsListView.Items.Clear();
 
+            _fieldsListView.Items.Add(new ListViewItem
+            {
+                Text = "Select All",
+                Tag = "Mock_SelectAllFields"
+            });
+
             foreach (CRMField field in Fields)
             {
-
                 _fieldsListView.Items.Add(new ListViewItem
                 {
                     Text = $"{field.DisplayName} ({field.LogicalName})",
@@ -83,22 +88,33 @@ namespace Mockit.Controls
             _fieldsListView.Visible = false;
         }
 
-        public void OnSelectField(object sender, EventArgs e)
+        public void OnSelectField(object sender, ItemCheckedEventArgs e)
         {
-            foreach (ListViewItem listViewItem in _fieldsListView.Items)
+            if (e.Item == null) return;
+
+            string logicalName = e.Item.Tag?.ToString();
+
+            if(logicalName == "Mock_SelectAllFields")
             {
-                string logicalName = listViewItem.Tag?.ToString();
-                CRMField field = Fields.FirstOrDefault(fld => fld.LogicalName == logicalName);
-
-                if (listViewItem.Checked && !_DataGridControl.ContainsField(field))
+                bool checkState = e.Item.Checked;
+                foreach (ListViewItem item in _fieldsListView.Items)
                 {
-                    _DataGridControl.AddRow(field);
+                    if (item.Tag?.ToString() == "Mock_SelectAllFields") continue;
+                    item.Checked = checkState;
+                    OnSelectField(sender, new ItemCheckedEventArgs(item));
                 }
+                return;
+            }
+            CRMField field = Fields.FirstOrDefault(fld => fld.LogicalName == logicalName);
 
-                else if (!listViewItem.Checked && _DataGridControl.ContainsField(field))
-                {
-                    _DataGridControl.RemoveRow(field);
-                }
+            if (e.Item.Checked && !_DataGridControl.ContainsField(field))
+            {
+                _DataGridControl.AddRow(field);
+            }
+
+            else if (!e.Item.Checked && _DataGridControl.ContainsField(field))
+            {
+                _DataGridControl.RemoveRow(field);
             }
 
             int selectedCount = _fieldsListView.CheckedItems.Count;

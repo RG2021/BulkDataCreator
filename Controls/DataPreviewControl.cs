@@ -38,22 +38,49 @@ namespace Mockit.Controls
 
         private void OnPreview(object sender, EventArgs e)
         {
-            List<GridRow> gridRows = _DataGridControl.GetData().ToList();
-            List<EvaluationRecord> previewRecords = Helpers.GetEvaluationRecords(gridRows, 15);
-
-            DataTable previewTable = ConvertPreviewToDataTable(previewRecords);
-            _previewCRMDataGrid.AutoGenerateColumns = true;
-            _previewCRMDataGrid.DataSource = previewTable;
-
-            foreach (DataGridViewColumn col in _previewCRMDataGrid.Columns)
+            ParentControlBase.WorkAsync(new WorkAsyncInfo
             {
-                col.HeaderText = previewTable.Columns[col.DataPropertyName].Caption;
-            }
+                Message = "Generating preview...",
+                Work = (worker, args) =>
+                {
+                    try
+                    {
+                        List<GridRow> gridRows = _DataGridControl.GetData().ToList();
+                        List<EvaluationRecord> previewRecords = Helpers.GetEvaluationRecords(gridRows, 10);
+                        DataTable previewTable = ConvertPreviewToDataTable(previewRecords);
 
-            if (previewRecords != null && previewRecords.Count != 0)
-            {
-                _previewDataLabel.Visible = false;
-            }
+                        args.Result = new { previewRecords, previewTable };
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error: " + ex.Message, ex);
+                    }
+                },
+                PostWorkCallBack = (args) =>
+                {
+                    if (args.Error != null)
+                    {
+                        MessageBox.Show($"Error generating preview: {args.Error.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    dynamic result = args.Result;
+                    List<EvaluationRecord> previewRecords = result.previewRecords as List<EvaluationRecord>;
+                    DataTable previewTable = result.previewTable as DataTable;
+
+                    _previewCRMDataGrid.AutoGenerateColumns = true;
+                    _previewCRMDataGrid.DataSource = previewTable;
+
+                    foreach (DataGridViewColumn col in _previewCRMDataGrid.Columns)
+                    {
+                        col.HeaderText = previewTable.Columns[col.DataPropertyName].Caption;
+                    }
+
+                    _previewDataLabel.Visible = previewRecords == null || previewRecords.Count == 0;
+                },
+                AsyncArgument = null,
+                IsCancelable = true
+            });
         }
 
         public DataTable ConvertPreviewToDataTable(List<EvaluationRecord> records)

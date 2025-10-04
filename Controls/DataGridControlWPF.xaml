@@ -1,74 +1,130 @@
-﻿<UserControl x:Class="Mockit.Controls.DataGridControlWPF"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mockit.Controls"
+             xmlns:Styles="clr-namespace:Microsoft.Xrm.Tooling.Ui.Styles;assembly=Microsoft.Xrm.Tooling.Ui.Styles" x:Class="Mockit.Controls.DataGridControlWPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <DataGrid x:Name="fieldDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" AutoGenerateColumns="False" IsReadOnly="False" SelectionMode="Single" ClipboardCopyMode="IncludeHeader" IsTextSearchCaseSensitive="True" CanUserReorderColumns="False" CanUserResizeRows="False" Background="{x:Null}" BorderBrush="#FF9C9C9C" ScrollViewer.CanContentScroll="True" OpacityMask="Black" AlternatingRowBackground="#FFFCFCFC" HeadersVisibility="Column" IsSynchronizedWithCurrentItem="True" IsTextSearchEnabled="True" BorderThickness="1,1,1,1" HorizontalGridLinesBrush="#FFCDCDCD" VerticalGridLinesBrush="#FFA3A3A3" VerticalContentAlignment="Center" MinWidth="200" CanUserDeleteRows="False" CanUserAddRows="False">
-        <DataGrid.Resources>
-            <Style TargetType="DataGridCell">
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-            </Style>
-        </DataGrid.Resources>
-        <DataGrid.Columns>
-            <DataGridCheckBoxColumn CanUserResize="False" CanUserSort="False" CanUserReorder="False" Header="Select" IsReadOnly="False" IsThreeState="False">
-                <DataGridCheckBoxColumn.ElementStyle>
-                    <Style TargetType="CheckBox">
-                        <Setter Property="Focusable" Value="False"/>
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                    </Style>
-                </DataGridCheckBoxColumn.ElementStyle>
-            </DataGridCheckBoxColumn>
-            <DataGridTextColumn Binding="{Binding Field.DisplayName}" CanUserResize="True" Header="Field Name" IsReadOnly="True" CanUserReorder="True" Width="*" MinWidth="50">
-                <DataGridTextColumn.ElementStyle>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="Padding" Value="4,0,0,0"/>
-                    </Style>
-                </DataGridTextColumn.ElementStyle>
-            </DataGridTextColumn>
-            <DataGridTextColumn Binding="{Binding Field.LogicalName}" CanUserResize="True" Header="Logical Name" IsReadOnly="True" MinWidth="50">
-                <DataGridTextColumn.ElementStyle>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="Padding" Value="4,0,0,0"/>
-                    </Style>
-                </DataGridTextColumn.ElementStyle>
-            </DataGridTextColumn>
-            <DataGridTextColumn Binding="{Binding Field.DataType}" Header="CRM Type" IsReadOnly="True" Width="*" MinWidth="40">
-                <DataGridTextColumn.ElementStyle>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="Padding" Value="4,0,0,0"/>
-                    </Style>
-                </DataGridTextColumn.ElementStyle>
-            </DataGridTextColumn>
-            <DataGridTextColumn Binding="{Binding Mock.MockType}" Header="Mock Type" IsReadOnly="True" Width="*" MinWidth="40">
-                <DataGridTextColumn.ElementStyle>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="Padding" Value="4,0,0,0"/>
-                    </Style>
-                </DataGridTextColumn.ElementStyle>
-            </DataGridTextColumn>
-            <DataGridTemplateColumn Header="Action" CanUserResize="False" Width="Auto">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Button Content="Mock" Command="{Binding DataContext.RowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" HorizontalContentAlignment="Center" Background="{x:Null}" BorderBrush="#FF707070" Grid.IsSharedSizeScope="True" Margin="2,2,2,2" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" IsDefault="True">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-        </DataGrid.Columns>
-    </DataGrid>
+    <UserControl.Resources>
+        <Style x:Key="GridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#FFF4F4F4"/>
+            <Setter Property="FontWeight" Value="Regular"/>
+            <Setter Property="Padding" Value="4,2,0,2"/>
+            <Setter Property="BorderBrush" Value="#FFCDCDCD"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="SimpleRoundedButton" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5,2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Border.CornerRadius" Value="2"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F3F3F3"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,0,0,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="MockFields" Style="{StaticResource SimpleRoundedButton}" Content="Mock Selected Fields" Width="Auto" Height="25" Padding="6,2,6,2" IsEnabled="True" Margin="5,5,5,5" VerticalContentAlignment="Center" Tag="" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBlock Text="Search:" Grid.Column="2"  VerticalAlignment="Center" Margin="0,0,3,0" />
+            <TextBox x:Name="SearchBox" Grid.Column="3" Height="22" Width="250" Padding="2,2,2,2" IsEnabled="True" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,5,5,5" VerticalContentAlignment="Center" Tag=""/>
+        </Grid>
+        <DataGrid x:Name="fieldDataGrid" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" AutoGenerateColumns="False" IsReadOnly="False" SelectionMode="Single" ClipboardCopyMode="IncludeHeader" IsTextSearchCaseSensitive="True" CanUserReorderColumns="False" CanUserResizeRows="False" Background="White" BorderBrush="#FF9C9C9C" ScrollViewer.CanContentScroll="True" OpacityMask="Black" AlternatingRowBackground="#FFFCFCFC" HeadersVisibility="Column" IsSynchronizedWithCurrentItem="True" IsTextSearchEnabled="True" BorderThickness="1,1,1,1" HorizontalGridLinesBrush="#FFCDCDCD" VerticalGridLinesBrush="#FFA3A3A3" VerticalContentAlignment="Center" MinWidth="200" CanUserDeleteRows="False" CanUserAddRows="False" UseLayoutRounding="False" AreRowDetailsFrozen="True" MinColumnWidth="50">
+            <DataGrid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                    <Setter Property="TextWrapping" Value="NoWrap"/>
+                </Style>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="4,0,4,0"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Binding="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CanUserResize="False" CanUserSort="False" CanUserReorder="False" IsReadOnly="False" IsThreeState="False">
+                    <DataGridCheckBoxColumn.Header> 
+                        <CheckBox x:Name="SelectAllCheckBox" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/> 
+                    </DataGridCheckBoxColumn.Header>
+                    <DataGridCheckBoxColumn.ElementStyle>
+                        <Style TargetType="{x:Type CheckBox}">
+                            <Setter Property="Focusable" Value="False"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridCheckBoxColumn.ElementStyle>
+                    <DataGridCheckBoxColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridCheckBoxColumn.HeaderStyle>
+                </DataGridCheckBoxColumn>
+                <DataGridTextColumn Binding="{Binding Field.DisplayName}" CanUserResize="True" Header="Field Name" IsReadOnly="True" Width="*" MinWidth="50">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Padding" Value="4,0,0,0"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Field.LogicalName}" CanUserResize="True" Header="Logical Name" IsReadOnly="True" Width="*" MinWidth="50">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Padding" Value="4,0,0,0"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Field.DataType}" Header="CRM Type" IsReadOnly="True" Width="*" MinWidth="40">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Padding" Value="4,0,0,0"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Mock.MockType}" Header="Mock Type" IsReadOnly="True" Width="*" MinWidth="40">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Padding" Value="4,0,0,0"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Header="Action" CanUserResize="False" Width="Auto" MinWidth="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Mock" Command="{Binding DataContext.RowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}" HorizontalContentAlignment="Center" Background="{x:Null}" BorderBrush="#FF707070" Grid.IsSharedSizeScope="True" Margin="2,2,2,2" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" IsDefault="True">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
 </UserControl>

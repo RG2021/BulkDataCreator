@@ -53,16 +53,15 @@ namespace Mockit.Controls
 
         private void OnSave(object sender, EventArgs e)
         {
-            Mock savedMock = new Mock
-            {
-                MockType = (MockType)_mockType.SelectedItem,
-                UseCustom = _useCustom.Checked,
-                Expression = _expression.Text
-            };
 
-            if (boundRow != null) 
+            if (boundRow != null)
             {
-               boundRow.Mock = savedMock;
+                boundRow.Mock = new Mock
+                {
+                    MockType = (MockType)_mockType.SelectedItem,
+                    UseCustom = _useCustom.Checked,
+                    Expression = _expression.Text
+                };
             }
         }
 

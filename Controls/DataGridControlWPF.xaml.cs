@@ -19,7 +19,6 @@ namespace Mockit.Controls
 {
     public partial class DataGridControlWPF : UserControl
     {
-        public GridRow selectedGridRow;
         
         public DataGridControlWPF()
         {

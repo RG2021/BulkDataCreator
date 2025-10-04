@@ -41,7 +41,7 @@ namespace Mockit.Common.Helpers
             public override bool IsReadOnly => true;
             public override Type PropertyType => _property.Value?.GetType() ?? typeof(object);
             public override void ResetValue(object component) { }
-            public override bool ShouldSerializeValue(object component) => true;
+            public override bool ShouldSerializeValue(object component) => false;
             public override string Category => _property.Category;
             public override string Description => $"{_property.Value}";
         }

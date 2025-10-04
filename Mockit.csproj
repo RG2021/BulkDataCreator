@@ -266,7 +266,9 @@
     <Compile Include="Controls\FieldDropDownControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\DataGridControl.cs" />
+    <Compile Include="Controls\DataGridControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\FieldsSelectorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
