@@ -32,7 +32,6 @@ namespace Mockit.Controls
 
         public DataGridControl(ElementHost elementHost)
         {
-            // _dataGridView = dataGridView;
 
             DataGridControlWPF _dataGridControlWPF = new DataGridControlWPF();
             elementHost.Child = _dataGridControlWPF;
@@ -53,10 +52,8 @@ namespace Mockit.Controls
             
             _searchBox.TextChanged += OnSearchGridText;
             _mockSelectedFields.Click += MockSelectedFields;
-            // InitializeGrid();
         }
 
-        // Your click handler
         private void SelectAllCheckBox_Click(object sender, RoutedEventArgs e)
         {
             if (sender is System.Windows.Controls.CheckBox headerCheckBox)
@@ -85,26 +82,6 @@ namespace Mockit.Controls
                 gridRow.Mock = suggestedMock;
             }
         }
-
-        //private void InitializeGrid()
-        //{
-
-        //    _fieldDataGrid.ItemsSource = GridRows;
-
-
-
-
-
-        //    //_dataGridView.AutoGenerateColumns = false;
-        //    //_dataGridView.DataSource = gridRows;
-        //    //_dataGridView.CellContentClick += OnMockFieldAction;
-        //    //_MockDetailsControl.MockChanged += (s, e) =>
-        //    //{
-        //    //    _fieldDataGrid.Refresh
-        //    //};
-        //}
-
-
         public ObservableCollection<GridRow> GetData()
         {
             return GridRows;
@@ -179,22 +156,16 @@ namespace Mockit.Controls
         {
             e.Handled = true; // prevent default behavior
 
-            //var view = CollectionViewSource.GetDefaultView(_fieldDataGrid.ItemsSource);
-
-            // Clear previous sorts
             _collectionView.SortDescriptions.Clear();
 
-            // Determine next sort direction
             ListSortDirection? newDirection = null;
             if (!e.Column.SortDirection.HasValue)
                 newDirection = ListSortDirection.Ascending;
             else if (e.Column.SortDirection == ListSortDirection.Ascending)
                 newDirection = ListSortDirection.Descending;
-            // Third click removes sort (unsort)
             else
                 newDirection = null;
 
-            // Apply new sort if not null
             if (newDirection != null)
             {
                 e.Column.SortDirection = newDirection;
@@ -210,34 +181,7 @@ namespace Mockit.Controls
         {
             Mock suggestedMock = Helpers.GetSuggestedMockForField(row.Field);
             row.Mock = suggestedMock;
-
-            //row.Mock.UseCustom = suggestedMock.UseCustom;
-            //row.Mock.Expression = suggestedMock.Expression;
-            //row.Mock.MockType = suggestedMock.MockType;
-
             _MockDetailsControl.ShowDetails(row);
-
-            //if (e.RowIndex < 0 || e.ColumnIndex < 0)
-            //    return;
-
-            //var column = _dataGridView.Columns[e.ColumnIndex];
-
-            //if (column is DataGridViewButtonColumn && column.Name == "Action")
-            //{
-            //    DataGridViewRow row = _dataGridView.Rows[e.RowIndex];
-            //    string boundValue = row.Cells["FieldLogicalName"].Value?.ToString();
-            //    CRMField field = _FieldDropdownControl.GetField(boundValue);
-
-            //    Mock suggestedMock = Helpers.GetSuggestedMockForField(field);
-
-            //    GridRow gridRow = row.DataBoundItem as GridRow;
-            //    if (gridRow != null)
-            //    {
-            //        gridRow.Mock = suggestedMock;
-            //        _MockDetailsControl.ShowDetails(gridRow.Mock);
-            //        _dataGridView.Refresh();
-            //    }
-            //}
         }
 
     }

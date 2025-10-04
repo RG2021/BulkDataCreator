@@ -57,12 +57,6 @@ namespace Mockit.Common.Helpers
                     new DynamicProperty("Data Type", field.DataType, "General"),
                 };
 
-                //if (field.Entity != null)
-                //{
-                //    props.Add(new DynamicProperty("Entity Logical Name", field.Entity.LogicalName, "Entity"));
-                //    props.Add(new DynamicProperty("Entity Display Name", field.Entity.DisplayName, "Entity"));
-                //}
-
                 if (field.Metadata != null && field.Metadata.Any())
                 {
                     foreach (var m in field.Metadata)

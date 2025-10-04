@@ -24,20 +24,5 @@ namespace Mockit.Controls
         {
             InitializeComponent();
         }
-
-        //private void MockButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (sender is Button btn && btn.DataContext is GridRow gridRow)
-        //    {
-        //        CRMField field = gridRow.Field;
-        //        Mock suggestedMock = Helpers.GetSuggestedMockForField(field);
-        //        gridRow.Mock = suggestedMock;
-
-        //        // _MockDetailsControl.ShowDetails(gridRow.Mock);
-
-        //        // If using ObservableCollection + INotifyPropertyChanged, this is usually not needed:
-        //        // myDataGrid.Items.Refresh(); // only if Mock property doesn't implement INotifyPropertyChanged
-        //    }
-        //}
     }
 }
