@@ -33,35 +33,35 @@ namespace Mockit
 
         public BasePlugin(){}
 
-        private Assembly AssemblyResolveEventHandler(object sender, ResolveEventArgs args)
-        {
-            Assembly loadAssembly = null;
-            Assembly currAssembly = Assembly.GetExecutingAssembly();
+        //private Assembly AssemblyResolveEventHandler(object sender, ResolveEventArgs args)
+        //{
+        //    Assembly loadAssembly = null;
+        //    Assembly currAssembly = Assembly.GetExecutingAssembly();
 
-            var argName = args.Name.Substring(0, args.Name.IndexOf(","));
+        //    var argName = args.Name.Substring(0, args.Name.IndexOf(","));
 
-            List<AssemblyName> refAssemblies = currAssembly.GetReferencedAssemblies().ToList();
-            var refAssembly = refAssemblies.Where(a => a.Name == argName).FirstOrDefault();
+        //    List<AssemblyName> refAssemblies = currAssembly.GetReferencedAssemblies().ToList();
+        //    var refAssembly = refAssemblies.Where(a => a.Name == argName).FirstOrDefault();
 
-            if (refAssembly != null)
-            {
-                string dir = Path.GetDirectoryName(currAssembly.Location).ToLower();
-                string folder = Path.GetFileNameWithoutExtension(currAssembly.Location);
-                dir = Path.Combine(dir, folder);
+        //    if (refAssembly != null)
+        //    {
+        //        string dir = Path.GetDirectoryName(currAssembly.Location).ToLower();
+        //        string folder = Path.GetFileNameWithoutExtension(currAssembly.Location);
+        //        dir = Path.Combine(dir, folder);
 
-                var assmbPath = Path.Combine(dir, $"{argName}.dll");
+        //        var assmbPath = Path.Combine(dir, $"{argName}.dll");
 
-                if (File.Exists(assmbPath))
-                {
-                    loadAssembly = Assembly.LoadFrom(assmbPath);
-                }
-                else
-                {
-                    throw new FileNotFoundException($"Unable to locate dependency: {assmbPath}");
-                }
-            }
+        //        if (File.Exists(assmbPath))
+        //        {
+        //            loadAssembly = Assembly.LoadFrom(assmbPath);
+        //        }
+        //        else
+        //        {
+        //            throw new FileNotFoundException($"Unable to locate dependency: {assmbPath}");
+        //        }
+        //    }
 
-            return loadAssembly;
-        }
+        //    return loadAssembly;
+        //}
     }
 }

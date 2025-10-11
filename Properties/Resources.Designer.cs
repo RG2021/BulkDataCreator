@@ -129,15 +129,5 @@ namespace Mockit.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] mockit_tokens {
-            get {
-                object obj = ResourceManager.GetObject("mockit_tokens", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

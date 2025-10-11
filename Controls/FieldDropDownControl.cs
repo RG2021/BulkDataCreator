@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
+using ClosedXML.Excel;
 using static Mockit.Common.Constants.Constants;
 
 namespace Mockit.Controls
@@ -13,11 +14,13 @@ namespace Mockit.Controls
         private static List<CRMField> Fields { get; set; }
         private readonly ListView _fieldsListView;
         private readonly Button _selectFieldButton;
+        private readonly Button _importMockProfileButton;
 
-        public FieldDropDownControl(Button selectFieldButton, ListView fieldsListView)
+        public FieldDropDownControl(Button selectFieldButton, ListView fieldsListView, Button importMockProfileButton)
         {
             _selectFieldButton = selectFieldButton;
             _fieldsListView = fieldsListView;
+            _importMockProfileButton = importMockProfileButton;
             _fieldsListView.Columns.Add("Fields", _fieldsListView.Width - 25);
             _fieldsListView.HeaderStyle = ColumnHeaderStyle.None;
             _fieldsListView.Resize += (s, e) =>
@@ -29,8 +32,10 @@ namespace Mockit.Controls
             };
 
             _selectFieldButton.Click += OnSelectFieldButtonClick;
-            _fieldsListView.ItemChecked += OnSelectField;
+            _importMockProfileButton.Click += OnImportMockProfileButtonClick;
             _fieldsListView.LostFocus += OnFostLocus;
+            _fieldsListView.Visible = false;
+
         }
 
         public void LoadFields(CRMEntity entity)
@@ -60,12 +65,14 @@ namespace Mockit.Controls
 
         private void BindFieldDropdown()
         {
+            _fieldsListView.ItemChecked -= OnSelectField;
+
             _fieldsListView.Items.Clear();
 
             _fieldsListView.Items.Add(new ListViewItem
             {
                 Text = "Select All",
-                Tag = "Mock_SelectAllFields"
+                Tag = "Mock_SelectAllFields",
             });
 
             foreach (CRMField field in Fields)
@@ -73,14 +80,72 @@ namespace Mockit.Controls
                 _fieldsListView.Items.Add(new ListViewItem
                 {
                     Text = $"{field.DisplayName} ({field.LogicalName})",
-                    Tag = field.LogicalName
+                    Tag = field.LogicalName,
                 });
             }
+
+            _fieldsListView.ItemChecked += OnSelectField;
         }
 
         private void OnSelectFieldButtonClick(object sender, EventArgs e)
         {
+            _fieldsListView.ItemChecked -= OnSelectField;
             _fieldsListView.Visible = !_fieldsListView.Visible;
+            _fieldsListView.ItemChecked += OnSelectField;
+        }
+
+        private void OnImportMockProfileButtonClick(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx";
+                openFileDialog.Title = "Import Mock Profile";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = openFileDialog.FileName;
+                    using(IXLWorkbook workbook = new XLWorkbook(filePath))
+                    {
+                        try
+                        {
+                            IXLWorksheet worksheet = workbook.Worksheet("Profile");
+                            List<MockProfile> mockProfiles = worksheet.RowsUsed().Skip(1).Select(row => new MockProfile
+                            {
+                                LogicalName = row.Cell(2).GetString(),
+                                MockType = row.Cell(4).GetString(),
+                                Expression = row.Cell(5).GetString()
+                            }).ToList();
+
+                            //_fieldsListView.ItemChecked -= OnSelectField;
+
+                            foreach (MockProfile profile in mockProfiles)
+                            {
+                                ListViewItem fieldItem = _fieldsListView.Items.Cast<ListViewItem>().FirstOrDefault(item => item.Tag?.ToString() == profile.LogicalName);
+                                if (fieldItem != null)
+                                {
+                                    fieldItem.Checked = true;
+                                    CRMField field = GetField(profile.LogicalName);
+                                    if (field != null)
+                                    {
+                                        Mock mock = new Mock
+                                        {
+                                            MockType = Enum.TryParse(profile.MockType, out MockType mockType) ? mockType : MockType.NONE,
+                                            UseCustom = mockType == MockType.CUSTOM,
+                                            Expression = mockType == MockType.NONE ? string.Empty : profile.Expression
+                                        };
+
+                                        _DataGridControl.UpdateMockForField(field, mock);
+                                    }
+                                }
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            MessageBox.Show($"Error reading profile template: {ex.Message}", "Invalid profile");
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         private void OnFostLocus(object sender, EventArgs e)
@@ -101,7 +166,6 @@ namespace Mockit.Controls
                 {
                     if (item.Tag?.ToString() == "Mock_SelectAllFields") continue;
                     item.Checked = checkState;
-                    OnSelectField(sender, new ItemCheckedEventArgs(item));
                 }
                 return;
             }

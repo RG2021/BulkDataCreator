@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using XrmToolBox.Extensibility;
+using ClosedXML.Excel;
 using static Mockit.Common.Constants.Constants;
 
 namespace Mockit.Controls
@@ -26,6 +27,7 @@ namespace Mockit.Controls
         private readonly System.Windows.Controls.TextBox _searchBox;
         private readonly System.Windows.Controls.CheckBox _selectCheckBox;
         private readonly System.Windows.Controls.Button _mockSelectedFields;
+        private readonly System.Windows.Controls.Button _exportMockProfileButton;
         public static ObservableCollection<GridRow> GridRows { get; set; } = new ObservableCollection<GridRow>();
         private ICollectionView _collectionView;
         public ICommand RowCommand { get;}
@@ -39,6 +41,7 @@ namespace Mockit.Controls
             _fieldDataGrid = _dataGridControlWPF.fieldDataGrid;
             _searchBox = _dataGridControlWPF.SearchBox;
             _mockSelectedFields = _dataGridControlWPF.MockFields;
+            _exportMockProfileButton = _dataGridControlWPF.ExportMockProfile;
             _selectCheckBox = _fieldDataGrid.Columns[0].Header as System.Windows.Controls.CheckBox;
             _selectCheckBox.Click += SelectAllCheckBox_Click;
 
@@ -52,6 +55,7 @@ namespace Mockit.Controls
             
             _searchBox.TextChanged += OnSearchGridText;
             _mockSelectedFields.Click += MockSelectedFields;
+            _exportMockProfileButton.Click += ExportMockProfile;
         }
 
         private void SelectAllCheckBox_Click(object sender, RoutedEventArgs e)
@@ -80,6 +84,51 @@ namespace Mockit.Controls
             {
                 Mock suggestedMock = Helpers.GetSuggestedMockForField(gridRow.Field);
                 gridRow.Mock = suggestedMock;
+            }
+        }
+
+        private void ExportMockProfile(object sender, EventArgs e)
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Profile");
+                List<MockProfile> mockProfiles = new List<MockProfile>();
+                foreach (GridRow row in GridRows)
+                {
+                    MockProfile profile = new MockProfile
+                    {
+                        LogicalName = row.Field.LogicalName,
+                        DisplayName = row.Field.DisplayName,
+                        DataType = row.Field.DataType,
+                        MockType = row.Mock?.MockType.ToString() ?? MockType.NONE.ToString(),
+                        Expression = row.Mock?.Expression ?? string.Empty
+                    };
+
+                    mockProfiles.Add(profile);
+                }
+
+                worksheet.Cell("A1").InsertTable(mockProfiles);
+                worksheet.Columns().AdjustToContents();
+
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                {
+                    saveFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx";
+                    saveFileDialog.Title = "Save Mock Profile";
+                    saveFileDialog.FileName = $"{_EntityDropdownControl.GetSelectedEntity()}_{DateTime.Now:yyyyMMddHHmm}.xlsx";
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        try
+                        {
+                            string filePath = saveFileDialog.FileName;
+                            workbook.SaveAs(filePath);
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Windows.MessageBox.Show($"Error saving file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
             }
         }
         public ObservableCollection<GridRow> GetData()
@@ -182,6 +231,15 @@ namespace Mockit.Controls
             Mock suggestedMock = Helpers.GetSuggestedMockForField(row.Field);
             row.Mock = suggestedMock;
             _MockDetailsControl.ShowDetails(row);
+        }
+
+        public void UpdateMockForField(CRMField field, Mock mock)
+        {
+            GridRow row = GridRows.FirstOrDefault(r => r.Field?.LogicalName == field.LogicalName);
+            if (row != null)
+            {
+                row.Mock = mock;
+            }
         }
 
     }

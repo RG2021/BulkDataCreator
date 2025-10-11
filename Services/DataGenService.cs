@@ -1,5 +1,6 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
+using Microsoft.Xrm.Sdk.Query;
 using Mockit.Common.ExpressionEngine;
 using Mockit.Common.Helpers;
 using Mockit.Models;
@@ -76,6 +77,45 @@ namespace Mockit.Services
             }
 
             return lastResponse;
+        }
+
+        public EntityCollection RetrieveData(string entityLogicalName, List<Guid> createdRecordsIds)
+        {
+            int batchSize = 1000;
+            EntityCollection results = new EntityCollection();
+
+            if (string.IsNullOrWhiteSpace(entityLogicalName))
+            {
+                throw new ArgumentException("Entity logical name cannot be null or empty.");
+            }
+            if (createdRecordsIds == null || createdRecordsIds.Count == 0)
+            {
+                throw new ArgumentException("Created record IDs must be greater than zero.");
+            }
+            for(int i = 0; i < createdRecordsIds.Count; i += batchSize)
+            {
+                int currentBatchSize = Math.Min(batchSize, createdRecordsIds.Count - i);
+                List<Guid> batchIds = createdRecordsIds.GetRange(i, currentBatchSize);
+
+                QueryExpression query = new QueryExpression
+                {
+                    EntityName = entityLogicalName,
+                    ColumnSet = new ColumnSet(true),
+                    Criteria = new FilterExpression
+                    {
+                        FilterOperator = LogicalOperator.And,
+                        Conditions =
+                        {
+                            new ConditionExpression( entityLogicalName + "id", ConditionOperator.In, batchIds.ToArray())
+                        }
+                    }
+                };
+
+                EntityCollection batchResults = _service.RetrieveMultiple(query);
+                results.Entities.AddRange(batchResults.Entities);
+            }
+            
+            return results;
         }
 
 

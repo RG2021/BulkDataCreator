@@ -84,7 +84,7 @@ namespace Mockit.Controls
         private void InitializeControls()
         {
             _EntityDropdownControl = new EntityDropDownControl(cmbEntities);
-            _FieldDropdownControl = new FieldDropDownControl(selectFieldButton, fieldsListView);
+            _FieldDropdownControl = new FieldDropDownControl(selectFieldButton, fieldsListView, importMockProfileButton);
             _RecordCountControl = new RecordCountControl(nudRecordCount);
             _FieldDetailsControl = new FieldDetailsControl(fieldPropertyGrid);
             _MockDetailsControl = new MockDetailsControl(mockDetailsPanel);
@@ -158,6 +158,11 @@ namespace Mockit.Controls
         }
 
         private void expressionText1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void leftMainPanel_Paint(object sender, PaintEventArgs e)
         {
 
         }

@@ -17,7 +17,7 @@ namespace Mockit.Common.Constants
         }
         public enum MockType
         {
-            NONE = 758280000,
+            NONE = 0,
             AMOUNT = 758280012,
             BOOLEAN = 758280001,
             CUSTOM = 758280002,
