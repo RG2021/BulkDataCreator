@@ -192,7 +192,7 @@ namespace Mockit.Controls
                         return row.Field?.DisplayName?.ToLower().Contains(searchText) == true ||
                                row.Field?.LogicalName?.ToLower().Contains(searchText) == true ||
                                row.Field?.DataType?.ToLower().Contains(searchText) == true ||
-                               row.Mock?.Expression?.ToLower().Contains(searchText) == true;
+                               row.Mock?.MockType.ToString()?.ToLower().Contains(searchText) == true;
                     }
                     return false;
                 };

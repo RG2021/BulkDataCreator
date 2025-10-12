@@ -44,10 +44,11 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="MockFields" Grid.Column="0" Style="{StaticResource SimpleRoundedButton}" Content="Mock Selected Fields" Width="Auto" Height="25" Padding="6,2,6,2" IsEnabled="True" VerticalContentAlignment="Center" Tag="" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"/>
-            <Button x:Name="ExportMockProfile" Grid.Column="1" Style="{StaticResource SimpleRoundedButton}" Content="Export Mock Profile" Width="Auto" Height="25" Padding="6,2,6,2" IsEnabled="True" VerticalContentAlignment="Center" Tag="" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,5,0"/>
-            <TextBlock Text="Search:" Grid.Column="2" Margin="259,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" />
-            <TextBox x:Name="SearchBox" Grid.Column="4" Height="25" Width="250" Padding="2,2,2,2" IsEnabled="True" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" Tag=""/>
+            <Button x:Name="MockFields" Grid.Column="0" Style="{StaticResource SimpleRoundedButton}" Content="Mock Fields" Width="Auto" Height="25" Padding="6,2,6,2" IsEnabled="True" VerticalContentAlignment="Center" Tag="" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <Button x:Name="ExportMockProfile" Grid.Column="1" Style="{StaticResource SimpleRoundedButton}" Content="Export Profile" Width="Auto" Height="25" Padding="6,2,6,2" IsEnabled="True" VerticalContentAlignment="Center" Tag="" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBlock Text="Search:" Grid.Column="3" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" />
+            <TextBox x:Name="SearchBox" Grid.Column="4" Height="22" Width="250" Padding="2,2,2,2" IsEnabled="True" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" Tag=""/>
+            <Viewbox Grid.Column="2"/>
         </Grid>
         <DataGrid x:Name="fieldDataGrid" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" AutoGenerateColumns="False" IsReadOnly="False" SelectionMode="Single" ClipboardCopyMode="IncludeHeader" IsTextSearchCaseSensitive="True" CanUserReorderColumns="False" CanUserResizeRows="False" Background="White" BorderBrush="#FF9C9C9C" ScrollViewer.CanContentScroll="True" OpacityMask="Black" AlternatingRowBackground="#FFFCFCFC" HeadersVisibility="Column" IsSynchronizedWithCurrentItem="True" IsTextSearchEnabled="True" BorderThickness="1,1,1,1" HorizontalGridLinesBrush="#FFCDCDCD" VerticalGridLinesBrush="#FFA3A3A3" VerticalContentAlignment="Center" MinWidth="200" CanUserDeleteRows="False" CanUserAddRows="False" UseLayoutRounding="False" AreRowDetailsFrozen="True" MinColumnWidth="50">
             <DataGrid.Resources>

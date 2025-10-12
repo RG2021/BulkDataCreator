@@ -284,7 +284,8 @@ namespace Mockit.Common.Helpers
                 case "DecimalType":
                 case "DoubleType":
                 case "FloatType":
-                {
+                case "MoneyType":
+                    {
                     double min = field.Metadata.Where(m => m.Name == "MinValue").Select(m => double.TryParse(m.Value, out double minVal) ? minVal : 0).FirstOrDefault();
                     double max = field.Metadata.Where(m => m.Name == "MaxValue").Select(m => double.TryParse(m.Value, out double maxVal) ? maxVal : 100).FirstOrDefault();
                     int precision = field.Metadata.Where(m => m.Name == "Precision").Select(m => int.TryParse(m.Value, out int precisionVal) ? precisionVal : 0).FirstOrDefault();
@@ -294,16 +295,16 @@ namespace Mockit.Common.Helpers
                     break;
                 }
 
-                case "MoneyType":
-                {
-                    double min = field.Metadata.Where(m => m.Name == "MinValue").Select(m => double.TryParse(m.Value, out double minVal) ? minVal : 0).FirstOrDefault();
-                    double max = field.Metadata.Where(m => m.Name == "MaxValue").Select(m => double.TryParse(m.Value, out double maxVal) ? maxVal : 100).FirstOrDefault();
-                    int precision = field.Metadata.Where(m => m.Name == "Precision").Select(m => int.TryParse(m.Value, out int precisionVal) ? precisionVal : 0).FirstOrDefault();
+                //case "MoneyType":
+                //{
+                //    double min = field.Metadata.Where(m => m.Name == "MinValue").Select(m => double.TryParse(m.Value, out double minVal) ? minVal : 0).FirstOrDefault();
+                //    double max = field.Metadata.Where(m => m.Name == "MaxValue").Select(m => double.TryParse(m.Value, out double maxVal) ? maxVal : 100).FirstOrDefault();
+                //    int precision = field.Metadata.Where(m => m.Name == "Precision").Select(m => int.TryParse(m.Value, out int precisionVal) ? precisionVal : 0).FirstOrDefault();
 
-                    expression = GetExpression(MockType.AMOUNT).Replace("min", min.ToString()).Replace("max", max.ToString()).Replace("decimal", precision.ToString());
-                    mockType = MockType.AMOUNT;
-                    break;
-                }
+                //    expression = GetExpression(MockType.AMOUNT).Replace("min", min.ToString()).Replace("max", max.ToString()).Replace("decimal", precision.ToString());
+                //    mockType = MockType.AMOUNT;
+                //    break;
+                //}
 
                 case "BooleanType":
                 case "TwoOptionsType":
@@ -374,9 +375,9 @@ namespace Mockit.Common.Helpers
 
                 default:
                 {
-                    expression = GetExpression(MockType.NONE);
-                    mockType = MockType.NONE;
-                    useCustom = false;
+                    expression = GetExpression(MockType.CUSTOM);
+                    mockType = MockType.CUSTOM;
+                    useCustom = true;
                     break;
                 }
             }
