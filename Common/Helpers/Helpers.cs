@@ -67,6 +67,10 @@ namespace Mockit.Common.Helpers
                     var parts = rawValue.Split(':');
                     return parts.Length == 2 && Guid.TryParse(parts[1], out Guid id) ? new EntityReference(parts[0], id) : null;
 
+                case "UniqueidentifierType":
+                    if (Guid.TryParse(rawValue, out Guid guidVal)) return guidVal;
+                    return rawValue;
+
                 default:
                     return rawValue;
             }
@@ -292,19 +296,13 @@ namespace Mockit.Common.Helpers
 
                     expression = GetExpression(MockType.NUMBER).Replace("min", min.ToString()).Replace("max", max.ToString()).Replace("decimal", precision.ToString());
                     mockType = MockType.NUMBER;
+
+                    if(field.LogicalName == "importsequencenumber")
+                    {
+                        expression = $"{DateTime.Now:yyMMdd}{DateTime.Now.Millisecond:D3}";
+                    }
                     break;
                 }
-
-                //case "MoneyType":
-                //{
-                //    double min = field.Metadata.Where(m => m.Name == "MinValue").Select(m => double.TryParse(m.Value, out double minVal) ? minVal : 0).FirstOrDefault();
-                //    double max = field.Metadata.Where(m => m.Name == "MaxValue").Select(m => double.TryParse(m.Value, out double maxVal) ? maxVal : 100).FirstOrDefault();
-                //    int precision = field.Metadata.Where(m => m.Name == "Precision").Select(m => int.TryParse(m.Value, out int precisionVal) ? precisionVal : 0).FirstOrDefault();
-
-                //    expression = GetExpression(MockType.AMOUNT).Replace("min", min.ToString()).Replace("max", max.ToString()).Replace("decimal", precision.ToString());
-                //    mockType = MockType.AMOUNT;
-                //    break;
-                //}
 
                 case "BooleanType":
                 case "TwoOptionsType":

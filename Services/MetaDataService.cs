@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Mockit.Models;
 using Mockit.Common.Helpers;
+using System.Linq;
 
 namespace Mockit.Services
 {
@@ -77,30 +78,41 @@ namespace Mockit.Services
 
             RetrieveEntityResponse response = (RetrieveEntityResponse)_service.Execute(request);
             EntityMetadata metadata = response.EntityMetadata;
+            List<AttributeMetadata> editableAttributes = GetEditableAttributes(metadata.Attributes.ToList());
 
-            foreach (AttributeMetadata attr in metadata.Attributes)
+            foreach (AttributeMetadata attr in editableAttributes)
             {
-                if (attr.LogicalName != null && attr.IsLogical == false && attr.IsValidForCreate == true && attr.IsValidForRead == true)
+                string displayName = attr.DisplayName?.UserLocalizedLabel?.Label ?? attr.LogicalName;
+
+                CRMField field = new CRMField
                 {
-                    string displayName = attr.DisplayName?.UserLocalizedLabel?.Label ?? attr.LogicalName;
+                    LogicalName = attr.LogicalName,
+                    DisplayName = displayName,
+                    DataType = attr.AttributeTypeName?.Value ?? attr.AttributeType?.ToString() ?? "Unknown",
+                    IsCustom = attr.IsCustomAttribute == true,
+                    Entity = entityRef,
+                    Metadata = Helpers.GetMetadataForField(attr)
+                };
 
-                    CRMField field = new CRMField
-                    {
-                        LogicalName = attr.LogicalName,
-                        DisplayName = displayName,
-                        DataType = attr.AttributeTypeName?.Value ?? attr.AttributeType?.ToString() ?? "Unknown",
-                        IsCustom = attr.IsCustomAttribute == true,
-                        Entity = entityRef,
-                        Metadata = Helpers.GetMetadataForField(attr)
-                    };
-
-                    fields.Add(field);
-                }
+                fields.Add(field);
             }
 
             fields.Sort((a, b) => string.Compare(a.DisplayName, b.DisplayName, StringComparison.OrdinalIgnoreCase));
 
             return fields;
+        }
+
+        private List<AttributeMetadata> GetEditableAttributes(List<AttributeMetadata> attributes)
+        {
+            return attributes.Where(attr => 
+            attr.LogicalName != null &&
+            attr.IsLogical == false &&
+            attr.IsValidForCreate == true &&
+            attr.IsValidForRead == true &&
+            attr.IsValidODataAttribute == true &&
+            attr.LogicalName != "timezoneruleversionnumber" &&
+            attr.LogicalName != "utcconversiontimezonecode"
+            ).ToList();
         }
     }
 }
