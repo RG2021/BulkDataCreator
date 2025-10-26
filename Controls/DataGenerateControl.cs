@@ -54,7 +54,7 @@ namespace Mockit.Controls
                         while (processed < totalRecordCount)
                         {
                             int currentBatchSize = Math.Min(batchSize, totalRecordCount - processed);
-                            ExecuteMultipleResponse response = DataGenService.CreateData(entityLogicalName, gridRows, currentBatchSize);
+                            ExecuteMultipleResponse response = CRMDataService.CreateRecords(entityLogicalName, gridRows, currentBatchSize);
                             batchResponses.Add(response);
                             processed += currentBatchSize;
 
@@ -153,7 +153,7 @@ namespace Mockit.Controls
                             int currentBatchSize = Math.Min(batchSize, totalRecordCount - i);
                             List<Guid> batchIds = createdRecordIds.GetRange(i, currentBatchSize);
 
-                            EntityCollection exportResult = DataGenService.RetrieveData(entityLogicalName, batchIds);
+                            EntityCollection exportResult = CRMDataService.RetrieveRecordsFromID(entityLogicalName, batchIds);
                             if(fetchedColumns == false)
                             {
                                 List<string> attributes = exportResult.Entities.SelectMany(e => e.Attributes.Keys).Distinct().ToList();

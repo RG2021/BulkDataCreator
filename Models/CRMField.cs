@@ -30,5 +30,11 @@ namespace Mockit.Models
         [DisplayName("Metadata Items")]
         public List<MetadataItem> Metadata { get; set; } = new List<MetadataItem>();
 
+        public string GetMetadataValue(string name)
+        {
+            MetadataItem item = Metadata.FirstOrDefault(m => m.Name == name);
+            return item?.Value;
+        }
+
     }
 }

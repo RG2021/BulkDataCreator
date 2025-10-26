@@ -96,7 +96,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Field.DataType}" Header="CRM Type" IsReadOnly="True" Width="*" MinWidth="40">
+                <DataGridTextColumn Binding="{Binding Field.DataType}" Header="Data Type" IsReadOnly="True" Width="*" MinWidth="40">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="VerticalAlignment" Value="Center"/>

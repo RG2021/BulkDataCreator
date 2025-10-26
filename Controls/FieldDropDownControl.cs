@@ -45,7 +45,7 @@ namespace Mockit.Controls
                 Message = "Loading fields...",
                 Work = (worker, args) =>
                 {
-                    List<CRMField> fields = MetadataService.GetFieldsForEntity(entity);
+                    List<CRMField> fields = MetadataService.GetEntityFields(entity, isEditable: true);
                     args.Result = fields;
                 },
                 PostWorkCallBack = (args) =>

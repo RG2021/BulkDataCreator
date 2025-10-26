@@ -43,9 +43,9 @@
             this.OkButton.AutoSize = true;
             this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.OkButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.OkButton.Location = new System.Drawing.Point(387, 10);
+            this.OkButton.Location = new System.Drawing.Point(383, 10);
             this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(91, 41);
+            this.OkButton.Size = new System.Drawing.Size(91, 58);
             this.OkButton.TabIndex = 0;
             this.OkButton.Text = "OK";
             this.OkButton.UseVisualStyleBackColor = true;
@@ -55,9 +55,9 @@
             this.ExportData.AutoSize = true;
             this.ExportData.DialogResult = System.Windows.Forms.DialogResult.Yes;
             this.ExportData.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ExportData.Location = new System.Drawing.Point(263, 10);
+            this.ExportData.Location = new System.Drawing.Point(259, 10);
             this.ExportData.Name = "ExportData";
-            this.ExportData.Size = new System.Drawing.Size(124, 41);
+            this.ExportData.Size = new System.Drawing.Size(124, 58);
             this.ExportData.TabIndex = 1;
             this.ExportData.Text = "Export Data";
             this.ExportData.UseVisualStyleBackColor = true;
@@ -80,8 +80,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.ExportData);
             this.splitContainer1.Panel2.Controls.Add(this.OkButton);
             this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(10);
-            this.splitContainer1.Size = new System.Drawing.Size(488, 219);
-            this.splitContainer1.SplitterDistance = 154;
+            this.splitContainer1.Size = new System.Drawing.Size(484, 275);
+            this.splitContainer1.SplitterDistance = 193;
             this.splitContainer1.TabIndex = 3;
             // 
             // logDetails
@@ -92,7 +92,7 @@
             this.logDetails.Location = new System.Drawing.Point(10, 10);
             this.logDetails.Name = "logDetails";
             this.logDetails.ReadOnly = true;
-            this.logDetails.Size = new System.Drawing.Size(468, 134);
+            this.logDetails.Size = new System.Drawing.Size(464, 173);
             this.logDetails.TabIndex = 3;
             this.logDetails.Text = "";
             // 
@@ -102,7 +102,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(488, 219);
+            this.ClientSize = new System.Drawing.Size(484, 275);
             this.ControlBox = false;
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

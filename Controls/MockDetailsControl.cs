@@ -5,12 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using static Mockit.Common.Constants.Constants;
+using System.Linq;
 
 namespace Mockit.Controls
 {
     public class MockDetailsControl : BaseControl
     {
         private readonly ComboBox _mockType;
+        private readonly Button _searchLookup;
         private readonly CheckBox _useCustom;
         private readonly RichTextBox _expression;
         private readonly Label _expressionLabel;
@@ -27,6 +29,7 @@ namespace Mockit.Controls
         {
             _expressionEngine = new ExpressionEngine();
             _mockType = mockDetailsPanel.Controls["mockTypeCombo"] as ComboBox;
+            _searchLookup = mockDetailsPanel.Controls["searchLookupButton"] as Button;
             _useCustom = mockDetailsPanel.Controls["useCustomCheck"] as CheckBox;
             _expression = mockDetailsPanel.Controls["expressionText1"] as RichTextBox;
             _result = mockDetailsPanel.Controls["resultText"] as TextBox;
@@ -39,6 +42,7 @@ namespace Mockit.Controls
             _useCustom.Click += OnCheckExpression;
             _save.Click += OnSave;
             _validate.Click += OnValidate;
+            _searchLookup.Click += OnLookupSearch;
         }
 
         public void ShowDetails(GridRow row)
@@ -49,7 +53,14 @@ namespace Mockit.Controls
             _useCustom.Checked = row.Mock.UseCustom;
             _expression.Text = row.Mock.Expression ?? string.Empty;
             _result.Text = _expressionEngine.Evaluate(row.Mock.Expression);
+            _searchLookup.Enabled = Helpers.IsLookupTypeField(row.Field);
         }
+
+        private void OnLookupSearch(object sender, EventArgs e)
+        {
+            _LookupSearchControl.LoadLookupSearch(boundRow);
+        }
+
 
         private void OnSave(object sender, EventArgs e)
         {

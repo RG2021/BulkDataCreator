@@ -82,6 +82,13 @@ namespace Mockit.Controls
             DropDownItem selectedItem = (DropDownItem)_comboBox.SelectedItem;
             return selectedItem.Value.ToString();
         }
+
+        public CRMEntity GetEntityObject(string entityLogicalName)
+        {
+        CRMEntity entity = Entities.FirstOrDefault(ent => ent.LogicalName == entityLogicalName);
+        return entity;
+        }
+
         public void Clear()
         {
             _comboBox.Items.Clear();

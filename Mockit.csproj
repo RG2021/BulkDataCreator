@@ -254,6 +254,18 @@
     <Compile Include="Controls\DataGridControlWPF.xaml.cs">
       <DependentUpon>DataGridControlWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LookupSearchControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LookupViewControl.xaml.cs">
+      <DependentUpon>LookupViewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LookupViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\LookupViewForm.Designer.cs">
+      <DependentUpon>LookupViewForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PropertyGridControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -263,6 +275,7 @@
     <Compile Include="Controls\StatusForm.Designer.cs">
       <DependentUpon>StatusForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\CRMView.cs" />
     <Compile Include="Models\EvaluationRecord.cs" />
     <Compile Include="Common\ExpressionEngine\TokensRegistry.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\BaseToken.cs" />
@@ -322,7 +335,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\DataGenService.cs" />
+    <Compile Include="Services\CRMDataService.cs" />
     <Compile Include="Services\MetaDataService.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
@@ -334,6 +347,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Controls\BaseControl.resx">
       <DependentUpon>BaseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\LookupViewForm.resx">
+      <DependentUpon>LookupViewForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\StatusForm.resx">
       <DependentUpon>StatusForm.cs</DependentUpon>
@@ -367,6 +383,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\DataGridControlWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LookupViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

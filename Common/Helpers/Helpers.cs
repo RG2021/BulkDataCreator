@@ -1,3 +1,4 @@
+using Bogus;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;
 using Mockit.Common.Constants;
@@ -5,12 +6,14 @@ using Mockit.Common.ExpressionEngine;
 using Mockit.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Web.Services.Protocols;
 using System.Windows.Documents;
 using System.Windows.Navigation;
+using System.Xml;
 using static Mockit.Common.Constants.Constants;
 
 namespace Mockit.Common.Helpers
@@ -238,7 +241,7 @@ namespace Mockit.Common.Helpers
                 if (lookupMeta.Targets != null && lookupMeta.Targets.Length > 0)
                 {
                     string targets = string.Join(", ", lookupMeta.Targets);
-                    metadata.Add(new MetadataItem { Name = "Lookup Entities", Value = targets });
+                    metadata.Add(new MetadataItem { Name = "LookupEntities", Value = targets });
                 }
             }
 
@@ -354,7 +357,7 @@ namespace Mockit.Common.Helpers
                 case "CustomerType":
                 case "OwnerType":
                 {
-                    var targets = field.Metadata.Where(m => m.Name == "Lookup Entities").Select(m => m.Value ?? "").FirstOrDefault();
+                    var targets = field.Metadata.Where(m => m.Name == "LookupEntities").Select(m => m.Value ?? "").FirstOrDefault();
                     if (!string.IsNullOrEmpty(targets))
                     {
                         var targetList = targets.Split(',').Select(t => t.Trim()).ToList();
@@ -384,6 +387,160 @@ namespace Mockit.Common.Helpers
             mock.MockType = mockType;
             mock.UseCustom = useCustom;
             return mock;
+        }
+
+        public static KeyAttributeCollection GetFormattedRecordValues(Entity record)
+        {
+            KeyAttributeCollection results = new KeyAttributeCollection();
+
+            foreach (KeyValuePair<string, object> attribute in record.Attributes)
+            {
+                string key = attribute.Key;
+                string value;
+                
+                if (attribute.Value is OptionSetValue optionSet)
+                {
+                    value = record.FormattedValues.Contains(key) ? record.FormattedValues[key] : optionSet.Value.ToString();
+                }
+                else if (attribute.Value is EntityReference entityReference)
+                {
+                    value = entityReference.Name;
+                }
+                else if (attribute.Value is Money money)
+                {
+                    value = money.Value.ToString("F2");
+                }
+                else if (attribute.Value is DateTime dateTime)
+                {
+                    value = dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                }
+                else if(attribute.Value is AliasedValue aliasedValue)
+                {
+                    value = aliasedValue.Value.ToString();
+                }
+                else
+                {
+                    value = attribute.Value.ToString();
+                }
+                results.Add(key, value);
+            }
+
+            return results;
+        }
+        public static DataTable ConvertEntityCollectionToDataTable(EntityCollection records, bool useSelected = false)
+        {
+            DataTable dataTable = new DataTable();
+            List<string> attributes = records.Entities.SelectMany(e => e.Attributes.Keys).Distinct().ToList();
+
+            if (useSelected == true)
+            {
+                DataColumn isSelectedColumn = new DataColumn("IsSelected", typeof(bool))
+                {
+                    DefaultValue = false
+                };
+                dataTable.Columns.Add(isSelectedColumn);
+            }
+
+            foreach (string attr in attributes)
+            {
+                dataTable.Columns.Add(attr.Replace(".", "_"), typeof(string));
+            }
+
+            if (useSelected == true)
+            {
+                dataTable.Columns["IsSelected"].SetOrdinal(0);
+            }
+
+            
+
+            foreach (Entity record in records.Entities)
+            {
+                DataRow row = dataTable.NewRow();
+                KeyAttributeCollection formattedRecord = GetFormattedRecordValues(record);
+                if (useSelected)
+                {
+                    formattedRecord.Add("IsSelected", false);
+                }
+
+                foreach (KeyValuePair<string, object> pair in formattedRecord)
+                {
+                    row[pair.Key.Replace(".", "_")] = pair.Value;
+                }
+
+                dataTable.Rows.Add(row);
+            }
+
+            return dataTable;
+        }
+
+
+        public static string InsertConditionIntoFetchXML(string fetchXML, string condition)
+        {
+            if (string.IsNullOrWhiteSpace(fetchXML) || string.IsNullOrWhiteSpace(condition))
+                return fetchXML;
+
+            try
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(fetchXML);
+
+                XmlNode entityNode = xmlDoc.SelectSingleNode("//entity");
+                if (entityNode == null)
+                    return fetchXML;
+
+                XmlNode filterNode = entityNode.SelectSingleNode("filter");
+                XmlDocumentFragment conditionFragment = xmlDoc.CreateDocumentFragment();
+                conditionFragment.InnerXml = condition;
+
+                if (filterNode == null)
+                {
+                    XmlElement newFilter = xmlDoc.CreateElement("filter");
+                    XmlAttribute typeAttr = xmlDoc.CreateAttribute("type");
+                    typeAttr.Value = "and";
+                    newFilter.Attributes.Append(typeAttr);
+                    newFilter.AppendChild(conditionFragment);
+
+                    if (entityNode.HasChildNodes)
+                        entityNode.InsertBefore(newFilter, entityNode.FirstChild);
+                    else
+                        entityNode.AppendChild(newFilter);
+                }
+                else
+                {
+                    filterNode.AppendChild(conditionFragment);
+                }
+
+                return xmlDoc.OuterXml;
+            }
+            catch
+            {
+                return fetchXML;
+            }
+        }
+
+        public static string AddPageAndCountAttributes(string fetchXml, int page, int count)
+        {
+            if (!fetchXml.Contains("<fetch"))
+                return fetchXml;
+
+            fetchXml = Regex.Replace(fetchXml, @"page\s*=\s*'[^']*'", "", RegexOptions.IgnoreCase);
+            fetchXml = Regex.Replace(fetchXml, @"count\s*=\s*'[^']*'", "", RegexOptions.IgnoreCase);
+
+            // Inject new page & count right after <fetch
+            fetchXml = Regex.Replace(
+                fetchXml,
+                @"<fetch(\s+)",
+                $"<fetch page='{page}' count='{count}'$1",
+                RegexOptions.IgnoreCase
+            );
+
+            return fetchXml;
+        }
+
+        public static bool IsLookupTypeField(CRMField field)
+        {
+            string[] lookupTypes = { "LookupType", "OwnerType", "CustomerType" };
+            return (lookupTypes.Contains(field.DataType));
         }
     }
 }

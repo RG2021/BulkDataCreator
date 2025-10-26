@@ -1,11 +1,14 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
+using Microsoft.Xrm.Sdk.Query;
+using Mockit.Common.Helpers;
+using Mockit.Models;
 using System;
 using System.Collections.Generic;
-using Mockit.Models;
-using Mockit.Common.Helpers;
+using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Mockit.Services
 {
@@ -59,7 +62,7 @@ namespace Mockit.Services
             return entities;
         }
 
-        public List<CRMField> GetFieldsForEntity(CRMEntity entityRef)
+        public List<CRMField> GetEntityFields(CRMEntity entityRef, bool isEditable = false, bool isSearchable = false)
         {
             string entityLogicalName = entityRef?.LogicalName;
             List<CRMField> fields = new List<CRMField>();
@@ -78,9 +81,18 @@ namespace Mockit.Services
 
             RetrieveEntityResponse response = (RetrieveEntityResponse)_service.Execute(request);
             EntityMetadata metadata = response.EntityMetadata;
-            List<AttributeMetadata> editableAttributes = GetEditableAttributes(metadata.Attributes.ToList());
+            List<AttributeMetadata> filteredAttributes = metadata.Attributes.ToList();
 
-            foreach (AttributeMetadata attr in editableAttributes)
+            if (isEditable)
+            {
+                filteredAttributes = GetEditableAttributes(metadata.Attributes.ToList());
+            }
+            else if(isSearchable)
+            {
+                filteredAttributes = filteredAttributes.Where(attr => attr.IsValidForAdvancedFind.Value == true).ToList();
+            }
+
+            foreach (AttributeMetadata attr in filteredAttributes)
             {
                 string displayName = attr.DisplayName?.UserLocalizedLabel?.Label ?? attr.LogicalName;
 
@@ -100,6 +112,43 @@ namespace Mockit.Services
             fields.Sort((a, b) => string.Compare(a.DisplayName, b.DisplayName, StringComparison.OrdinalIgnoreCase));
 
             return fields;
+        }
+
+        public List<CRMView> GetEntityViews(string entityLogicalName)
+        {
+            List<CRMView> views = new List<CRMView>();
+            if (_service == null || string.IsNullOrWhiteSpace(entityLogicalName))
+            {
+                return views;
+            }
+
+            QueryExpression queryExpression = new QueryExpression("savedquery")
+            {
+                ColumnSet = new ColumnSet("name", "fetchxml", "savedqueryid"),
+                NoLock = true,
+                Criteria = new FilterExpression
+                {
+                    Conditions =
+                    {
+                        new ConditionExpression("returnedtypecode", ConditionOperator.Equal, entityLogicalName),
+                        new ConditionExpression("querytype", ConditionOperator.Equal, 0) // 0 = System View, 1 = User View
+                    }
+                }
+            };
+
+            EntityCollection results = _service.RetrieveMultiple(queryExpression);
+            foreach (var entity in results.Entities)
+            {
+                CRMView view = new CRMView
+                {
+                    ID = entity.Id.ToString(),
+                    Name = entity.GetAttributeValue<string>("name"),
+                    FetchXML = entity.GetAttributeValue<string>("fetchxml")
+                };
+                views.Add(view);
+            }
+            
+            return views;
         }
 
         private List<AttributeMetadata> GetEditableAttributes(List<AttributeMetadata> attributes)

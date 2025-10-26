@@ -1,25 +1,22 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Query;
-using Mockit.Common.ExpressionEngine;
 using Mockit.Common.Helpers;
 using Mockit.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Windows.Forms;
 
 namespace Mockit.Services
 {
-    public class DataGenService
+    public class CRMDataService
     {
         private readonly IOrganizationService _service;
-        public DataGenService(IOrganizationService service)
+        public CRMDataService(IOrganizationService service)
         {
             _service = service;
         }
 
-        public ExecuteMultipleResponse CreateData(string entityLogicalName, List<GridRow> selectedFields, int recordCount)
+        public ExecuteMultipleResponse CreateRecords(string entityLogicalName, List<GridRow> selectedFields, int recordCount)
         {
 
             if (string.IsNullOrWhiteSpace(entityLogicalName))
@@ -79,7 +76,7 @@ namespace Mockit.Services
             return lastResponse;
         }
 
-        public EntityCollection RetrieveData(string entityLogicalName, List<Guid> createdRecordsIds)
+        public EntityCollection RetrieveRecordsFromID(string entityLogicalName, List<Guid> createdRecordsIds)
         {
             int batchSize = 1000;
             EntityCollection results = new EntityCollection();
@@ -118,6 +115,30 @@ namespace Mockit.Services
             return results;
         }
 
+        public (EntityCollection, bool) RetriveRecordsFromView(string fetchXML, int pageNumber, string searchField, string searchText)
+        {
+            EntityCollection results = new EntityCollection();
+            bool moreRecords = false;
 
+            if (_service == null || string.IsNullOrWhiteSpace(fetchXML))
+            {
+                return (results, moreRecords);
+            }
+
+            //TODO: Add pagination feature
+            fetchXML = Helpers.AddPageAndCountAttributes(fetchXML, pageNumber, 50);
+
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                string searchCondition = $"<condition attribute='{searchField}' operator='like' value='%{searchText}%' />";
+                fetchXML = Helpers.InsertConditionIntoFetchXML(fetchXML, searchCondition);
+            }
+
+            FetchExpression fetchExpression = new FetchExpression(fetchXML);
+            results = _service.RetrieveMultiple(fetchExpression);
+            moreRecords = results.MoreRecords;
+
+            return (results, moreRecords);
+        }
     }
 }
