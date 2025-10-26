@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Documents;
+using Mockit.Common.Helpers;
 
 namespace Mockit.Models
 {
@@ -34,6 +34,26 @@ namespace Mockit.Models
         {
             MetadataItem item = Metadata.FirstOrDefault(m => m.Name == name);
             return item?.Value;
+        }
+
+        public ICustomTypeDescriptor GetPropertyDescriptor()
+        {
+            List<DynamicProperty> props = new List<DynamicProperty>
+            {
+                new DynamicProperty("Display Name", DisplayName, "General"),
+                new DynamicProperty("Logical Name", LogicalName, "General"),
+                new DynamicProperty("Data Type", DataType, "General"),
+            };
+
+            if (Metadata != null && Metadata.Any())
+            {
+                foreach (MetadataItem m in Metadata)
+                {
+                    props.Add(new DynamicProperty(m.Name, m.Value, "Metadata"));
+                }
+            }
+
+            return new DynamicTypeDescriptor(props);
         }
 
     }

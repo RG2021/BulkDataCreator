@@ -76,7 +76,7 @@ namespace Mockit.Services
             return lastResponse;
         }
 
-        public EntityCollection RetrieveRecordsFromID(string entityLogicalName, List<Guid> createdRecordsIds)
+        public EntityCollection GetRecordsFromID(string entityLogicalName, List<Guid> createdRecordsIds)
         {
             int batchSize = 1000;
             EntityCollection results = new EntityCollection();
@@ -115,7 +115,7 @@ namespace Mockit.Services
             return results;
         }
 
-        public (EntityCollection, bool) RetriveRecordsFromView(string fetchXML, int pageNumber, string searchField, string searchText)
+        public (EntityCollection, bool) GetRecordsFromView(string fetchXML, int pageNumber, string searchField, string searchText)
         {
             EntityCollection results = new EntityCollection();
             bool moreRecords = false;
@@ -125,7 +125,6 @@ namespace Mockit.Services
                 return (results, moreRecords);
             }
 
-            //TODO: Add pagination feature
             fetchXML = Helpers.AddPageAndCountAttributes(fetchXML, pageNumber, 50);
 
             if (!string.IsNullOrWhiteSpace(searchText))

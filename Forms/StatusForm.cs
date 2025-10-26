@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Mockit.Controls
+namespace Mockit.Forms
 {
     public partial class StatusForm : Form
     {

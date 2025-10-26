@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
+using Mockit.Forms;
 using Mockit.Models;
 using Mockit.Services;
 using System;
@@ -153,7 +154,7 @@ namespace Mockit.Controls
                             int currentBatchSize = Math.Min(batchSize, totalRecordCount - i);
                             List<Guid> batchIds = createdRecordIds.GetRange(i, currentBatchSize);
 
-                            EntityCollection exportResult = CRMDataService.RetrieveRecordsFromID(entityLogicalName, batchIds);
+                            EntityCollection exportResult = CRMDataService.GetRecordsFromID(entityLogicalName, batchIds);
                             if(fetchedColumns == false)
                             {
                                 List<string> attributes = exportResult.Entities.SelectMany(e => e.Attributes.Keys).Distinct().ToList();

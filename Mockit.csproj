@@ -248,31 +248,29 @@
     <Compile Include="Common\Constants\Icons.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\BogusToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\MultiSelectToken.cs" />
-    <Compile Include="Common\Helpers\Properties.cs" />
     <Compile Include="Common\Helpers\RelayCommand.cs" />
-    <Compile Include="Common\Helpers\SortableBindingList.cs" />
-    <Compile Include="Controls\DataGridControlWPF.xaml.cs">
+    <Compile Include="Views\DataGridControlWPF.xaml.cs">
       <DependentUpon>DataGridControlWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\LookupSearchControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\LookupViewControl.xaml.cs">
+    <Compile Include="Views\LookupViewControl.xaml.cs">
       <DependentUpon>LookupViewControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LookupViewForm.cs">
+    <Compile Include="Forms\LookupViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\LookupViewForm.Designer.cs">
+    <Compile Include="Forms\LookupViewForm.Designer.cs">
       <DependentUpon>LookupViewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\PropertyGridControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\StatusForm.cs">
+    <Compile Include="Forms\StatusForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\StatusForm.Designer.cs">
+    <Compile Include="Forms\StatusForm.Designer.cs">
       <DependentUpon>StatusForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\CRMView.cs" />
@@ -325,7 +323,6 @@
     <Compile Include="Models\CRMField.cs" />
     <Compile Include="Models\MetadataItem.cs" />
     <Compile Include="Models\MockProfile.cs" />
-    <Compile Include="Models\PreviewRecord.cs" />
     <Compile Include="Models\DropDownItem.cs" />
     <Compile Include="Models\GridRow.cs" />
     <Compile Include="Models\Mock.cs" />
@@ -348,10 +345,10 @@
     <EmbeddedResource Include="Controls\BaseControl.resx">
       <DependentUpon>BaseControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\LookupViewForm.resx">
+    <EmbeddedResource Include="Forms\LookupViewForm.resx">
       <DependentUpon>LookupViewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\StatusForm.resx">
+    <EmbeddedResource Include="Forms\StatusForm.resx">
       <DependentUpon>StatusForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -382,15 +379,16 @@
     <None Include="Resources\mockit-logo-small.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\DataGridControlWPF.xaml">
+    <Page Include="Views\DataGridControlWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\LookupViewControl.xaml">
+    <Page Include="Views\LookupViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

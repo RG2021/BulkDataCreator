@@ -16,6 +16,7 @@ using System.Windows.Input;
 using XrmToolBox.Extensibility;
 using ClosedXML.Excel;
 using static Mockit.Common.Constants.Constants;
+using Mockit.Views;
 
 namespace Mockit.Controls
 {

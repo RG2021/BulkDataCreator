@@ -1,4 +1,4 @@
-﻿namespace Mockit.Controls
+﻿namespace Mockit.Forms
 {
     partial class LookupViewForm
     {

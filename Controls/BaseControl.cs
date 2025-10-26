@@ -13,7 +13,7 @@ namespace Mockit.Controls
     {
         private Settings mySettings;
         private bool isConnected = false;
-        protected static PluginControlBase ParentControlBase { get; private set; }
+        protected static BaseControl ParentControlBase { get; private set; }
         protected static MetadataService MetadataService { get; private set; }
         protected static CRMDataService CRMDataService { get; private set; }
         protected static EntityDropDownControl _EntityDropdownControl { get; private set; }
@@ -94,6 +94,7 @@ namespace Mockit.Controls
             _DataPreviewControl = new DataPreviewControl(actionGridPanel, previewBtn);
             _DataGenerateControl = new DataGenerateControl(generateBtn);
             _LookupSearchControl = new LookupSearchControl();
+
             //_PropertyGridControl = new PropertyGridControl(tableLayoutPanel1, dockPanel1);
             LogInfo("Controls initialized successfully.");
         }
@@ -126,11 +127,6 @@ namespace Mockit.Controls
         {
             _EntityDropdownControl.OnSelectDropDown(sender, e);
         }
-
-        private void gridColumns_SelectionChanged(object sender, EventArgs e)
-        {
-            _DataGridControl.OnSelectGridRow(sender, e);
-        }
         private void toolStripLabel5_Click(object sender, EventArgs e)
         {
             Process.Start("https://github.com/RG2021/BulkDataCreator/wiki/Documentation");
@@ -148,26 +144,6 @@ namespace Mockit.Controls
         private void toolStripLabel2_Click(object sender, EventArgs e)
         {
             Process.Start("https://www.linkedin.com/in/rg2021/");
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void crmDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void expressionText1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void leftMainPanel_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

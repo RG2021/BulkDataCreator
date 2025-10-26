@@ -6,6 +6,7 @@ using Mockit.Common.ExpressionEngine;
 using Mockit.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -24,53 +25,53 @@ namespace Mockit.Common.Helpers
         {
             switch (crmDataType)
             {
-                case "StringType":
-                case "MemoType":
+                case DataType.STRING:
+                case DataType.MEMO:
                     return rawValue;
 
-                case "IntegerType":
-                case "BigIntType":
+                case DataType.INTEGER:
+                case DataType.BIGINT:
                     if(int.TryParse(rawValue, out int intVal)) return intVal;
                     return rawValue;
 
-                case "DoubleType":
+                case DataType.DOUBLE:
                     if (double.TryParse(rawValue, out double dblVal)) return dblVal;
                     return rawValue;
 
-                case "DecimalType":
-                case "FloatType":
-                case "MoneyType":
+                case DataType.DECIMAL:
+                case DataType.FLOAT:
+                case DataType.MONEY:
                     if (decimal.TryParse(rawValue, out decimal decVal)) return decVal;
                     return rawValue;
 
-                case "BooleanType":
-                case "TwoOptionsType":
+                case DataType.BOOLEAN:
+                case DataType.TWO_OPTIONS:
                     return rawValue.Equals("true", StringComparison.OrdinalIgnoreCase) || rawValue == "1";
 
-                case "DateTimeType":
+                case DataType.DATETIME:
                     if (DateTime.TryParse(rawValue, out DateTime dtVal)) return dtVal;
                     return rawValue;
 
-                case "PicklistType":
-                case "StatusType":
-                case "StateType":
+                case DataType.PICKLIST:
+                case DataType.STATUS:
+                case DataType.STATE:
                     if(int.TryParse(rawValue, out int optVal))
                     {
                         return new OptionSetValue(optVal);
                     }
                     return rawValue;
 
-                case "MultiSelectPicklistType":
+                case DataType.MULTISELECT_PICKLIST:
                     var values = rawValue.Split(',').Select(v => v.Trim()).Where(v => int.TryParse(v, out _)).Select(v => new OptionSetValue(int.Parse(v))).ToArray();
                     return new OptionSetValueCollection(values);
 
-                case "LookupType":
-                case "CustomerType":
-                case "OwnerType":
+                case DataType.LOOKUP:
+                case DataType.CUSTOMER:
+                case DataType.OWNER:
                     var parts = rawValue.Split(':');
                     return parts.Length == 2 && Guid.TryParse(parts[1], out Guid id) ? new EntityReference(parts[0], id) : null;
 
-                case "UniqueidentifierType":
+                case DataType.UNIQUEIDENTIFIER:
                     if (Guid.TryParse(rawValue, out Guid guidVal)) return guidVal;
                     return rawValue;
 
@@ -269,7 +270,6 @@ namespace Mockit.Common.Helpers
                 return null;
 
             Mock mock = new Mock();
-
             string crmFieldType = field.DataType;
 
             string expression = string.Empty;
@@ -278,20 +278,20 @@ namespace Mockit.Common.Helpers
 
             switch (crmFieldType)
             {
-                case "StringType":
-                case "MemoType":
+                case DataType.STRING:
+                case DataType.MEMO:
                 {
                     expression = GetExpression(MockType.STRING);
                     mockType = MockType.STRING;
                     break;
                 }
 
-                case "IntegerType":
-                case "BigIntType":
-                case "DecimalType":
-                case "DoubleType":
-                case "FloatType":
-                case "MoneyType":
+                case DataType.INTEGER:
+                case DataType.BIGINT:
+                case DataType.DECIMAL:
+                case DataType.DOUBLE:
+                case DataType.FLOAT:
+                case DataType.MONEY:
                     {
                     double min = field.Metadata.Where(m => m.Name == "MinValue").Select(m => double.TryParse(m.Value, out double minVal) ? minVal : 0).FirstOrDefault();
                     double max = field.Metadata.Where(m => m.Name == "MaxValue").Select(m => double.TryParse(m.Value, out double maxVal) ? maxVal : 100).FirstOrDefault();
@@ -307,15 +307,15 @@ namespace Mockit.Common.Helpers
                     break;
                 }
 
-                case "BooleanType":
-                case "TwoOptionsType":
+                case DataType.BOOLEAN:
+                case DataType.TWO_OPTIONS:
                 {
                     expression = GetExpression(MockType.BOOLEAN);
                     mockType = MockType.BOOLEAN;
                     break;
                 }
 
-                case "DateTimeType":
+                case DataType.DATETIME:
                 {
                     DateTime minDate = new DateTime(2000, 1, 1);
                     DateTime maxDate = DateTime.UtcNow;
@@ -324,9 +324,9 @@ namespace Mockit.Common.Helpers
                     break;
                 }
 
-                case "PicklistType":
-                case "StatusType":
-                case "StateType":
+                case DataType.PICKLIST:
+                case DataType.STATUS:
+                case DataType.STATE:
                 {
                     var options = field.Metadata.Where(m => m.Name == "Options").Select(m => m.Value ?? "").FirstOrDefault();
                     var matches = Regex.Matches(options, @"\((\d+)\)");
@@ -340,7 +340,7 @@ namespace Mockit.Common.Helpers
                     break;
                 }
 
-                case "MultiSelectPicklistType":
+                case DataType.MULTISELECT_PICKLIST:
                 {
                     var options = field.Metadata.Where(m => m.Name == "Options").Select(m => m.Value ?? "").FirstOrDefault();
                     var matches = Regex.Matches(options, @"\((\d+)\)");
@@ -353,9 +353,9 @@ namespace Mockit.Common.Helpers
                     break;
                 }
 
-                case "LookupType":
-                case "CustomerType":
-                case "OwnerType":
+                case DataType.LOOKUP:
+                case DataType.CUSTOMER:
+                case DataType.OWNER:
                 {
                     var targets = field.Metadata.Where(m => m.Name == "LookupEntities").Select(m => m.Value ?? "").FirstOrDefault();
                     if (!string.IsNullOrEmpty(targets))
@@ -367,7 +367,7 @@ namespace Mockit.Common.Helpers
                     break;
                 }
 
-                case "UniqueidentifierType":
+                case DataType.UNIQUEIDENTIFIER:
                 {
                     expression = GetExpression(MockType.GUID);
                     mockType = MockType.GUID;
@@ -539,8 +539,71 @@ namespace Mockit.Common.Helpers
 
         public static bool IsLookupTypeField(CRMField field)
         {
-            string[] lookupTypes = { "LookupType", "OwnerType", "CustomerType" };
+            string[] lookupTypes = { DataType.LOOKUP, DataType.OWNER, DataType.CUSTOMER };
             return (lookupTypes.Contains(field.DataType));
         }
+    }
+
+    public class DynamicProperty
+    {
+        public string Name { get; }
+        public object Value { get; set; }
+        public string Category { get; }
+
+        public DynamicProperty(string name, object value, string category = null)
+        {
+            Name = name;
+            Value = value;
+            Category = category;
+        }
+    }
+
+    public class DynamicPropertyDescriptor : PropertyDescriptor
+    {
+        private readonly DynamicProperty _property;
+
+        public DynamicPropertyDescriptor(DynamicProperty property)
+            : base(property.Name, null)
+        {
+            _property = property;
+        }
+
+        public override bool CanResetValue(object component) => false;
+        public override Type ComponentType => typeof(object);
+        public override object GetValue(object component) => _property.Value;
+        public override void SetValue(object component, object value) => _property.Value = value;
+        public override bool IsReadOnly => true;
+        public override Type PropertyType => _property.Value?.GetType() ?? typeof(object);
+        public override void ResetValue(object component) { }
+        public override bool ShouldSerializeValue(object component) => false;
+        public override string Category => _property.Category;
+        public override string Description => $"{_property.Value}";
+    }
+    public class DynamicTypeDescriptor : ICustomTypeDescriptor
+    {
+        private readonly List<DynamicProperty> _properties;
+
+        public DynamicTypeDescriptor(List<DynamicProperty> properties)
+        {
+            _properties = properties;
+        }
+
+        public PropertyDescriptorCollection GetProperties()
+        {
+            var list = _properties.Select(p => new DynamicPropertyDescriptor(p)).ToArray();
+            return new PropertyDescriptorCollection(list);
+        }
+
+        public PropertyDescriptorCollection GetProperties(Attribute[] attributes) => GetProperties();
+        public System.ComponentModel.AttributeCollection GetAttributes() => System.ComponentModel.AttributeCollection.Empty;
+        public string GetClassName() => null;
+        public string GetComponentName() => null;
+        public TypeConverter GetConverter() => null;
+        public EventDescriptor GetDefaultEvent() => null;
+        public PropertyDescriptor GetDefaultProperty() => null;
+        public object GetEditor(Type editorBaseType) => null;
+        public EventDescriptorCollection GetEvents() => EventDescriptorCollection.Empty;
+        public EventDescriptorCollection GetEvents(Attribute[] attributes) => EventDescriptorCollection.Empty;
+        public object GetPropertyOwner(PropertyDescriptor pd) => this;
     }
 }

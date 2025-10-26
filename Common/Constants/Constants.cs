@@ -34,6 +34,29 @@ namespace Mockit.Common.Constants
             STRING = 758280013,
         }
 
+        public static class DataType
+        {
+            public const string STRING = "StringType";
+            public const string MEMO = "MemoType";
+            public const string INTEGER = "IntegerType";
+            public const string BIGINT = "BigIntType";
+            public const string DECIMAL = "DecimalType";
+            public const string DOUBLE = "DoubleType";
+            public const string FLOAT = "FloatType";
+            public const string MONEY = "MoneyType";
+            public const string BOOLEAN = "BooleanType";
+            public const string TWO_OPTIONS = "TwoOptionsType";
+            public const string DATETIME = "DateTimeType";
+            public const string PICKLIST = "PicklistType";
+            public const string STATUS = "StatusType";
+            public const string STATE = "StateType";
+            public const string MULTISELECT_PICKLIST = "MultiSelectPicklistType";
+            public const string LOOKUP = "LookupType";
+            public const string CUSTOMER = "CustomerType";
+            public const string OWNER = "OwnerType";
+            public const string UNIQUEIDENTIFIER = "UniqueidentifierType";
+        }
+
         public static readonly Dictionary<MockType, string> _HelperExpressions = new Dictionary<MockType, string> 
         {
             { MockType.BOOLEAN, "{{ RANDOM.BOOL }}" },

@@ -13,11 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Mockit.Controls
+namespace Mockit.Views
 {
-    /// <summary>
-    /// Interaction logic for LookupViewControl.xaml
-    /// </summary>
     public partial class LookupViewControl : UserControl
     {
         public LookupViewControl()

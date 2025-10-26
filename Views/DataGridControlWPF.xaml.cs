@@ -15,11 +15,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Mockit.Controls
+namespace Mockit.Views
 {
     public partial class DataGridControlWPF : UserControl
     {
-        
         public DataGridControlWPF()
         {
             InitializeComponent();

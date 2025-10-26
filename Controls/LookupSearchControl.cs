@@ -3,8 +3,10 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;
 using Mockit.Common.Constants;
 using Mockit.Common.Helpers;
+using Mockit.Forms;
 using Mockit.Models;
 using Mockit.Services;
+using Mockit.Views;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -42,7 +44,7 @@ namespace Mockit.Controls
         private System.Windows.Controls.ComboBox _entityViewsBox;
         private System.Windows.Controls.ComboBox _lookupEntityBox;
         private System.Windows.Controls.TextBox _expressionTextBox;
-        
+       
         public void LoadLookupSearch(GridRow row)
         {
             selectedRow = row;
@@ -105,13 +107,6 @@ namespace Mockit.Controls
         {
             LoadLookupViews();
             LoadLookupSearchableFields();
-
-            //if (sender is System.Windows.Controls.ComboBox item)
-            //{
-            //    string fieldName = selectedRow.Field.LogicalName;
-            //    string entityName = item.Text;
-            //    ResetMockExpression();
-            //}
         }
 
         private void OnGridLoaded(object sender, EventArgs e)
@@ -230,6 +225,7 @@ namespace Mockit.Controls
         }
         private void LoadLookupRecords(object sender, EventArgs e)
         {
+            
             if (sender is FrameworkElement element && element.Tag is string tag && (tag == "SelectViewAction" || tag == "SearchAction"))
             {
                 _lookupGridData.Clear();
@@ -237,7 +233,19 @@ namespace Mockit.Controls
                 nextPage = 1;
             }
 
-            if (_entityViewsBox.SelectedItem is DropDownItem item && nextPage > 0)
+            if (nextPage <= 0)
+            {
+                System.Windows.MessageBox.Show($"No more records to load.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (nextPage > 20)
+            {
+                System.Windows.MessageBox.Show($"Maximum of 1000 records can be loaded at a time.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (_entityViewsBox.SelectedItem is DropDownItem item)
             {
                 string selectedEntity = (_lookupEntityBox.SelectedItem as DropDownItem)?.Value.ToString();
                 string searchField = (_searchFieldsBox.SelectedItem as DropDownItem)?.Value.ToString();
@@ -249,7 +257,8 @@ namespace Mockit.Controls
                     Message = "Loading lookup records...",
                     Work = (worker, args) =>
                     {
-                        (EntityCollection records, bool moreRecords) = CRMDataService.RetriveRecordsFromView(selectedView.FetchXML, nextPage, searchField, searchText);
+
+                        (EntityCollection records, bool moreRecords) = CRMDataService.GetRecordsFromView(selectedView.FetchXML, nextPage, searchField, searchText);
                         DataTable dataTable = Helpers.ConvertEntityCollectionToDataTable(records, useSelected: true);
                         bool isFirstLoad = nextPage == 1;
                         nextPage = moreRecords ? nextPage + 1 : 0;
@@ -258,6 +267,7 @@ namespace Mockit.Controls
                     },
                     PostWorkCallBack = (args) =>
                     {
+
                         if (args.Error != null)
                         {
                             System.Windows.MessageBox.Show($"Error loading records: {args.Error.Message}");
