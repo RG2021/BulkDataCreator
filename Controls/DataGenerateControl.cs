@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
+using Mockit.Common.Helpers;
 using Mockit.Forms;
 using Mockit.Models;
 using Mockit.Services;
@@ -37,7 +38,7 @@ namespace Mockit.Controls
             string entityLogicalName = _EntityDropdownControl.GetSelectedEntity();
             List<GridRow> gridRows = _DataGridControl.GetData().ToList();
             int totalRecordCount = _RecordCountControl.GetRecordCount();
-            int batchSize = 200;
+            int batchSize = _SettingControl.GetSavedSetting().CreateBatchSize;
             int totalSuccess = 0;
             int totalFailure = 0;
             List<Guid> createdRecordIds = new List<Guid>();
@@ -96,7 +97,8 @@ namespace Mockit.Controls
                             if (item.Fault != null)
                             {
                                 totalFailure++;
-                                string errorMsg = $"Index {item.RequestIndex}: {item.Fault.Message}";
+                                string errorMsg = Helpers.BuildFaultMessage(item.Fault, item.RequestIndex);
+                                //string errorMsg = $"Index {item.RequestIndex}: {item.Fault.Message}";
                                 allErrors.Add(errorMsg);
                             }
                             else
@@ -132,7 +134,7 @@ namespace Mockit.Controls
         private void ExportData(string entityLogicalName, List<Guid> createdRecordIds)
         {
             int totalRecordCount = createdRecordIds.Count;
-            int batchSize = 1000;
+            int batchSize = _SettingControl.GetSavedSetting().ExportBatchSize;
             bool fetchedColumns = false;
 
             if (totalRecordCount == 0)
@@ -149,6 +151,7 @@ namespace Mockit.Controls
                     try
                     {
                         DataTable exportResults = new DataTable();
+                        int processedCount = 0;
                         for (int i = 0; i < totalRecordCount; i += batchSize)
                         {
                             int currentBatchSize = Math.Min(batchSize, totalRecordCount - i);
@@ -193,8 +196,9 @@ namespace Mockit.Controls
                                 }
                                 exportResults.Rows.Add(row);
                             }
-                            int percentage = (int)((double)currentBatchSize / totalRecordCount * 100);
-                            worker.ReportProgress(percentage, $"Exported {currentBatchSize} of {totalRecordCount} records.");
+                            processedCount += currentBatchSize;
+                            int percentage = (int)((double)processedCount / totalRecordCount * 100);
+                            worker.ReportProgress(percentage, $"Exported {processedCount} of {totalRecordCount} records.");
                         }
                         args.Result = exportResults;
                     }

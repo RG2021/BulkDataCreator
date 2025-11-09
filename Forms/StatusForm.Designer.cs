@@ -43,9 +43,9 @@
             this.OkButton.AutoSize = true;
             this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.OkButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.OkButton.Location = new System.Drawing.Point(383, 10);
+            this.OkButton.Location = new System.Drawing.Point(485, 5);
             this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(91, 58);
+            this.OkButton.Size = new System.Drawing.Size(91, 50);
             this.OkButton.TabIndex = 0;
             this.OkButton.Text = "OK";
             this.OkButton.UseVisualStyleBackColor = true;
@@ -55,9 +55,9 @@
             this.ExportData.AutoSize = true;
             this.ExportData.DialogResult = System.Windows.Forms.DialogResult.Yes;
             this.ExportData.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ExportData.Location = new System.Drawing.Point(259, 10);
+            this.ExportData.Location = new System.Drawing.Point(361, 5);
             this.ExportData.Name = "ExportData";
-            this.ExportData.Size = new System.Drawing.Size(124, 58);
+            this.ExportData.Size = new System.Drawing.Size(124, 50);
             this.ExportData.TabIndex = 1;
             this.ExportData.Text = "Export Data";
             this.ExportData.UseVisualStyleBackColor = true;
@@ -71,28 +71,30 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.White;
             this.splitContainer1.Panel1.Controls.Add(this.logDetails);
-            this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(10);
+            this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(5);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainer1.Panel2.Controls.Add(this.ExportData);
             this.splitContainer1.Panel2.Controls.Add(this.OkButton);
-            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(10);
-            this.splitContainer1.Size = new System.Drawing.Size(484, 275);
-            this.splitContainer1.SplitterDistance = 193;
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+            this.splitContainer1.Size = new System.Drawing.Size(586, 320);
+            this.splitContainer1.SplitterDistance = 256;
             this.splitContainer1.TabIndex = 3;
             // 
             // logDetails
             // 
-            this.logDetails.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.logDetails.BackColor = System.Drawing.Color.White;
             this.logDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.logDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logDetails.Location = new System.Drawing.Point(10, 10);
+            this.logDetails.Location = new System.Drawing.Point(5, 5);
+            this.logDetails.Margin = new System.Windows.Forms.Padding(5);
             this.logDetails.Name = "logDetails";
             this.logDetails.ReadOnly = true;
-            this.logDetails.Size = new System.Drawing.Size(464, 173);
+            this.logDetails.Size = new System.Drawing.Size(576, 246);
             this.logDetails.TabIndex = 3;
             this.logDetails.Text = "";
             // 
@@ -101,8 +103,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(484, 275);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(586, 320);
             this.ControlBox = false;
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

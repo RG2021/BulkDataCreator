@@ -63,9 +63,29 @@ namespace Mockit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_binoculars_48 {
+        internal static System.Drawing.Bitmap alert {
             get {
-                object obj = ResourceManager.GetObject("icons8-binoculars-48", resourceCulture);
+                object obj = ResourceManager.GetObject("alert", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap generate_icon {
+            get {
+                object obj = ResourceManager.GetObject("generate-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap google_docs__1_ {
+            get {
+                object obj = ResourceManager.GetObject("google-docs (1)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -76,26 +96,6 @@ namespace Mockit.Properties {
         internal static System.Drawing.Bitmap icons8_linkedin_48 {
             get {
                 object obj = ResourceManager.GetObject("icons8-linkedin-48", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_mailbox_48 {
-            get {
-                object obj = ResourceManager.GetObject("icons8-mailbox-48", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_scroll_48 {
-            get {
-                object obj = ResourceManager.GetObject("icons8-scroll-48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -126,6 +126,16 @@ namespace Mockit.Properties {
         internal static System.Drawing.Bitmap mockit_logo_small {
             get {
                 object obj = ResourceManager.GetObject("mockit-logo-small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap review__1_ {
+            get {
+                object obj = ResourceManager.GetObject("review (1)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

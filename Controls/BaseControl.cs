@@ -16,6 +16,7 @@ namespace Mockit.Controls
         protected static BaseControl ParentControlBase { get; private set; }
         protected static MetadataService MetadataService { get; private set; }
         protected static CRMDataService CRMDataService { get; private set; }
+        protected static NotificationService NotificationService { get; private set; }
         protected static EntityDropDownControl _EntityDropdownControl { get; private set; }
         protected static FieldDropDownControl _FieldDropdownControl { get; private set; }
         protected static RecordCountControl _RecordCountControl { get; private set; }
@@ -25,6 +26,7 @@ namespace Mockit.Controls
         protected static DataPreviewControl _DataPreviewControl { get; private set; }
         protected static DataGenerateControl _DataGenerateControl { get; private set; }
         protected static LookupSearchControl _LookupSearchControl { get; private set; }
+        protected static SettingControl _SettingControl { get; private set; }
 
         // protected static PropertyGridControl _PropertyGridControl { get; private set; }
 
@@ -78,6 +80,7 @@ namespace Mockit.Controls
 
             MetadataService = new MetadataService(service);
             CRMDataService = new CRMDataService(service);
+            NotificationService = new NotificationService();
             isConnected = true;
 
             LogInfo("Services initialized successfully.");
@@ -94,6 +97,7 @@ namespace Mockit.Controls
             _DataPreviewControl = new DataPreviewControl(actionGridPanel, previewBtn);
             _DataGenerateControl = new DataGenerateControl(generateBtn);
             _LookupSearchControl = new LookupSearchControl();
+            _SettingControl = new SettingControl(settingsBtn);
 
             //_PropertyGridControl = new PropertyGridControl(tableLayoutPanel1, dockPanel1);
             LogInfo("Controls initialized successfully.");

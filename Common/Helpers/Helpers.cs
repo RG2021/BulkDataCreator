@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Services.Protocols;
 using System.Windows.Documents;
@@ -542,6 +543,44 @@ namespace Mockit.Common.Helpers
             string[] lookupTypes = { DataType.LOOKUP, DataType.OWNER, DataType.CUSTOMER };
             return (lookupTypes.Contains(field.DataType));
         }
+
+        public static string BuildFaultMessage(OrganizationServiceFault fault, int? index = null)
+        {
+            if (fault == null)
+                return "<no fault>";
+
+            StringBuilder inner = new StringBuilder();
+            OrganizationServiceFault current = fault.InnerFault;
+
+            if (current != null)
+            {
+                while (current != null)
+                {
+                    inner.AppendLine("  - " + current.Message);
+                    current = current.InnerFault;
+                }
+            }
+            else
+            {
+                inner.AppendLine("  <none>");
+            }
+
+            string traceText = string.IsNullOrWhiteSpace(fault.TraceText)
+                ? "<none>"
+                : fault.TraceText.Trim();
+
+            string indexText = index.HasValue ? index.Value.ToString() : "<not provided>";
+
+            string result =
+                "Index: " + indexText + Environment.NewLine +
+                "Error Code: " + fault.ErrorCode + Environment.NewLine +
+                "Message: " + fault.Message + Environment.NewLine + Environment.NewLine +
+                "Inner Faults:" + Environment.NewLine + inner.ToString() + Environment.NewLine +
+                "Trace:" + Environment.NewLine + traceText;
+
+            return result;
+        }
+
     }
 
     public class DynamicProperty
