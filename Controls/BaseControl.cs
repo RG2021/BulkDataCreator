@@ -25,6 +25,7 @@ namespace Mockit.Controls
         protected static MockDetailsControl _MockDetailsControl { get; private set; }
         protected static DataPreviewControl _DataPreviewControl { get; private set; }
         protected static DataGenerateControl _DataGenerateControl { get; private set; }
+        protected static CancelActionControl _CancelActionControl { get; private set; }
         protected static LookupSearchControl _LookupSearchControl { get; private set; }
         protected static SettingControl _SettingControl { get; private set; }
 
@@ -96,6 +97,7 @@ namespace Mockit.Controls
             _DataGridControl = new DataGridControl(dataGridElementHost);
             _DataPreviewControl = new DataPreviewControl(actionGridPanel, previewBtn);
             _DataGenerateControl = new DataGenerateControl(generateBtn);
+            _CancelActionControl = new CancelActionControl(cancelBtn);
             _LookupSearchControl = new LookupSearchControl();
             _SettingControl = new SettingControl(settingsBtn);
 

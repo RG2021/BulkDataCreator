@@ -95,7 +95,7 @@ namespace Mockit.Controls
                 _expression.Text = Helpers.GetExpression(selectedType);
                 _useCustom.Checked = selectedType == MockType.CUSTOM;
                 _expression.ReadOnly = selectedType == MockType.NONE;
-                _expression.BackColor = selectedType == MockType.NONE ? System.Drawing.Color.WhiteSmoke : System.Drawing.Color.White;
+                //_expression.BackColor = selectedType == MockType.NONE ? System.Drawing.Color.White : System.Drawing.Color.White;
             }
         }
     }

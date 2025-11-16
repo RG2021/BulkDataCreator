@@ -78,6 +78,9 @@
     <Compile Include="Common\ExpressionEngine\Tokens\BogusToken.cs" />
     <Compile Include="Common\ExpressionEngine\Tokens\MultiSelectToken.cs" />
     <Compile Include="Common\Helpers\RelayCommand.cs" />
+    <Compile Include="Controls\CancelActionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\SettingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -303,6 +306,11 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\github-logo1.png" />
+    <None Include="Resources\github-logo.png" />
+    <None Include="Resources\like %281%29.png" />
+    <None Include="Resources\like.png" />
+    <None Include="Resources\write-feedback.png" />
     <None Include="Resources\review %281%29.png" />
     <None Include="Resources\review.png" />
     <None Include="Resources\alert.png" />
@@ -310,6 +318,12 @@
     <None Include="Resources\feedback-icon.png" />
     <None Include="Resources\error-icon.png" />
     <None Include="Resources\document-icon.png" />
+    <None Include="Resources\compose.png" />
+    <None Include="Resources\favorites.png" />
+    <None Include="Resources\award.png" />
+    <None Include="Resources\cancel.png" />
+    <None Include="Resources\close.png" />
+    <None Include="Resources\forbidden.png" />
     <Content Include="Resources\generate-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

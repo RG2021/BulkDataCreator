@@ -21,9 +21,7 @@ namespace Mockit.Controls
 {
     public class DataGenerateControl : BaseControl
     {
-
         private readonly ToolStripButton _generateBtn;
-
         public DataGenerateControl(ToolStripButton generateBtn)
         {
             _generateBtn = generateBtn;
@@ -39,10 +37,8 @@ namespace Mockit.Controls
             List<GridRow> gridRows = _DataGridControl.GetData().ToList();
             int totalRecordCount = _RecordCountControl.GetRecordCount();
             int batchSize = _SettingControl.GetSavedSetting().CreateBatchSize;
-            int totalSuccess = 0;
-            int totalFailure = 0;
-            List<Guid> createdRecordIds = new List<Guid>();
-            List<string> allErrors = new List<string>();
+            
+            List<ExecuteMultipleResponse> results = new List<ExecuteMultipleResponse>();
 
             ParentControlBase.WorkAsync(new WorkAsyncInfo
             {
@@ -52,19 +48,29 @@ namespace Mockit.Controls
                     try
                     {
                         int processed = 0;
-                        List<ExecuteMultipleResponse> batchResponses = new List<ExecuteMultipleResponse>();
                         while (processed < totalRecordCount)
                         {
+                            if (worker.CancellationPending)
+                            {
+                                args.Cancel = true;
+                                return;
+                            }
+
                             int currentBatchSize = Math.Min(batchSize, totalRecordCount - processed);
                             ExecuteMultipleResponse response = CRMDataService.CreateRecords(entityLogicalName, gridRows, currentBatchSize);
-                            batchResponses.Add(response);
+                            results.Add(response);
+
+                            if (response.IsFaulted)
+                            {
+                                return;
+                            }
+
                             processed += currentBatchSize;
 
                             int percentage = (int)((double)processed / totalRecordCount * 100);
                             worker.ReportProgress(percentage, $"Created {processed} of {totalRecordCount} records.");
 
                         }
-                        args.Result = batchResponses;
                     }
                     catch (Exception ex)
                     {
@@ -84,13 +90,13 @@ namespace Mockit.Controls
                         return;
                     }
 
-                    if (!(args.Result is List<ExecuteMultipleResponse> batchResponses))
-                    {
-                        MessageBox.Show("Unknown error occurred.");
-                        return;
-                    }
+                    List<Guid> createdRecordIds = new List<Guid>();
+                    List<string> allErrors = new List<string>();
 
-                    foreach (var response in batchResponses)
+                    int totalSuccess = 0;
+                    int totalFailure = 0;
+
+                    foreach (var response in results)
                     {
                         foreach (var item in response.Responses)
                         {
@@ -98,7 +104,6 @@ namespace Mockit.Controls
                             {
                                 totalFailure++;
                                 string errorMsg = Helpers.BuildFaultMessage(item.Fault, item.RequestIndex);
-                                //string errorMsg = $"Index {item.RequestIndex}: {item.Fault.Message}";
                                 allErrors.Add(errorMsg);
                             }
                             else
@@ -111,8 +116,7 @@ namespace Mockit.Controls
 
                     stopwatch.Stop();
 
-                    string summary = $"Success: {totalSuccess}\nFailed: {totalFailure}\nTime taken: {stopwatch.Elapsed.TotalSeconds:F2} sec";
-
+                    string summary = $"Success: {totalSuccess}\nFailed: {totalFailure}\nTime taken: {Helpers.FormatElapsedTime(stopwatch)}";
                     if (allErrors.Count > 0)
                     {
                         summary += "\n\nDetails:\n" + string.Join("\n", allErrors);

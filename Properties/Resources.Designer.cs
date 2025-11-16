@@ -73,9 +73,9 @@ namespace Mockit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap generate_icon {
+        internal static System.Drawing.Bitmap cancel {
             get {
-                object obj = ResourceManager.GetObject("generate-icon", resourceCulture);
+                object obj = ResourceManager.GetObject("cancel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,19 @@ namespace Mockit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap google_docs__1_ {
+        internal static System.Drawing.Bitmap compose {
             get {
-                object obj = ResourceManager.GetObject("google-docs (1)", resourceCulture);
+                object obj = ResourceManager.GetObject("compose", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap github_logo1 {
+            get {
+                object obj = ResourceManager.GetObject("github-logo1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +133,9 @@ namespace Mockit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap mockit_logo_small {
+        internal static System.Drawing.Bitmap like__1_ {
             get {
-                object obj = ResourceManager.GetObject("mockit-logo-small", resourceCulture);
+                object obj = ResourceManager.GetObject("like (1)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +143,9 @@ namespace Mockit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap review__1_ {
+        internal static System.Drawing.Bitmap mockit_logo_small {
             get {
-                object obj = ResourceManager.GetObject("review (1)", resourceCulture);
+                object obj = ResourceManager.GetObject("mockit-logo-small", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

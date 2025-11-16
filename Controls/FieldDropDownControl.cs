@@ -68,6 +68,7 @@ namespace Mockit.Controls
             _fieldsListView.ItemChecked -= OnSelectField;
 
             _fieldsListView.Items.Clear();
+            _selectFieldButton.Text = "Select Fields";
 
             _fieldsListView.Items.Add(new ListViewItem
             {

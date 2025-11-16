@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -303,7 +304,7 @@ namespace Mockit.Common.Helpers
 
                     if(field.LogicalName == "importsequencenumber")
                     {
-                        expression = $"{DateTime.Now:yyMMdd}{DateTime.Now.Millisecond:D3}";
+                        expression = $"{DateTime.Now:yyMMdd}{DateTime.Now.Hour:D2}";
                     }
                     break;
                 }
@@ -580,6 +581,32 @@ namespace Mockit.Common.Helpers
 
             return result;
         }
+
+        public static string FormatElapsedTime(Stopwatch sw)
+        {
+            if (sw == null)
+                return String.Empty;
+
+            TimeSpan ts = sw.Elapsed;
+
+            if (ts.TotalMilliseconds < 1000)
+            {
+                return $"{ts.TotalMilliseconds:0.00} ms";
+            }
+
+            if (ts.TotalSeconds < 60)
+            {
+                return $"{ts.TotalSeconds:0.00} sec";
+            }
+
+            if (ts.TotalMinutes < 60)
+            {
+                return $"{ts.Minutes} min {ts.Seconds} sec";
+            }
+
+            return $"{(int)ts.TotalHours:00} hr {ts.Minutes:00} min {ts.Seconds:00} sec";
+        }
+
 
     }
 

@@ -69,7 +69,7 @@ namespace Mockit.Common.Constants
             { MockType.STRING , "{{ RANDOM.REPLACE(???####) }}" },
             { MockType.SELECT, "{{ MOCK.SELECT(option1, option2, etc) }}" },
             { MockType.MULTISELECT, "{{ MOCK.MULTISELECT(count, (option1, option2, etc)) }}" },
-            { MockType.SEQUENCE, "{{ MOCK.SEQUENCE(fieldname, (value1, value2, etc)) }}" },
+            { MockType.SEQUENCE, "{{ MOCK.SEQUENCE(fieldname, (start, end, step)) }}" },
             { MockType.LOOKUP, "{{ MOCK.LOOKUP(fieldName, entityName, (GUID1, GUID2, etc)) }}" },
             { MockType.DATE, "{{ MOCK.DATE(min, max) }}" },
             

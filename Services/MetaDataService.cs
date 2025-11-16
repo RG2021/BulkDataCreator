@@ -122,7 +122,7 @@ namespace Mockit.Services
                 return views;
             }
 
-            QueryExpression queryExpression = new QueryExpression("savedquery")
+            QueryExpression sysQueryExpression = new QueryExpression("savedquery")
             {
                 ColumnSet = new ColumnSet("name", "fetchxml", "savedqueryid"),
                 NoLock = true,
@@ -131,24 +131,50 @@ namespace Mockit.Services
                     Conditions =
                     {
                         new ConditionExpression("returnedtypecode", ConditionOperator.Equal, entityLogicalName),
-                        new ConditionExpression("querytype", ConditionOperator.Equal, 0) // 0 = System View, 1 = User View
+                        new ConditionExpression("statecode", ConditionOperator.Equal, 0)
                     }
                 }
             };
 
-            EntityCollection results = _service.RetrieveMultiple(queryExpression);
-            foreach (var entity in results.Entities)
+            EntityCollection sysResults = _service.RetrieveMultiple(sysQueryExpression);
+
+            foreach (Entity entity in sysResults.Entities)
             {
-                CRMView view = new CRMView
+                views.Add(new CRMView
                 {
                     ID = entity.Id.ToString(),
                     Name = entity.GetAttributeValue<string>("name"),
                     FetchXML = entity.GetAttributeValue<string>("fetchxml")
-                };
-                views.Add(view);
+                });
             }
-            
-            return views;
+
+            QueryExpression personalQueryExpression = new QueryExpression("userquery")
+            {
+                ColumnSet = new ColumnSet("name", "fetchxml", "userqueryid"),
+                NoLock = true,
+                Criteria = new FilterExpression
+                {
+                    Conditions = 
+                    {
+                        new ConditionExpression("returnedtypecode", ConditionOperator.Equal, entityLogicalName),
+                        new ConditionExpression("statecode", ConditionOperator.Equal, 0)
+                    }
+                }
+            };
+
+            EntityCollection personalResults = _service.RetrieveMultiple(personalQueryExpression);
+
+            foreach (Entity entity in personalResults.Entities)
+            {
+                views.Add(new CRMView
+                {
+                    ID = entity.Id.ToString(),
+                    Name = entity.GetAttributeValue<string>("name"),
+                    FetchXML = entity.GetAttributeValue<string>("fetchxml")
+                });
+            }
+
+            return views.OrderBy(v => v.Name).ToList();
         }
 
         private List<AttributeMetadata> GetEditableAttributes(List<AttributeMetadata> attributes)
